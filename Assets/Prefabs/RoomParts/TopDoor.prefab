@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 127361680918641761}
   - component: {fileID: 1443844246915569928}
   - component: {fileID: 6820099256300419312}
+  - component: {fileID: 7977251897686853143}
   m_Layer: 0
   m_Name: TopDoor
   m_TagString: Door
@@ -405,6 +406,44 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.1447699, y: 2.0826654}
   m_EdgeRadius: 0
+--- !u!19719996 &7977251897686853143
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042900941493024991}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &5057407198486743783
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,12 +674,12 @@ GameObject:
   - component: {fileID: 1416438877798184553}
   - component: {fileID: 2722686041598060204}
   m_Layer: 0
-  m_Name: TopRoomMover
+  m_Name: Mover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6484118344903235236
 Transform:
   m_ObjectHideFlags: 0

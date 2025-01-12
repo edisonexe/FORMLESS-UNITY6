@@ -2410,6 +2410,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5689429305793018752}
     m_Modifications:
+    - target: {fileID: 1272750449373124834, guid: f6316bfc73830c046ba81a9cb849fef8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1450284353033508457, guid: f6316bfc73830c046ba81a9cb849fef8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2455,7 +2459,8 @@ PrefabInstance:
       value: RightDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6461167733020433328, guid: f6316bfc73830c046ba81a9cb849fef8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6316bfc73830c046ba81a9cb849fef8, type: 3}
@@ -2718,8 +2723,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: DownDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 9019934599391179501, guid: 48804b9fba44699428d8f53e3e289e63, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7188793922087874657, guid: 48804b9fba44699428d8f53e3e289e63, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48804b9fba44699428d8f53e3e289e63, type: 3}
@@ -2780,8 +2790,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6305090591678658348, guid: e1f69c1607dc8f44d97831e04b485f3e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 759312302267986150, guid: e1f69c1607dc8f44d97831e04b485f3e, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1f69c1607dc8f44d97831e04b485f3e, type: 3}
@@ -2908,8 +2923,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 6501730065214581211, guid: 42db70e44e18dd344b9dc987322f9a4f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4197655372814843068, guid: 42db70e44e18dd344b9dc987322f9a4f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42db70e44e18dd344b9dc987322f9a4f, type: 3}

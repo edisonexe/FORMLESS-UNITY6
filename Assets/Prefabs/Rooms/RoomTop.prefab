@@ -435,6 +435,9 @@ MonoBehaviour:
   - {fileID: 4966493286668268942}
   _heart: {fileID: 5667504204905305515, guid: 94cb28368cee6c144bccb992b6908a99, type: 3}
   _key: {fileID: 549578092099853335, guid: 1b14ed75b9ab30b4bbeb59aad11cd39e, type: 3}
+  _doors:
+  - {fileID: 5099093791548551134}
+  _lockDestroyEffect: {fileID: 5807460328194367236, guid: f76b8cc0961a2a744974c09095725f9e, type: 3}
 --- !u!1 &2637237115403412641
 GameObject:
   m_ObjectHideFlags: 0
@@ -2809,6 +2812,11 @@ PrefabInstance:
 --- !u!4 &1780099835560848723 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4768861217763883602, guid: e1f69c1607dc8f44d97831e04b485f3e, type: 3}
+  m_PrefabInstance: {fileID: 6528611272142231297}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5099093791548551134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2042900941493024991, guid: e1f69c1607dc8f44d97831e04b485f3e, type: 3}
   m_PrefabInstance: {fileID: 6528611272142231297}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7639521511791280138
