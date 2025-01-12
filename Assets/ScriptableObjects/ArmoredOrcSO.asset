@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Armored Orc
   enemyHealth: 12
-  enemyDamageAttack1: 2
-  enemyDamageAttack2: 5
+  enemyDamageAttack1: 3
+  enemyDamageAttack2: 6

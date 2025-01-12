@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3115a940c5e7b44ebb1f57a67510870, type: 3}
-  m_Name: SkeletonSO
+  m_Name: OrcSO
   m_EditorClassIdentifier: 
   enemyName: Skeleton
   enemyHealth: 6
-  enemyDamageAttack1: 1
-  enemyDamageAttack2: 2
+  enemyDamageAttack1: 2
+  enemyDamageAttack2: 3

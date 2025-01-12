@@ -78,19 +78,26 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.1979437, y: 0.56392837}
-      - {x: 1.0918324, y: 0.5466001}
-      - {x: 1.0059838, y: 0.45944858}
-      - {x: 0.43735546, y: 0.37918952}
-      - {x: 0.41467816, y: 0.20347083}
-      - {x: 0.5727483, y: 0.17840934}
+    - - {x: 1.213983, y: 0.71362877}
+      - {x: 0.94213176, y: 1.0384729}
+      - {x: 0.5943074, y: 1.2453761}
+      - {x: 0.34111947, y: 1.2506601}
+      - {x: 0.31399995, y: 1.2152884}
+      - {x: 0.5502708, y: 1.1203896}
+      - {x: 0.82831764, y: 0.79952204}
+      - {x: 0.9570563, y: 0.47839558}
+      - {x: 0.99488807, y: 0.38978934}
+      - {x: 1.0106992, y: 0.21364665}
       - {x: 1.0698993, y: 0.0492723}
-      - {x: 1.1737735, y: -0.018566847}
-      - {x: 1.2617998, y: 0.08462691}
-      - {x: 1.6107271, y: 0.1724484}
-      - {x: 1.8096151, y: 0.24337316}
-      - {x: 1.8414476, y: 0.30706477}
-      - {x: 1.5625591, y: 0.4393372}
+      - {x: 0.4941945, y: 0.18782389}
+      - {x: 0.44034743, y: 0.06423712}
+      - {x: 0.65905523, y: -0.031157136}
+      - {x: 0.8948426, y: -0.2930069}
+      - {x: 1.1709101, y: -0.3805138}
+      - {x: 1.3368083, y: -0.29081738}
+      - {x: 1.4407103, y: -0.1629566}
+      - {x: 1.4458107, y: 0.16271079}
+      - {x: 1.4235516, y: 0.32706195}
   m_UseDelaunayMesh: 0
 --- !u!1 &8261746822765226196
 GameObject:
@@ -189,12 +196,12 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.023461282, y: -0.017596198}
-  m_Size: {x: 0.5777133, y: 0.09677054}
+  m_Offset: {x: 0.029320033, y: -0.017596198}
+  m_Size: {x: 0.46053916, y: 0.09677106}
   m_Direction: 1
 --- !u!61 &388182274521210173
 BoxCollider2D:
@@ -226,11 +233,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.077800035, y: 0.4668004}
+  m_Offset: {x: 0.12169361, y: 0.40740484}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -240,7 +247,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7110286, y: 1.06224}
+  m_Size: {x: 0.7790246, y: 0.9434489}
   m_EdgeRadius: 0
 --- !u!195 &6469836167153539489
 NavMeshAgent:
@@ -260,7 +267,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.15
+  m_Height: 0.8
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -298,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dccbf367f2a556418a1870bab97dc3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySO: {fileID: 11400000, guid: 27e04fb527ae0f8419c0526e73215a56, type: 2}
+  _enemySO: {fileID: 11400000, guid: a3cf03297df8bbe44a2d38764e30f6c3, type: 2}
   _enemyAI: {fileID: 4583022323398033726}
   _attack1PolygonCollider: {fileID: 0}
   _attack2PolygonCollider: {fileID: 0}
@@ -382,17 +389,23 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.8520937, y: 1.2606404}
-      - {x: 0.7982418, y: 1.2413075}
+    - - {x: 0.914901, y: 1.2062073}
+      - {x: 0.75218314, y: 1.2496817}
       - {x: 0.81198454, y: 0.99592066}
+      - {x: 0.9283452, y: 0.6155273}
       - {x: 0.64984727, y: 0.312433}
-      - {x: 0.45978934, y: 0.06813824}
-      - {x: 0.62788403, y: -0.3829701}
-      - {x: 1.0605137, y: -0.37005615}
+      - {x: 0.47651172, y: 0.15151799}
+      - {x: 0.31166393, y: 0.24015498}
+      - {x: 0.2644961, y: 0.18489897}
+      - {x: 0.30852008, y: 0.04263258}
+      - {x: 0.17886758, y: -0.07485449}
+      - {x: 0.23955274, y: -0.27605236}
+      - {x: 0.685223, y: -0.6457737}
+      - {x: 1.0018933, y: -0.36168182}
       - {x: 1.294002, y: -0.12686658}
-      - {x: 1.4465404, y: 0.21098661}
-      - {x: 1.3946915, y: 0.87808824}
-      - {x: 1.2718449, y: 1.080914}
+      - {x: 1.4967862, y: 0.23610961}
+      - {x: 1.5077449, y: 0.8739009}
+      - {x: 1.3765237, y: 0.90924025}
   m_UseDelaunayMesh: 0
 --- !u!1 &8892918026434152758
 GameObject:
@@ -407,7 +420,7 @@ GameObject:
   - component: {fileID: 3089795871418866373}
   - component: {fileID: 13330204428763231}
   m_Layer: 0
-  m_Name: ArmoredOrcVisual
+  m_Name: OrcVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,7 +485,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1826465064, guid: f8f41b8a49496b34a9ed865f1d2c0efc, type: 3}
+  m_Sprite: {fileID: 944646720, guid: ec53d1b275aac5c40971d26512a60b14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -493,7 +506,7 @@ Animator:
   m_GameObject: {fileID: 8892918026434152758}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8bb90124d32d49b42814de0ca0f6f1a3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 73a995f2b2712864d90b92120c2afda2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

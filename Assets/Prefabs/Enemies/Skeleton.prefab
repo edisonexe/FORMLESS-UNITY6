@@ -129,8 +129,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4214444508758243446}
-  - {fileID: 5188796639148520125}
   - {fileID: 3905403598028687302}
+  - {fileID: 5188796639148520125}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &161474729214639695
@@ -190,7 +190,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -227,11 +227,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.077800035, y: 0.4668004}
+  m_Offset: {x: 0.17989957, y: 0.40981466}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -241,7 +241,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7110286, y: 1.06224}
+  m_Size: {x: 0.6397965, y: 0.94826853}
   m_EdgeRadius: 0
 --- !u!195 &3951502430861578629
 NavMeshAgent:
@@ -252,7 +252,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2641933263017868341}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.38
+  m_Radius: 0.4
   m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -261,7 +261,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.15
+  m_Height: 0.89
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dccbf367f2a556418a1870bab97dc3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySO: {fileID: 11400000, guid: 27e04fb527ae0f8419c0526e73215a56, type: 2}
+  _enemySO: {fileID: 11400000, guid: a6a0a477e381fe244818327ec1e88f8e, type: 2}
   _enemyAI: {fileID: 6089969817080037754}
   _attack1PolygonCollider: {fileID: 0}
   _attack2PolygonCollider: {fileID: 0}
@@ -383,7 +383,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 981471223, guid: 36ab44683cb99284bbd01723b8f6cc4e, type: 3}
+  m_Sprite: {fileID: -760888711, guid: c079ad66ee0700942bb8931b2506b214, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -404,7 +404,7 @@ Animator:
   m_GameObject: {fileID: 4064671247024044368}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8bb90124d32d49b42814de0ca0f6f1a3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 538e621b67e93eb4eb5328ce570c36fa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

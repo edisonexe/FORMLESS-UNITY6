@@ -20,7 +20,6 @@ public class ChangeRoom : MonoBehaviour
             collision.transform.position += _playerChangePosition;
             _camera.transform.position += _cameraChangePosition;
             _hasTeleported = true;
-            Debug.LogFormat("Teleport Player to {0}", collision.transform.position);
         }
     }
 
