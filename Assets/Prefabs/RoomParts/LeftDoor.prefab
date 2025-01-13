@@ -658,8 +658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c6ae57132898c45baa1a113483c6ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraChangePosition: {x: -16.65, y: 0, z: 0}
-  _playerChangePosition: {x: -8, y: 0, z: 0}
+  _cameraChangePosition: {x: -20, y: 0, z: 0}
+  _playerChangePosition: {x: -12, y: 0, z: 0}
 --- !u!1 &6931412106572955231
 GameObject:
   m_ObjectHideFlags: 0

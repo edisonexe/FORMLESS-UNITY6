@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8112887585305287740}
   - component: {fileID: 4281873288894849240}
   - component: {fileID: 2575492545657334052}
+  - component: {fileID: 5745232140184278901}
   - component: {fileID: 8651384967053333107}
   m_Layer: 0
   m_Name: BossEliteOrcVisual
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1929033315, guid: 5d1831dc223d60b4486083fa460650b9, type: 3}
+  m_Sprite: {fileID: -1226798247, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,6 +112,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5745232140184278901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624038435947829163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd9b77bf0588ab41a7a565ff541f0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyAI: {fileID: 486226650036779224}
+  _enemy: {fileID: 9091177785718701236}
 --- !u!114 &8651384967053333107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +344,7 @@ GameObject:
   - component: {fileID: 2870856384706953679}
   - component: {fileID: 486226650036779224}
   - component: {fileID: 9091177785718701236}
+  - component: {fileID: 7566413556615581856}
   m_Layer: 0
   m_Name: BossEliteOrc
   m_TagString: Untagged
@@ -525,6 +541,27 @@ MonoBehaviour:
   _enemyAI: {fileID: 486226650036779224}
   _attack1PolygonCollider: {fileID: 7814224422561710398}
   _attack2PolygonCollider: {fileID: 1515464327445312210}
+  _currentHealth: 0
+--- !u!114 &7566413556615581856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3465621915036097783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ead6c71f0254b40a88f265adb93fec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemySO: {fileID: 0}
+  _enemyAI: {fileID: 0}
+  _attack1PolygonCollider: {fileID: 7814224422561710398}
+  _attack2PolygonCollider: {fileID: 1515464327445312210}
+  _currentHealth: 0
+  _bossSO: {fileID: 11400000, guid: 01b8e5c2fa6a630488f0c010def5bb34, type: 2}
+  phaseChangeThreshold: 0.5
+  attack3PolygonCollider: {fileID: 4351567434277340895}
 --- !u!1 &8455010829495079926
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +601,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8455010829495079926}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -587,7 +624,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -603,15 +640,16 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.8520937, y: 1.2606404}
-      - {x: 0.7982418, y: 1.2413075}
-      - {x: 0.81198454, y: 0.99592066}
-      - {x: 0.64984727, y: 0.312433}
-      - {x: 0.45978934, y: 0.06813824}
-      - {x: 0.62788403, y: -0.3829701}
-      - {x: 1.0605137, y: -0.37005615}
-      - {x: 1.294002, y: -0.12686658}
-      - {x: 1.4465404, y: 0.21098661}
-      - {x: 1.3946915, y: 0.87808824}
-      - {x: 1.2718449, y: 1.080914}
+    - - {x: 2.1619804, y: 1.493751}
+      - {x: 1.0455923, y: 1.6212907}
+      - {x: 1.4049063, y: 1.0686948}
+      - {x: 1.29145, y: 0.52758}
+      - {x: 0.97965175, y: 0.14298427}
+      - {x: 0.8955029, y: -0.17434931}
+      - {x: 1.7285955, y: -0.31741428}
+      - {x: 2.4064274, y: -0.23602629}
+      - {x: 3.187406, y: -0.04537487}
+      - {x: 3.2909975, y: 0.28201818}
+      - {x: 3.314027, y: 0.9252832}
+      - {x: 2.8049133, y: 1.3791983}
   m_UseDelaunayMesh: 0

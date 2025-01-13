@@ -15,21 +15,21 @@ public class Enemy : MonoBehaviour
     public event EventHandler OnTakeHit;
     public event EventHandler OnDie;
 
-    private int _currentHealth;
-    private int _damageAttack1;
-    private int _damageAttack2;
+    public int _currentHealth;
+    protected int _damageAttack1;
+    protected int _damageAttack2;
 
     private bool _isAttack1 = false;
     private bool _isAttack2 = false;
     private bool _isDead = false;
 
-    private void Awake()
+    public virtual void Awake()
     {
-        var attack01Object = transform.Find("Attack1Collider");
-        var attack02Object = transform.Find("Attack2Collider");
+        var attack1Object = transform.Find("Attack1Collider");
+        var attack2Object = transform.Find("Attack2Collider");
 
-        _attack1PolygonCollider = attack01Object.GetComponent<PolygonCollider2D>();
-        _attack2PolygonCollider = attack02Object.GetComponent<PolygonCollider2D>();
+        _attack1PolygonCollider = attack1Object.GetComponent<PolygonCollider2D>();
+        _attack2PolygonCollider = attack2Object.GetComponent<PolygonCollider2D>();
 
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
         OnDie?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Player player))
         {

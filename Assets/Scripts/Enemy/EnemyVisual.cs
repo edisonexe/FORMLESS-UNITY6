@@ -10,14 +10,14 @@ public class EnemyVisual : MonoBehaviour
     [SerializeField] private EnemyAI _enemyAI;
     [SerializeField] private Enemy _enemy;
 
-    private const string IS_ROAMING = "IsRoaming";
     private const string CHASING_SPEED_MULTIPLIER = "ChasingSpeedMultiplier";
-    private const string IS_DIE = "IsDie";
-    private const string ATTACK1 = "Attack1";
-    private const string ATTACK2 = "Attack2";
-    private const string HURT = "Hurt";
+    protected const string IS_ROAMING = "IsRoaming";
+    protected const string IS_DIE = "IsDie";
+    protected const string ATTACK1 = "Attack1";
+    protected const string ATTACK2 = "Attack2";
+    protected const string HURT = "Hurt";
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
