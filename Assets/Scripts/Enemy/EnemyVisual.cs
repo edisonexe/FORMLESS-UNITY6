@@ -38,6 +38,31 @@ public class EnemyVisual : MonoBehaviour
         _animator.SetFloat(CHASING_SPEED_MULTIPLIER, _enemyAI.GetRoamingAnimationSpeed());
     }
 
+    public void TriggerStartAttack1()
+    {
+        _enemy.Attack1ColliderTurnOn();
+    }
+
+    public void TriggerStartAttack2()
+    {
+        _enemy.Attack2ColliderTurnOn();
+    }
+
+    public void TriggerEndAttack1()
+    {
+        _enemy.Attack1ColliderTurnOff();
+    }
+
+    public void TriggerEndAttack2()
+    {
+        _enemy.Attack2ColliderTurnOff();
+    }
+
+    public void TriggerHandleDeath()
+    {
+        _enemy.HandleDeath();
+    }
+
     private void enemy_OnDie(object sender, System.EventArgs e)
     {
         _animator.SetBool(IS_DIE, true);
@@ -58,25 +83,5 @@ public class EnemyVisual : MonoBehaviour
     private void enemyAI_OnEnemyAttack1(object sender, System.EventArgs e)
     {
         _animator.SetTrigger(ATTACK1);
-    }
-
-    public void TriggerStartAttack1()
-    {
-        _enemy.Attack1ColliderTurnOn();
-    }
-
-    public void TriggerStartAttack2()
-    {
-        _enemy.Attack2ColliderTurnOn();
-    }
-
-    public void TriggerEndAttack1()
-    {
-        _enemy.Attack1ColliderTurnOff();
-    }
-
-    public void TriggerEndAttack2()
-    {
-        _enemy.Attack2ColliderTurnOff();
     }
 }

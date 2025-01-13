@@ -66,6 +66,12 @@ public class EnemyAI : MonoBehaviour
         _currentState = State.Death;
     }
 
+    public float GetRoamingAnimationSpeed()
+    {
+        return _navMeshAgent.speed / _roamingSpeed;
+    }
+
+
     private void StateHandler()
     {
         switch (_currentState)
@@ -154,11 +160,6 @@ public class EnemyAI : MonoBehaviour
         _navMeshAgent.SetDestination(_roamingPosition);
     }
 
-    //private void ChaseTarget()
-    //{
-    //    _navMeshAgent.SetDestination(Player.Instance.transform.position);
-    //}
-
     private void ChaseTarget()
     {
         // Позиция игрока
@@ -196,7 +197,8 @@ public class EnemyAI : MonoBehaviour
 
         // Устанавливаем целевую позицию для NavMeshAgent
         _navMeshAgent.SetDestination(targetPosition);
-        ChangeFacingDirection(_startPosition, targetPosition);
+
+        ChangeFacingDirectionToPlayer();
     }
 
 
@@ -205,6 +207,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time > _nextAttackTime)
         {
+            ChangeFacingDirectionToPlayer();
+
             int attackType = UnityEngine.Random.Range(1, COUNT_OF_ATTACKS_STYLE + 1);
 
             switch (attackType)
@@ -252,8 +256,19 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public float GetRoamingAnimationSpeed()
+    private void ChangeFacingDirectionToPlayer()
     {
-        return _navMeshAgent.speed / _roamingSpeed;
+        if (Player.Instance == null) return;
+
+        // Если игрок слева от врага
+        if (Player.Instance.transform.position.x < transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0); // Смотрим влево
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0); // Смотрим вправо
+        }
     }
+
 }

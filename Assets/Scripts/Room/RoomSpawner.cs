@@ -19,7 +19,7 @@ public class RoomSpawner : MonoBehaviour
 
     // Глобальный счётчик и лимит
     private static int _roomCount = 0;
-    private static int _maxRooms = 20;
+    private static int _maxRooms = 6;
 
     private void Start()
     {
@@ -38,7 +38,6 @@ public class RoomSpawner : MonoBehaviour
             Destroy(gameObject); // Удаляем спавнер, если лимит превышен
             return;
         }
-
 
         _isSpawned = true;
         _roomCount++; // Увеличиваем счётчик комнат

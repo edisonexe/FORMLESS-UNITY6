@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     private bool _isAttack1 = false;
     private bool _isAttack2 = false;
+    private bool _isDead = false;
 
     public event EventHandler OnTakeHit;
     public event EventHandler OnDie;
@@ -44,27 +45,6 @@ public class Enemy : MonoBehaviour
         Attack2ColliderTurnOff();
     }
 
-    public void TakeDamage(int damage)
-    {
-        _currentHealth -= damage;
-        OnTakeHit?.Invoke(this, EventArgs.Empty);
-        DetectDeath();
-    }
-
-    private void DetectDeath()
-    {
-        if (_currentHealth <= 0)
-        {
-            _boxCollider2D.enabled = false;
-            _attack1PolygonCollider.enabled = false;
-            _attack2PolygonCollider.enabled = false;
-            _capsuleCollider2D.enabled = false;
-
-            _enemyAI.SetDeathState();
-            OnDie?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
     public void Attack1ColliderTurnOn()
     {
         _isAttack1 = true;
@@ -85,6 +65,33 @@ public class Enemy : MonoBehaviour
     public void Attack2ColliderTurnOff()
     {
         _attack2PolygonCollider.enabled = false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (_currentHealth > 0)
+        {
+            _currentHealth -= damage;
+            OnTakeHit?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            OnTakeHit?.Invoke(this, EventArgs.Empty);
+            _isDead = true;
+        }
+    }
+
+    public void HandleDeath()
+    {
+        if (!_isDead) return;
+
+        _boxCollider2D.enabled = false;
+        _attack1PolygonCollider.enabled = false;
+        _attack2PolygonCollider.enabled = false;
+        _capsuleCollider2D.enabled = false;
+
+        _enemyAI.SetDeathState();
+        OnDie?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

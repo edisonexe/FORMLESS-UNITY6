@@ -285,7 +285,7 @@ MonoBehaviour:
   _chasingDistance: 6
   _chasingSpeedMult: 1.5
   _isAttackingEnemy: 1
-  _attackDistance: 1.5
+  _attackDistance: 2
   _attackDelay: 1
 --- !u!114 &6145187804746543210
 MonoBehaviour:
@@ -382,7 +382,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -760888711, guid: c079ad66ee0700942bb8931b2506b214, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
