@@ -38,6 +38,15 @@ public class EnemyVisual : MonoBehaviour
         _animator.SetFloat(CHASING_SPEED_MULTIPLIER, _enemyAI.GetRoamingAnimationSpeed());
     }
 
+    private void OnDestroy()
+    {
+        _enemyAI.OnEnemyAttack1 -= enemyAI_OnEnemyAttack1;
+        _enemyAI.OnEnemyAttack2 -= enemyAI_OnEnemyAttack2;
+        _enemy.OnTakeHit -= enemy_OnTakeHit;
+        _enemy.OnDie -= enemy_OnDie;
+    }
+
+
     public void TriggerStartAttack1()
     {
         _enemy.Attack1ColliderTurnOn();

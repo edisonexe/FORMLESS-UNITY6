@@ -21,7 +21,6 @@ public class KnockBack : MonoBehaviour
         if ( _knockBackMovingTimer < 0)
         {
             StopKnockBackMoving();
-
         }
     }
 

@@ -8,26 +8,29 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private State _startState;
 
+    [Header("Roaming")]
     [SerializeField] private float _roamingDistanceMax = 7f;
     [SerializeField] private float _roamingDistanceMin = 5f;
     [SerializeField] private float _roamingTimerMax = 4.5f;
+    private float _roamingSpeed;
+    private float _roamingTimer;
+    private Vector3 _roamingPosition;
 
+    [Header("Chasing")]
     [SerializeField] private bool _isChasing = false;
     [SerializeField] private float _chasingDistance = 4f;
     [SerializeField] private float _chasingSpeedMult = 1.5f;
+    private float _chasingSpeed;
 
+    [Header("Attacking")]
     [SerializeField] private bool _isAttackingEnemy = false;
     [SerializeField] private float _attackDistance = 2f;
     [SerializeField] private float _attackDelay = 2f;
+    private float _nextAttackTime = 0f;
 
     private NavMeshAgent _navMeshAgent;
     private State _currentState;
-    private float _roamingTimer;
-    private Vector3 _roamingPosition;
     private Vector3 _startPosition;
-    private float _roamingSpeed;
-    private float _chasingSpeed;
-    private float _nextAttackTime = 0f;
 
     private const int COUNT_OF_ATTACKS_STYLE = 2;
 
@@ -56,8 +59,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        StateHandler();;
-
+        StateHandler();
     }
 
     public void SetDeathState()
@@ -66,11 +68,22 @@ public class EnemyAI : MonoBehaviour
         _currentState = State.Death;
     }
 
+    public bool IsRoaming()
+    {
+        if (_navMeshAgent.velocity == Vector3.zero)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public float GetRoamingAnimationSpeed()
     {
         return _navMeshAgent.speed / _roamingSpeed;
     }
-
 
     private void StateHandler()
     {
@@ -100,7 +113,6 @@ public class EnemyAI : MonoBehaviour
             default:
             case State.Idle:
                 break;
-
         }
     }
 
@@ -201,8 +213,6 @@ public class EnemyAI : MonoBehaviour
         ChangeFacingDirectionToPlayer();
     }
 
-
-
     private void AttackTarget()
     {
         if (Time.time > _nextAttackTime)
@@ -223,19 +233,6 @@ public class EnemyAI : MonoBehaviour
             }
 
             _nextAttackTime = Time.time + _attackDelay;
-        }
-    }
-
-
-    public bool IsRoaming()
-    {
-        if (_navMeshAgent.velocity == Vector3.zero)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
         }
     }
 

@@ -37,25 +37,12 @@ public class PlayerVisual : MonoBehaviour
         ChangePlayerFacingDirection();
     }
 
-    private void Player_OnHurt(object sender, System.EventArgs e)
+    private void OnDestroy()
     {
-        _animator.SetTrigger(HURT);
-    }
-
-    private void Player_OnDie(object sender, System.EventArgs e)
-    {
-        _animator.SetBool(IS_DIE, true);
-        StartCoroutine(FormlessUtils.FadeOutAndDestroy(gameObject, _material));
-    }
-
-    private void PlayerVisual_OnPlayerAttack2(object sender, System.EventArgs e)
-    {
-        _animator.SetTrigger(ATTACK2);
-    }
-
-    private void PlayerVisual_OnPlayerAttack1(object sender, System.EventArgs e)
-    {
-        _animator.SetTrigger(ATTACK1);
+        PlayerFightController.Instance.OnFightControllerAttack1 -= PlayerVisual_OnPlayerAttack1;
+        PlayerFightController.Instance.OnFightControllerAttack2 -= PlayerVisual_OnPlayerAttack2;
+        Player.Instance.OnDie -= Player_OnDie;
+        Player.Instance.OnHurt -= Player_OnHurt;
     }
 
     public void TriggerStartAttack1()
@@ -76,6 +63,27 @@ public class PlayerVisual : MonoBehaviour
     public void TriggerEndAttack2()
     {
         PlayerFightController.Instance.Attack2ColliderTurnOff();
+    }
+
+    private void Player_OnHurt(object sender, System.EventArgs e)
+    {
+        _animator.SetTrigger(HURT);
+    }
+
+    private void Player_OnDie(object sender, System.EventArgs e)
+    {
+        _animator.SetBool(IS_DIE, true);
+        StartCoroutine(FormlessUtils.FadeOutAndDestroy(gameObject, _material));
+    }
+
+    private void PlayerVisual_OnPlayerAttack2(object sender, System.EventArgs e)
+    {
+        _animator.SetTrigger(ATTACK2);
+    }
+
+    private void PlayerVisual_OnPlayerAttack1(object sender, System.EventArgs e)
+    {
+        _animator.SetTrigger(ATTACK1);
     }
 
     private void ChangePlayerFacingDirection()

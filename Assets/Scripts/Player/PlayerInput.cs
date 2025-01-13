@@ -20,6 +20,12 @@ public class PlayerInput : MonoBehaviour
         _playerInputAction.Fighting.Attack02.started += PlayerAttack02_started;
     }
 
+    private void OnDestroy()
+    {
+        _playerInputAction.Fighting.Attack01.started -= PlayerAttack01_started;
+        _playerInputAction.Fighting.Attack02.started -= PlayerAttack02_started;
+    }
+
     public Vector2 GetMovementVector()
     {
         Vector2 inputVector = _playerInputAction.Player.Move.ReadValue<Vector2>();

@@ -43,16 +43,10 @@ public class PlayerFightController : MonoBehaviour
         ChangeCollidersFacingDirection();
     }
 
-    private void FightController_OnPlayerAttack2(object sender, EventArgs e)
+    private void OnDestroy()
     {
-        OnFightControllerAttack2?.Invoke(this, EventArgs.Empty);
-        _isAttack2 = true;
-    }
-
-    private void FightController_OnPlayerAttack1(object sender, EventArgs e)
-    {
-        OnFightControllerAttack1?.Invoke(this, EventArgs.Empty);
-        _isAttack1 = true;
+        PlayerInput.Instance.OnPlayerInputAttack1 -= FightController_OnPlayerAttack1;
+        PlayerInput.Instance.OnPlayerInputAttack2 -= FightController_OnPlayerAttack2;
     }
 
     public void Attack1ColliderTurnOn()
@@ -75,6 +69,18 @@ public class PlayerFightController : MonoBehaviour
         _attack2PolygonCollider.enabled = false;
     }
 
+    private void FightController_OnPlayerAttack2(object sender, EventArgs e)
+    {
+        OnFightControllerAttack2?.Invoke(this, EventArgs.Empty);
+        _isAttack2 = true;
+    }
+
+    private void FightController_OnPlayerAttack1(object sender, EventArgs e)
+    {
+        OnFightControllerAttack1?.Invoke(this, EventArgs.Empty);
+        _isAttack1 = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.TryGetComponent(out Enemy enemy))
@@ -91,21 +97,6 @@ public class PlayerFightController : MonoBehaviour
             }
         }
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    if (_attack01PolygonCollider != null && _attack01PolygonCollider.enabled)
-    //    {
-    //        Gizmos.color = Color.red;
-    //        Gizmos.DrawWireCube(_attack01PolygonCollider.bounds.center, _attack01PolygonCollider.bounds.size);
-    //    }
-
-    //    if (_attack02PolygonCollider != null && _attack02PolygonCollider.enabled)
-    //    {
-    //        Gizmos.color = Color.blue;
-    //        Gizmos.DrawWireCube(_attack02PolygonCollider.bounds.center, _attack02PolygonCollider.bounds.size);
-    //    }
-    //}
 
     private void ChangeCollidersFacingDirection()
     {

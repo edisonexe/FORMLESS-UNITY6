@@ -12,17 +12,16 @@ public class Enemy : MonoBehaviour
     private BoxCollider2D _boxCollider2D;
     private CapsuleCollider2D _capsuleCollider2D;
 
-    private bool _isAttack1 = false;
-    private bool _isAttack2 = false;
-    private bool _isDead = false;
-
     public event EventHandler OnTakeHit;
     public event EventHandler OnDie;
 
-    public int _damageAttack1;
-    public int _damageAttack2;
-
     private int _currentHealth;
+    private int _damageAttack1;
+    private int _damageAttack2;
+
+    private bool _isAttack1 = false;
+    private bool _isAttack2 = false;
+    private bool _isDead = false;
 
     private void Awake()
     {

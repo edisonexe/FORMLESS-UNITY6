@@ -12,14 +12,12 @@ public class Player : MonoBehaviour
 
     [Header("Health")]
     [SerializeField] private int _maxHealth;
-    private int _currentHealth;
     [SerializeField] private Text _healthDisplay;
+    private int _currentHealth;
 
     [Header("Moving")]
     [SerializeField] private int _movingSpeed = 5;
     private float _minMovingSpeed = 0.1f;
-
-    private bool _isRoaming = false;
 
     [Header("Keys")]
     [SerializeField] private Text _keysDisplay;
@@ -27,6 +25,8 @@ public class Player : MonoBehaviour
 
     public event EventHandler OnDie;
     public event EventHandler OnHurt;
+
+    private bool _isRoaming = false;
 
     private void Awake()
     {
