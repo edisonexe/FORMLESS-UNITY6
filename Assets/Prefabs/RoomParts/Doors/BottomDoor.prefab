@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 3282628153892550470}
   - component: {fileID: 479918194194392364}
   - component: {fileID: 5945096168803330150}
+  - component: {fileID: -8374120594710612100}
   - component: {fileID: 884386383500565107}
   - component: {fileID: 7624682066663512066}
+  - component: {fileID: -4644367182401736467}
   m_Layer: 0
-  m_Name: DownDoor
+  m_Name: BottomDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,6 +205,33 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!50 &-8374120594710612100
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289400280399184852}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &884386383500565107
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,7 +239,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5289400280399184852}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -237,7 +266,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.009950161, y: -3.8216076}
+  m_Offset: {x: -0.009950161, y: -7.4870715}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -247,7 +276,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.6915703, y: 0.66523814}
+  m_Size: {x: 1.6915703, y: 7.060748}
   m_EdgeRadius: 0
 --- !u!19719996 &7624682066663512066
 TilemapCollider2D:
@@ -287,6 +316,20 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &-4644367182401736467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289400280399184852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e328caca88eeddb439290bf3d729b9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _direction: 1
+  wallPrefab: {fileID: 3760896545907093220, guid: 4048369dddc49d14c98a01e9c639add8, type: 3}
 --- !u!1 &7188793922087874657
 GameObject:
   m_ObjectHideFlags: 0
