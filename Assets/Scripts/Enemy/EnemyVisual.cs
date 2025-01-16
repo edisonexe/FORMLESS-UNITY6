@@ -35,7 +35,12 @@ public class EnemyVisual : MonoBehaviour
     private void Update()
     {
         _animator.SetBool(IS_ROAMING, _enemyAI.IsRoaming());
-        _animator.SetFloat(CHASING_SPEED_MULTIPLIER, _enemyAI.GetRoamingAnimationSpeed());
+
+        if (HasAnimatorParameter(CHASING_SPEED_MULTIPLIER))
+        {
+            _animator.SetFloat(CHASING_SPEED_MULTIPLIER, _enemyAI.GetRoamingAnimationSpeed());
+        }
+        //_animator.SetFloat(CHASING_SPEED_MULTIPLIER, _enemyAI.GetRoamingAnimationSpeed());
     }
 
     private void OnDestroy()
@@ -93,4 +98,17 @@ public class EnemyVisual : MonoBehaviour
     {
         _animator.SetTrigger(ATTACK1);
     }
+
+    private bool HasAnimatorParameter(string parameterName)
+    {
+        foreach (AnimatorControllerParameter param in _animator.parameters)
+        {
+            if (param.name == parameterName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

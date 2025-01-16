@@ -31,7 +31,7 @@ public class RoomVariants : MonoBehaviour
                 }
             }
         }
-        else
+        else if (_waitTime > 0)
         {
             _waitTime -= Time.deltaTime;
         }

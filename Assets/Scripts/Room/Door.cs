@@ -16,7 +16,7 @@ public class Door : MonoBehaviour
 
     [SerializeField] private GameObject wallPrefab;
 
-    private void Start()
+    private void Awake()
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
     }
@@ -24,10 +24,11 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isProcessed) return;
-        // Проверяем, если объект столкновения имеет тег "Wall" или аналогичный тег для тайлмапа стен
+
         if (collision.CompareTag("Wall"))
         {
             ReplaceDoorWithWall();
+            _isProcessed = true;
         }
     }
 
