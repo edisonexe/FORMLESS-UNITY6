@@ -5,37 +5,37 @@ public class PlayerFightController : MonoBehaviour
 {
     public static PlayerFightController Instance { get; private set; }
 
-    public event EventHandler OnFightControllerAttack1;
-    public event EventHandler OnFightControllerAttack2;
+    public event EventHandler OnFightControllerBasicAttack;
+    public event EventHandler OnFightControllerStrongAttack;
 
 
-    public PolygonCollider2D _attack1PolygonCollider;
-    public PolygonCollider2D _attack2PolygonCollider;
+    public PolygonCollider2D _basicAttackPolygonCollider;
+    public PolygonCollider2D _strongAttackPolygonCollider;
 
-    [SerializeField] private int _damageAttack1 = 3;
-    [SerializeField] private int _damageAttack2 = 6;
+    [SerializeField] private int _damageBasicAttack = 3;
+    [SerializeField] private int _damageStrongAttack = 6;
 
-    private bool _isAttack1 = false;
-    private bool _isAttack2 = false;
+    private bool _isBasicAttack = false;
+    private bool _isStrongAttack = false;
 
     private void Awake()
     {
         Instance = this;
 
-        var attack1Object = transform.Find("Attack1Collider");
-        var attack2Object = transform.Find("Attack2Collider");
+        var basicAttackObject = transform.Find("BasicAttack");
+        var strongAttackObject = transform.Find("StrongAttack");
 
-        _attack1PolygonCollider = attack1Object.GetComponent<PolygonCollider2D>();
-        _attack2PolygonCollider = attack2Object.GetComponent<PolygonCollider2D>();
+        _basicAttackPolygonCollider = basicAttackObject.GetComponent<PolygonCollider2D>();
+        _strongAttackPolygonCollider = strongAttackObject.GetComponent<PolygonCollider2D>();
     }
 
     private void Start()
     {
-        PlayerInput.Instance.OnPlayerInputAttack1 += FightController_OnPlayerAttack1;
-        PlayerInput.Instance.OnPlayerInputAttack2 += FightController_OnPlayerAttack2;
+        PlayerInput.Instance.OnPlayerInputBasicAttack += FightController_OnPlayerBasicAttack;
+        PlayerInput.Instance.OnPlayerInputStrongAttack += FightController_OnPlayerStrongAttack;
 
-        Attack1ColliderTurnOff();
-        Attack2ColliderTurnOff();
+        BasicAttackColliderDisable();
+        StrongAttackColliderDisable();
     }
 
     private void Update()
@@ -45,55 +45,55 @@ public class PlayerFightController : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerInput.Instance.OnPlayerInputAttack1 -= FightController_OnPlayerAttack1;
-        PlayerInput.Instance.OnPlayerInputAttack2 -= FightController_OnPlayerAttack2;
+        PlayerInput.Instance.OnPlayerInputBasicAttack -= FightController_OnPlayerBasicAttack;
+        PlayerInput.Instance.OnPlayerInputStrongAttack -= FightController_OnPlayerStrongAttack;
     }
 
-    public void Attack1ColliderTurnOn()
+    public void BasicAttackColliderEnable()
     {
-        _attack1PolygonCollider.enabled = true;
+        _basicAttackPolygonCollider.enabled = true;
     }
 
-    public void Attack1ColliderTurnOff()
+    public void BasicAttackColliderDisable()
     {
-        _attack1PolygonCollider.enabled = false;
+        _basicAttackPolygonCollider.enabled = false;
     }
 
-    public void Attack2ColliderTurnOn()
+    public void StrongAttackColliderEnable()
     {
-        _attack2PolygonCollider.enabled = true;
+        _strongAttackPolygonCollider.enabled = true;
     }
 
-    public void Attack2ColliderTurnOff()
+    public void StrongAttackColliderDisable()
     {
-        _attack2PolygonCollider.enabled = false;
+        _strongAttackPolygonCollider.enabled = false;
     }
 
-    private void FightController_OnPlayerAttack2(object sender, EventArgs e)
+    private void FightController_OnPlayerStrongAttack(object sender, EventArgs e)
     {
-        OnFightControllerAttack2?.Invoke(this, EventArgs.Empty);
-        _isAttack2 = true;
+        OnFightControllerStrongAttack?.Invoke(this, EventArgs.Empty);
+        _isStrongAttack = true;
     }
 
-    private void FightController_OnPlayerAttack1(object sender, EventArgs e)
+    private void FightController_OnPlayerBasicAttack(object sender, EventArgs e)
     {
-        OnFightControllerAttack1?.Invoke(this, EventArgs.Empty);
-        _isAttack1 = true;
+        OnFightControllerBasicAttack?.Invoke(this, EventArgs.Empty);
+        _isBasicAttack = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.TryGetComponent(out Enemy enemy))
         {
-            if (_isAttack1)
+            if (_isBasicAttack)
             {
-                enemy.TakeDamage(_damageAttack1);
-                _isAttack1 = false;
+                enemy.TakeDamage(_damageBasicAttack);
+                _isBasicAttack = false;
             }
-            else if (_isAttack2) 
+            else if (_isStrongAttack) 
             {
-                enemy.TakeDamage(_damageAttack2);
-                _isAttack2 = false;
+                enemy.TakeDamage(_damageStrongAttack);
+                _isStrongAttack = false;
             }
         }
     }

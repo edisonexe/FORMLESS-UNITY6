@@ -4,17 +4,17 @@ using UnityEngine;
 public class EnemyVisual : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer;
-    private Animator _animator;
+    protected Animator _animator;
     private Material _material;
 
     [SerializeField] private EnemyAI _enemyAI;
     [SerializeField] private Enemy _enemy;
 
     private const string CHASING_SPEED_MULTIPLIER = "ChasingSpeedMultiplier";
-    protected const string IS_ROAMING = "IsRoaming";
+    protected const string IS_MOVING = "IsMoving";
     protected const string IS_DIE = "IsDie";
-    protected const string ATTACK1 = "Attack1";
-    protected const string ATTACK2 = "Attack2";
+    protected const string BASIC_ATTACK = "BasicAttack";
+    protected const string STRONG_ATTACK = "StrongAttack";
     protected const string HURT = "Hurt";
 
     protected virtual void Awake()
@@ -24,17 +24,17 @@ public class EnemyVisual : MonoBehaviour
         _material = _spriteRenderer.material;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        _enemyAI.OnEnemyAttack1 += enemyAI_OnEnemyAttack1;
-        _enemyAI.OnEnemyAttack2 += enemyAI_OnEnemyAttack2;
+        _enemyAI.OnEnemyBasicAttack += enemyAI_OnEnemyBasicAttack;
+        _enemyAI.OnEnemyStrongAttack += enemyAI_OnEnemyStrongAttack;
         _enemy.OnTakeHit += enemy_OnTakeHit;
         _enemy.OnDie += enemy_OnDie;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
-        _animator.SetBool(IS_ROAMING, _enemyAI.IsRoaming());
+        _animator.SetBool(IS_MOVING, _enemyAI.IsRoaming());
 
         if (HasAnimatorParameter(CHASING_SPEED_MULTIPLIER))
         {
@@ -45,31 +45,31 @@ public class EnemyVisual : MonoBehaviour
 
     private void OnDestroy()
     {
-        _enemyAI.OnEnemyAttack1 -= enemyAI_OnEnemyAttack1;
-        _enemyAI.OnEnemyAttack2 -= enemyAI_OnEnemyAttack2;
+        _enemyAI.OnEnemyBasicAttack -= enemyAI_OnEnemyBasicAttack;
+        _enemyAI.OnEnemyStrongAttack -= enemyAI_OnEnemyStrongAttack;
         _enemy.OnTakeHit -= enemy_OnTakeHit;
         _enemy.OnDie -= enemy_OnDie;
     }
 
 
-    public void TriggerStartAttack1()
+    public void TriggerStartBasicAttack()
     {
-        _enemy.Attack1ColliderTurnOn();
+        _enemy.BasicAttackColliderEnable();
     }
 
-    public void TriggerStartAttack2()
+    public void TriggerStartStrongAttack()
     {
-        _enemy.Attack2ColliderTurnOn();
+        _enemy.StrongAttackColliderEnable();
     }
 
-    public void TriggerEndAttack1()
+    public void TriggerEndBasicAttack()
     {
-        _enemy.Attack1ColliderTurnOff();
+        _enemy.BasicAttackColliderDisable();
     }
 
-    public void TriggerEndAttack2()
+    public void TriggerEndStrongAttack()
     {
-        _enemy.Attack2ColliderTurnOff();
+        _enemy.StrongAttackColliderDisable();
     }
 
     public void TriggerHandleDeath()
@@ -89,14 +89,14 @@ public class EnemyVisual : MonoBehaviour
         _animator.SetTrigger(HURT);
     }
 
-    private void enemyAI_OnEnemyAttack2(object sender, System.EventArgs e)
+    private void enemyAI_OnEnemyStrongAttack(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(ATTACK2);
+        _animator.SetTrigger(STRONG_ATTACK);
     }
 
-    private void enemyAI_OnEnemyAttack1(object sender, System.EventArgs e)
+    private void enemyAI_OnEnemyBasicAttack(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(ATTACK1);
+        _animator.SetTrigger(BASIC_ATTACK);
     }
 
     private bool HasAnimatorParameter(string parameterName)

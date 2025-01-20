@@ -2770,6 +2770,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5689429305793018752}
     m_Modifications:
+    - target: {fileID: 114649998178052901, guid: fee71d78c09508d4285684ea918740e9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4242486487869037566, guid: fee71d78c09508d4285684ea918740e9, type: 3}
       propertyPath: m_Name
       value: DestroyPoint

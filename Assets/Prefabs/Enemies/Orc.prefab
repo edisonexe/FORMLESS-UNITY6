@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6117922767684802796}
   - component: {fileID: 6721851701013643943}
   m_Layer: 0
-  m_Name: Attack1Collider
+  m_Name: BasicAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ Transform:
   m_GameObject: {fileID: 8261746822765226196}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2, y: 1.61, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -307,10 +307,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemySO: {fileID: 11400000, guid: a3cf03297df8bbe44a2d38764e30f6c3, type: 2}
   _enemyAI: {fileID: 4583022323398033726}
-  _attack1PolygonCollider: {fileID: 0}
-  _attack2PolygonCollider: {fileID: 0}
-  _damageAttack1: 0
-  _damageAttack2: 0
+  basicAttackPolygonCollider: {fileID: 0}
+  strongAttackPolygonCollider: {fileID: 0}
+  _currentHealth: 0
 --- !u!1 &8799672526019934173
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +321,7 @@ GameObject:
   - component: {fileID: 3925377708989432168}
   - component: {fileID: 2170759436323834482}
   m_Layer: 0
-  m_Name: Attack2Collider
+  m_Name: StrongAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

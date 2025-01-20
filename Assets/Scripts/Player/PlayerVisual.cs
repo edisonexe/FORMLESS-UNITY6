@@ -9,9 +9,9 @@ public class PlayerVisual : MonoBehaviour
     private Material _material;
 
     [SerializeField] private PlayerFightController _fightController;
-    private const string ATTACK1 = "Attack1";
-    private const string ATTACK2 = "Attack2";
-    private const string IS_ROAMING = "IsRoaming";
+    private const string BASIC_ATTACK = "BasicAttack";
+    private const string STRONG_ATTACK = "StrongAttack";
+    private const string IS_MOVING = "IsMoving";
     private const string IS_DIE = "IsDie";
     private const string HURT = "Hurt";
 
@@ -25,44 +25,44 @@ public class PlayerVisual : MonoBehaviour
 
     private void Start()
     {
-        PlayerFightController.Instance.OnFightControllerAttack1 += PlayerVisual_OnPlayerAttack1;
-        PlayerFightController.Instance.OnFightControllerAttack2 += PlayerVisual_OnPlayerAttack2;
+        PlayerFightController.Instance.OnFightControllerBasicAttack += PlayerVisual_OnPlayerBasicAttack;
+        PlayerFightController.Instance.OnFightControllerStrongAttack += PlayerVisual_OnPlayerStrongAttack;
         Player.Instance.OnDie += Player_OnDie;
         Player.Instance.OnHurt += Player_OnHurt;
     }
 
     private void Update()
     {
-        _animator.SetBool(IS_ROAMING, Player.Instance.GetIsWalking());
+        _animator.SetBool(IS_MOVING, Player.Instance.GetIsWalking());
         ChangePlayerFacingDirection();
     }
 
     private void OnDestroy()
     {
-        PlayerFightController.Instance.OnFightControllerAttack1 -= PlayerVisual_OnPlayerAttack1;
-        PlayerFightController.Instance.OnFightControllerAttack2 -= PlayerVisual_OnPlayerAttack2;
+        PlayerFightController.Instance.OnFightControllerBasicAttack -= PlayerVisual_OnPlayerBasicAttack;
+        PlayerFightController.Instance.OnFightControllerStrongAttack -= PlayerVisual_OnPlayerStrongAttack;
         Player.Instance.OnDie -= Player_OnDie;
         Player.Instance.OnHurt -= Player_OnHurt;
     }
 
-    public void TriggerStartAttack1()
+    public void TriggerStartBasicAttack()
     {
-        PlayerFightController.Instance.Attack1ColliderTurnOn();
+        PlayerFightController.Instance.BasicAttackColliderEnable();
     }
 
-    public void TriggerStartAttack2()
+    public void TriggerStartStrongAttack()
     {
-        PlayerFightController.Instance.Attack2ColliderTurnOn();
+        PlayerFightController.Instance.StrongAttackColliderEnable();
     }
 
-    public void TriggerEndAttack1()
+    public void TriggerEndBasicAttack()
     {
-        PlayerFightController.Instance.Attack1ColliderTurnOff();
+        PlayerFightController.Instance.BasicAttackColliderDisable();
     }
 
-    public void TriggerEndAttack2()
+    public void TriggerEndStrongAttack()
     {
-        PlayerFightController.Instance.Attack2ColliderTurnOff();
+        PlayerFightController.Instance.StrongAttackColliderDisable();
     }
 
     private void Player_OnHurt(object sender, System.EventArgs e)
@@ -76,14 +76,14 @@ public class PlayerVisual : MonoBehaviour
         StartCoroutine(FormlessUtils.FadeOutAndDestroy(gameObject, _material));
     }
 
-    private void PlayerVisual_OnPlayerAttack2(object sender, System.EventArgs e)
+    private void PlayerVisual_OnPlayerStrongAttack(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(ATTACK2);
+        _animator.SetTrigger(STRONG_ATTACK);
     }
 
-    private void PlayerVisual_OnPlayerAttack1(object sender, System.EventArgs e)
+    private void PlayerVisual_OnPlayerBasicAttack(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(ATTACK1);
+        _animator.SetTrigger(BASIC_ATTACK);
     }
 
     private void ChangePlayerFacingDirection()
@@ -104,18 +104,6 @@ public class PlayerVisual : MonoBehaviour
                 _spriteRenderer.flipX = false;
             }
         }
-        //else // Если персонаж стоит
-        //{
-        //    // Поворот в зависимости от положения мыши
-        //    if (mousePosition.x < playerPosition.x)
-        //    {
-        //        _spriteRenderer.flipX = true;
-        //    }
-        //    else
-        //    {
-        //        _spriteRenderer.flipX = false;
-        //    }
-        //}
     }
 
 }

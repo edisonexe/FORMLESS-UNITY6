@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using Formless.Utils;
 using System;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public class EnemyAI : MonoBehaviour
     [Header("Attacking")]
     [SerializeField] private bool _isAttackingEnemy = false;
     [SerializeField] private float _attackDistance = 2f;
-    [SerializeField] private float _attackDelay = 2f;
-    private float _nextAttackTime = 0f;
+    [SerializeField] protected float _attackDelay = 3f;
+    protected float _nextAttackTime = 0f;
 
     private NavMeshAgent _navMeshAgent;
     private State _currentState;
@@ -34,8 +35,8 @@ public class EnemyAI : MonoBehaviour
 
     private const int COUNT_OF_ATTACKS_STYLE = 2;
 
-    public event EventHandler OnEnemyAttack1;
-    public event EventHandler OnEnemyAttack2;
+    public event EventHandler OnEnemyBasicAttack;
+    public event EventHandler OnEnemyStrongAttack;
 
     public enum State
     {
@@ -47,7 +48,7 @@ public class EnemyAI : MonoBehaviour
         Death
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.updateRotation = false;
@@ -57,10 +58,21 @@ public class EnemyAI : MonoBehaviour
         _chasingSpeed = _navMeshAgent.speed * _chasingSpeedMult;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         StateHandler();
     }
+
+    protected void InvokeOnEnemyBasicAttack()
+    {
+        OnEnemyBasicAttack?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected void InvokeOnEnemyStrongAttack()
+    {
+        OnEnemyStrongAttack?.Invoke(this, EventArgs.Empty);
+    }
+
 
     public void SetDeathState()
     {
@@ -200,12 +212,16 @@ public class EnemyAI : MonoBehaviour
         Vector3 targetPosition = distanceToLeft < distanceToRight ? leftTarget : rightTarget;
 
         // Проверяем, находится ли враг на одной линии с игроком по высоте
-        float verticalTolerance = 0.1f; // Допустимое отклонение по высоте
-        if (Mathf.Abs(enemyPosition.y - playerPosition.y) > verticalTolerance)
-        {
-            // Если враг выше или ниже игрока, корректируем высоту целевой позиции
-            targetPosition.y = playerPosition.y;
-        }
+        //float verticalTolerance = 0.1f; // Допустимое отклонение по высоте
+        //if (Mathf.Abs(enemyPosition.y - playerPosition.y) > verticalTolerance)
+        //{
+        //    // Если враг выше или ниже игрока, корректируем высоту целевой позиции
+        //    targetPosition.y = playerPosition.y;
+        //}
+
+        // Дополнительное смещение по оси Y
+        float heightOffset = 0.5f; // Смещение по оси Y
+        targetPosition.y = playerPosition.y - heightOffset; // Пониже на heightOffset
 
         // Устанавливаем целевую позицию для NavMeshAgent
         _navMeshAgent.SetDestination(targetPosition);
@@ -213,7 +229,7 @@ public class EnemyAI : MonoBehaviour
         ChangeFacingDirectionToPlayer();
     }
 
-    private void AttackTarget()
+    protected virtual void AttackTarget()
     {
         if (Time.time > _nextAttackTime)
         {
@@ -225,10 +241,10 @@ public class EnemyAI : MonoBehaviour
             {
                 default:
                 case 1:
-                    OnEnemyAttack1?.Invoke(this, EventArgs.Empty);
+                    OnEnemyBasicAttack?.Invoke(this, EventArgs.Empty);
                     break;
                 case 2:
-                    OnEnemyAttack2?.Invoke(this, EventArgs.Empty);
+                    OnEnemyStrongAttack?.Invoke(this, EventArgs.Empty);
                     break;
             }
 
@@ -253,7 +269,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void ChangeFacingDirectionToPlayer()
+    protected void ChangeFacingDirectionToPlayer()
     {
         if (Player.Instance == null) return;
 

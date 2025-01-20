@@ -8,22 +8,22 @@ public class PlayerInput : MonoBehaviour
 
     private PlayerInputAction _playerInputAction;
 
-    public event EventHandler OnPlayerInputAttack1;
-    public event EventHandler OnPlayerInputAttack2;
+    public event EventHandler OnPlayerInputBasicAttack;
+    public event EventHandler OnPlayerInputStrongAttack;
 
     private void Awake()
     {
         Instance = this;
         _playerInputAction = new PlayerInputAction();
         _playerInputAction.Enable();
-        _playerInputAction.Fighting.Attack01.started += PlayerAttack01_started;
-        _playerInputAction.Fighting.Attack02.started += PlayerAttack02_started;
+        _playerInputAction.Fighting.BasicAttack.started += PlayerBasicAttack_started;
+        _playerInputAction.Fighting.StrongAttack.started += PlayerStrongAttack_started;
     }
 
     private void OnDestroy()
     {
-        _playerInputAction.Fighting.Attack01.started -= PlayerAttack01_started;
-        _playerInputAction.Fighting.Attack02.started -= PlayerAttack02_started;
+        _playerInputAction.Fighting.BasicAttack.started -= PlayerBasicAttack_started;
+        _playerInputAction.Fighting.StrongAttack.started -= PlayerStrongAttack_started;
     }
 
     public Vector2 GetMovementVector()
@@ -43,13 +43,13 @@ public class PlayerInput : MonoBehaviour
         _playerInputAction.Disable();
     }
 
-    private void PlayerAttack01_started(InputAction.CallbackContext obj)
+    private void PlayerBasicAttack_started(InputAction.CallbackContext obj)
     {
-        OnPlayerInputAttack1?.Invoke(this, EventArgs.Empty);
+        OnPlayerInputBasicAttack?.Invoke(this, EventArgs.Empty);
     }
 
-    private void PlayerAttack02_started(InputAction.CallbackContext obj)
+    private void PlayerStrongAttack_started(InputAction.CallbackContext obj)
     {
-        OnPlayerInputAttack2?.Invoke(this, EventArgs.Empty);
+        OnPlayerInputStrongAttack?.Invoke(this, EventArgs.Empty);
     }
 }

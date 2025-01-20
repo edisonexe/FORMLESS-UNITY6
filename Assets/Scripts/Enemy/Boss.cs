@@ -6,45 +6,59 @@ public class Boss : Enemy
     [Header("BossSO")]
     [SerializeField] private BossSO _bossSO;
 
-    [Header("Phase health settings")]
-    [SerializeField] private float phaseChangeThreshold = 0.5f;
-    private bool _isInSecondPhase = false;
-    public event EventHandler OnPhaseChange;
+    public PolygonCollider2D ultraAttackPolygonCollider1;
+    public PolygonCollider2D ultraAttackPolygonCollider2;
 
-    public PolygonCollider2D attack3PolygonCollider;
-
-    private int _damageAttack3;
-
-    private bool _isAttack3 = false;
+    private int _damageUltraAttack;
+    public int maxHealth;
+    private bool _isUltraAttack = false;
 
     public override void Awake()
     {
         base.Awake();
-        var attack3Object = transform.Find("Attack3Collider");
-        attack3PolygonCollider = attack3Object.GetComponent<PolygonCollider2D>();
+        var ultraAttackObject = transform.Find("UltraAttack");
+
+        var ultraAttackObject1 = ultraAttackObject.Find("UltraAttack1");
+        var ultraAttackObject2 = ultraAttackObject.Find("UltraAttack2");
+
+        ultraAttackPolygonCollider1 = ultraAttackObject1.GetComponent<PolygonCollider2D>();
+        ultraAttackPolygonCollider2 = ultraAttackObject2.GetComponent<PolygonCollider2D>();
 
     }
 
     private void Start()
     {
-        _currentHealth = _bossSO.health;
-        _damageAttack1 = _bossSO.damageAttack1;
-        _damageAttack2 = _bossSO.damageAttack2;
-        _damageAttack3 = _bossSO.damageAttack3;
-        Attack1ColliderTurnOff();
-        Attack2ColliderTurnOff();
-        Attack3ColliderTurnOff();
+        currentHealth = _bossSO.health;
+        maxHealth = _bossSO.health;
+        damageBasicAttack = _bossSO.damageAttack1;
+        damageStrongAttack = _bossSO.damageAttack2;
+        _damageUltraAttack = _bossSO.damageAttack3;
+        BasicAttackColliderDisable();
+        StrongAttackColliderDisable();
+        UltraAttackCollider1Disable();
+        UltraAttackCollider2Disable();
     }
 
-    public void Attack3ColliderTurnOn()
+    public void UltraAttackCollider1Enable()
     {
-        _isAttack3 = true;
-        _attack1PolygonCollider.enabled = true;
+        _isUltraAttack = true;
+        ultraAttackPolygonCollider1.enabled = true;
     }
 
-    public void Attack3ColliderTurnOff()
+    public void UltraAttackCollider1Disable()
     {
-        _attack1PolygonCollider.enabled = false;
+        ultraAttackPolygonCollider1.enabled = false;
+    }
+
+    public void UltraAttackCollider2Enable()
+    {
+        _isUltraAttack = true;
+        ultraAttackPolygonCollider2.enabled = true;
+    }
+
+    public void UltraAttackCollider2Disable()
+    {
+        ultraAttackPolygonCollider2.enabled = false;
     }
 
     public override void OnTriggerEnter2D(Collider2D collision)
@@ -52,10 +66,10 @@ public class Boss : Enemy
         base.OnTriggerEnter2D(collision);
         if (collision.TryGetComponent(out Player player))
         {
-            if (_isAttack3)
+            if (_isUltraAttack)
             {
-                player.TakeDamage(transform, _damageAttack3);
-                _isAttack3 = false;
+                player.TakeDamage(transform, _damageUltraAttack);
+                _isUltraAttack = false;
             }
         }
     }

@@ -7,29 +7,31 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemySO _enemySO;
     [SerializeField] private EnemyAI _enemyAI;
 
-    public PolygonCollider2D _attack1PolygonCollider;
-    public PolygonCollider2D _attack2PolygonCollider;
+    public PolygonCollider2D basicAttackPolygonCollider;
+    public PolygonCollider2D strongAttackPolygonCollider;
     private BoxCollider2D _boxCollider2D;
     private CapsuleCollider2D _capsuleCollider2D;
 
     public event EventHandler OnTakeHit;
     public event EventHandler OnDie;
 
-    public int _currentHealth;
-    protected int _damageAttack1;
-    protected int _damageAttack2;
+    public int currentHealth;
+    protected int damageBasicAttack;
+    protected int damageStrongAttack;
 
-    private bool _isAttack1 = false;
-    private bool _isAttack2 = false;
+    private bool _isBasicAttack = false;
+    private bool _isStrongAttack = false;
     private bool _isDead = false;
+
+    public int CurrentHealth => currentHealth;
 
     public virtual void Awake()
     {
-        var attack1Object = transform.Find("Attack1Collider");
-        var attack2Object = transform.Find("Attack2Collider");
+        var basicAttackObject = transform.Find("BasicAttack");
+        var strongAttackObject = transform.Find("StrongAttack");
 
-        _attack1PolygonCollider = attack1Object.GetComponent<PolygonCollider2D>();
-        _attack2PolygonCollider = attack2Object.GetComponent<PolygonCollider2D>();
+        basicAttackPolygonCollider = basicAttackObject.GetComponent<PolygonCollider2D>();
+        strongAttackPolygonCollider = strongAttackObject.GetComponent<PolygonCollider2D>();
 
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
@@ -37,40 +39,40 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        _currentHealth = _enemySO.enemyHealth;
-        _damageAttack1 = _enemySO.enemyDamageAttack1;
-        _damageAttack2 = _enemySO.enemyDamageAttack2;
-        Attack1ColliderTurnOff();
-        Attack2ColliderTurnOff();
+        currentHealth = _enemySO.enemyHealth;
+        damageBasicAttack = _enemySO.enemyDamageAttack1;
+        damageStrongAttack = _enemySO.enemyDamageAttack2;
+        BasicAttackColliderDisable();
+        StrongAttackColliderDisable();
     }
 
-    public void Attack1ColliderTurnOn()
+    public void BasicAttackColliderEnable()
     {
-        _isAttack1 = true;
-        _attack1PolygonCollider.enabled = true;
+        _isBasicAttack = true;
+        basicAttackPolygonCollider.enabled = true;
     }
 
-    public void Attack1ColliderTurnOff()
+    public void BasicAttackColliderDisable()
     {
-        _attack1PolygonCollider.enabled = false;
+        basicAttackPolygonCollider.enabled = false;
     }
 
-    public void Attack2ColliderTurnOn()
+    public void StrongAttackColliderEnable()
     {
-        _isAttack2 = true;
-        _attack2PolygonCollider.enabled = true;
+        _isStrongAttack = true;
+        strongAttackPolygonCollider.enabled = true;
     }
 
-    public void Attack2ColliderTurnOff()
+    public void StrongAttackColliderDisable()
     {
-        _attack2PolygonCollider.enabled = false;
+        strongAttackPolygonCollider.enabled = false;
     }
 
     public void TakeDamage(int damage)
     {
-        if (_currentHealth > 0)
+        if (currentHealth > 0)
         {
-            _currentHealth -= damage;
+            currentHealth -= damage;
             OnTakeHit?.Invoke(this, EventArgs.Empty);
         }
         else
@@ -85,8 +87,8 @@ public class Enemy : MonoBehaviour
         if (!_isDead) return;
 
         _boxCollider2D.enabled = false;
-        _attack1PolygonCollider.enabled = false;
-        _attack2PolygonCollider.enabled = false;
+        basicAttackPolygonCollider.enabled = false;
+        strongAttackPolygonCollider.enabled = false;
         _capsuleCollider2D.enabled = false;
 
         _enemyAI.SetDeathState();
@@ -97,15 +99,15 @@ public class Enemy : MonoBehaviour
     {
         if (collision.TryGetComponent(out Player player))
         {
-            if (_isAttack1)
+            if (_isBasicAttack)
             {
-                player.TakeDamage(transform, _damageAttack1);
-                _isAttack1 = false;
+                player.TakeDamage(transform, damageBasicAttack);
+                _isBasicAttack = false;
             }
-            else if (_isAttack2)
+            else if (_isStrongAttack)
             {
-                player.TakeDamage(transform, _damageAttack2);
-                _isAttack2 = false;
+                player.TakeDamage(transform, damageStrongAttack);
+                _isStrongAttack = false;
             }
         }
     }

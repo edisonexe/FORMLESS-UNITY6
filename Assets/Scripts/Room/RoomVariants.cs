@@ -26,6 +26,8 @@ public class RoomVariants : MonoBehaviour
             {
                 if (i == rooms.Count - 1)
                 {
+                    RemoveSpawners(rooms[i]);
+
                     Instantiate(boss, rooms[i].transform.position, Quaternion.identity);
                     _IsBossSpawned = true;
                 }
@@ -36,4 +38,15 @@ public class RoomVariants : MonoBehaviour
             _waitTime -= Time.deltaTime;
         }
     }
+
+    private void RemoveSpawners(GameObject room)
+    {
+        // Найти дочерний объект с именем "SpawnEnemy"
+        Transform spawnEnemy = room.transform.Find("Spawners");
+        if (spawnEnemy != null)
+        {
+            Destroy(spawnEnemy.gameObject); // Удалить найденный объект
+        }
+    }
+
 }

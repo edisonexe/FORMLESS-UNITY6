@@ -2,15 +2,44 @@ using UnityEngine;
 
 public class BossVisual : EnemyVisual
 {
-    private Boss _boss;
+    [SerializeField] private BossAI _bossAI;
+    [SerializeField] private Boss _boss;
+    private const string ULTRA_ATTACK = "UltraAttack";
 
-    public void TriggerStartAttack3()
+    protected override void Start()
     {
-        _boss.Attack3ColliderTurnOn();
+        base.Start();
+        _bossAI.OnBossUltraAttack += bossAI_OnBossUltraAttack;
     }
 
-    public void TriggerEndAttack3()
+
+    protected override void Update()
     {
-        _boss.Attack3ColliderTurnOff();
+        base.Update();
+    }
+
+    private void bossAI_OnBossUltraAttack(object sender, System.EventArgs e)
+    {
+        _animator.SetTrigger(ULTRA_ATTACK);
+    }
+
+    public void TriggerStartUltraAttack1()
+    {
+        _boss.UltraAttackCollider1Enable();
+    }
+
+    public void TriggerEndUltraAttack1()
+    {
+        _boss.UltraAttackCollider1Disable();
+    }
+
+    public void TriggerStartUltraAttack2()
+    {
+        _boss.UltraAttackCollider2Enable();
+    }
+
+    public void TriggerEndUltraAttack2()
+    {
+        _boss.UltraAttackCollider2Disable();
     }
 }

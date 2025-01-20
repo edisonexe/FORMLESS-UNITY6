@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private BoxCollider2D _boxCollider2D;
     private Rigidbody2D _rb;
 
+    private HealthDisplay _healthUI;
+
     [Header("Health")]
     [SerializeField] private int _maxHealth;
     [SerializeField] private Text _healthDisplay;
@@ -65,9 +67,16 @@ public class Player : MonoBehaviour
         if (_currentHealth <= 0)
             return;
 
+        if (damageSourcePosition == null)
+        {
+            Debug.LogWarning("Damage source position is null");
+            return; // Игнорируем, если позиция источника урона не установлена
+        }
+
         OnHurt?.Invoke(this, EventArgs.Empty);
         _knockBack.GetKnockBack(damageSourcePosition);
         _currentHealth -= damage;
+        //_healthUI.TakeDamage(damage);
         _healthDisplay.text = "HP: " + _currentHealth;
         DetectDeath();
     }

@@ -155,7 +155,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             ""id"": ""6ef2be5a-b5f1-4e32-b7d9-0826fbc23cc4"",
             ""actions"": [
                 {
-                    ""name"": ""Attack01"",
+                    ""name"": ""BasicAttack"",
                     ""type"": ""Button"",
                     ""id"": ""7cac2f27-937c-4014-86a3-5b5560bc4ec4"",
                     ""expectedControlType"": """",
@@ -164,7 +164,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack02"",
+                    ""name"": ""StrongAttack"",
                     ""type"": ""Button"",
                     ""id"": ""90f5ce62-aa0e-4e5b-888d-271a375b614c"",
                     ""expectedControlType"": """",
@@ -181,7 +181,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack01"",
+                    ""action"": ""BasicAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -192,7 +192,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack02"",
+                    ""action"": ""StrongAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -206,8 +206,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         // Fighting
         m_Fighting = asset.FindActionMap("Fighting", throwIfNotFound: true);
-        m_Fighting_Attack01 = m_Fighting.FindAction("Attack01", throwIfNotFound: true);
-        m_Fighting_Attack02 = m_Fighting.FindAction("Attack02", throwIfNotFound: true);
+        m_Fighting_BasicAttack = m_Fighting.FindAction("BasicAttack", throwIfNotFound: true);
+        m_Fighting_StrongAttack = m_Fighting.FindAction("StrongAttack", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -321,14 +321,14 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     // Fighting
     private readonly InputActionMap m_Fighting;
     private List<IFightingActions> m_FightingActionsCallbackInterfaces = new List<IFightingActions>();
-    private readonly InputAction m_Fighting_Attack01;
-    private readonly InputAction m_Fighting_Attack02;
+    private readonly InputAction m_Fighting_BasicAttack;
+    private readonly InputAction m_Fighting_StrongAttack;
     public struct FightingActions
     {
         private @PlayerInputAction m_Wrapper;
         public FightingActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Attack01 => m_Wrapper.m_Fighting_Attack01;
-        public InputAction @Attack02 => m_Wrapper.m_Fighting_Attack02;
+        public InputAction @BasicAttack => m_Wrapper.m_Fighting_BasicAttack;
+        public InputAction @StrongAttack => m_Wrapper.m_Fighting_StrongAttack;
         public InputActionMap Get() { return m_Wrapper.m_Fighting; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -338,22 +338,22 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_FightingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_FightingActionsCallbackInterfaces.Add(instance);
-            @Attack01.started += instance.OnAttack01;
-            @Attack01.performed += instance.OnAttack01;
-            @Attack01.canceled += instance.OnAttack01;
-            @Attack02.started += instance.OnAttack02;
-            @Attack02.performed += instance.OnAttack02;
-            @Attack02.canceled += instance.OnAttack02;
+            @BasicAttack.started += instance.OnBasicAttack;
+            @BasicAttack.performed += instance.OnBasicAttack;
+            @BasicAttack.canceled += instance.OnBasicAttack;
+            @StrongAttack.started += instance.OnStrongAttack;
+            @StrongAttack.performed += instance.OnStrongAttack;
+            @StrongAttack.canceled += instance.OnStrongAttack;
         }
 
         private void UnregisterCallbacks(IFightingActions instance)
         {
-            @Attack01.started -= instance.OnAttack01;
-            @Attack01.performed -= instance.OnAttack01;
-            @Attack01.canceled -= instance.OnAttack01;
-            @Attack02.started -= instance.OnAttack02;
-            @Attack02.performed -= instance.OnAttack02;
-            @Attack02.canceled -= instance.OnAttack02;
+            @BasicAttack.started -= instance.OnBasicAttack;
+            @BasicAttack.performed -= instance.OnBasicAttack;
+            @BasicAttack.canceled -= instance.OnBasicAttack;
+            @StrongAttack.started -= instance.OnStrongAttack;
+            @StrongAttack.performed -= instance.OnStrongAttack;
+            @StrongAttack.canceled -= instance.OnStrongAttack;
         }
 
         public void RemoveCallbacks(IFightingActions instance)
@@ -377,7 +377,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     }
     public interface IFightingActions
     {
-        void OnAttack01(InputAction.CallbackContext context);
-        void OnAttack02(InputAction.CallbackContext context);
+        void OnBasicAttack(InputAction.CallbackContext context);
+        void OnStrongAttack(InputAction.CallbackContext context);
     }
 }
