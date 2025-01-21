@@ -13,24 +13,24 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _roamingDistanceMax = 7f;
     [SerializeField] private float _roamingDistanceMin = 5f;
     [SerializeField] private float _roamingTimerMax = 4.5f;
-    private float _roamingSpeed;
-    private float _roamingTimer;
+    protected float _roamingSpeed;
+    protected float _roamingTimer;
     private Vector3 _roamingPosition;
 
     [Header("Chasing")]
-    [SerializeField] private bool _isChasing = false;
-    [SerializeField] private float _chasingDistance = 4f;
+    [SerializeField] protected bool _isChasing = false;
+    [SerializeField] protected float _chasingDistance = 4f;
     [SerializeField] private float _chasingSpeedMult = 1.5f;
-    private float _chasingSpeed;
+    protected float _chasingSpeed;
 
     [Header("Attacking")]
-    [SerializeField] private bool _isAttackingEnemy = false;
-    [SerializeField] private float _attackDistance = 2f;
+    [SerializeField] protected bool _isAttackingEnemy = false;
+    [SerializeField] protected float _attackDistance = 2f;
     [SerializeField] protected float _attackDelay = 3f;
     protected float _nextAttackTime = 0f;
 
-    private NavMeshAgent _navMeshAgent;
-    private State _currentState;
+    protected NavMeshAgent _navMeshAgent;
+    protected State _currentState;
     private Vector3 _startPosition;
 
     private const int COUNT_OF_ATTACKS_STYLE = 2;
@@ -128,7 +128,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void CheckCurrentState()
+    protected virtual void CheckCurrentState()
     {
         if (Player.Instance != null)
         {
@@ -211,17 +211,13 @@ public class EnemyAI : MonoBehaviour
         // Выбираем ближнюю позицию
         Vector3 targetPosition = distanceToLeft < distanceToRight ? leftTarget : rightTarget;
 
-        // Проверяем, находится ли враг на одной линии с игроком по высоте
-        //float verticalTolerance = 0.1f; // Допустимое отклонение по высоте
-        //if (Mathf.Abs(enemyPosition.y - playerPosition.y) > verticalTolerance)
-        //{
-        //    // Если враг выше или ниже игрока, корректируем высоту целевой позиции
-        //    targetPosition.y = playerPosition.y;
-        //}
-
-        // Дополнительное смещение по оси Y
-        float heightOffset = 0.5f; // Смещение по оси Y
-        targetPosition.y = playerPosition.y - heightOffset; // Пониже на heightOffset
+        //Проверяем, находится ли враг на одной линии с игроком по высоте
+        float verticalTolerance = 0.1f; // Допустимое отклонение по высоте
+        if (Mathf.Abs(enemyPosition.y - playerPosition.y) > verticalTolerance)
+        {
+            // Если враг выше или ниже игрока, корректируем высоту целевой позиции
+            targetPosition.y = playerPosition.y;
+        }
 
         // Устанавливаем целевую позицию для NavMeshAgent
         _navMeshAgent.SetDestination(targetPosition);

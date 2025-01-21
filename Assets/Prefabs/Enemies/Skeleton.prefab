@@ -285,7 +285,7 @@ MonoBehaviour:
   _chasingDistance: 6
   _chasingSpeedMult: 1.5
   _isAttackingEnemy: 1
-  _attackDistance: 2
+  _attackDistance: 1.5
   _attackDelay: 1
 --- !u!114 &6145187804746543210
 MonoBehaviour:
@@ -303,7 +303,7 @@ MonoBehaviour:
   _enemyAI: {fileID: 6089969817080037754}
   basicAttackPolygonCollider: {fileID: 0}
   strongAttackPolygonCollider: {fileID: 0}
-  _currentHealth: 0
+  currentHealth: 0
 --- !u!1 &4064671247024044368
 GameObject:
   m_ObjectHideFlags: 0

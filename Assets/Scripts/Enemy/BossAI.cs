@@ -1,14 +1,18 @@
 using UnityEngine;
 using System;
+using System.Collections;
+using UnityEngine.AI;
 public class BossAI : EnemyAI
 {
     private const int BOSS_COUNT_OF_ATTACKS_STYLE = 3;
     [SerializeField] private Boss _boss;
+    [SerializeField] private BossVisual _bossVisual;
     public event EventHandler OnBossUltraAttack;
     private bool _isSecondPhase = false; // Флаг для второй фазы
     [SerializeField] private float secondPhaseHealthThreshold = 0.5f; // Порог здоровья для второй фазы
     [SerializeField] private float ultraAttackProbability = 0.6f; // Вероятность третьего стиля атаки во второй фазе
-
+    private Coroutine _ultraAttackCoroutine;
+    private bool isUltraAttackInProgress = false;
     protected override void Awake()
     {
         base.Awake();
@@ -29,6 +33,58 @@ public class BossAI : EnemyAI
         }
     }
 
+    protected override void CheckCurrentState()
+    {
+        if (Player.Instance != null)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, Player.Instance.transform.position);
+            State newState = State.Roaming;
+
+            if (_isChasing)
+            {
+                if (distanceToPlayer <= _chasingDistance)
+                {
+                    newState = State.Chasing;
+                }
+            }
+
+            if (_isAttackingEnemy)
+            {
+                if (_isSecondPhase)
+                {
+                    newState = State.Attacking;
+                    _navMeshAgent.speed = _chasingSpeed;
+                }
+                else if (distanceToPlayer <= _attackDistance)
+                {
+                    newState = State.Attacking;
+                }
+            }
+
+            if (newState != _currentState)
+            {
+                if (newState == State.Chasing)
+                {
+                    _navMeshAgent.ResetPath();
+                    _navMeshAgent.speed = _chasingSpeed;
+                }
+                else if (newState == State.Roaming)
+                {
+                    _roamingTimer = 0f;
+                    _navMeshAgent.speed = _roamingSpeed;
+                }
+                else if (newState == State.Attacking)
+                {
+                    _navMeshAgent.ResetPath();
+                }
+                _currentState = newState;
+            }
+        }
+        else
+        {
+            _currentState = State.Idle;
+        }
+    }
 
     protected override void AttackTarget()
     {
@@ -40,21 +96,12 @@ public class BossAI : EnemyAI
 
             if (_isSecondPhase)
             {
-                // Логика для второй фазы: выбираем только стили 2 и 3
-                float randomValue = UnityEngine.Random.value; // Случайное значение от 0 до 1
-                if (randomValue < ultraAttackProbability)
-                {
-                    attackType = 3; // С большей вероятностью выбираем третий стиль
-                }
-                else
-                {
-                    attackType = 2; // Иначе выбираем второй стиль
-                }
+                attackType = 3;
+
             }
             else
             {
-                // Логика для первой фазы: выбираем из всех стилей
-                attackType = UnityEngine.Random.Range(1, BOSS_COUNT_OF_ATTACKS_STYLE + 1);
+                attackType = UnityEngine.Random.Range(1, BOSS_COUNT_OF_ATTACKS_STYLE);
             }
 
             switch (attackType)
@@ -66,7 +113,12 @@ public class BossAI : EnemyAI
                     InvokeOnEnemyStrongAttack();
                     break;
                 case 3:
-                    OnBossUltraAttack?.Invoke(this, EventArgs.Empty);
+                    Debug.Log("ULTRA ATTACK");
+                    if (_ultraAttackCoroutine != null)
+                    {
+                        StopCoroutine(_ultraAttackCoroutine);
+                    }
+                    _ultraAttackCoroutine = StartCoroutine(BossMoveDuringUltraAttack());
                     break;
                 default:
                     Debug.LogWarning("Неизвестный тип атаки: " + attackType);
@@ -75,6 +127,59 @@ public class BossAI : EnemyAI
 
             _nextAttackTime = Time.time + _attackDelay;
         }
+    }
+
+
+    private IEnumerator BossMoveDuringUltraAttack()
+    {
+        // Проверяем, существует ли игрок
+        if (Player.Instance == null)
+        {
+            Debug.LogError("Player.Instance не найден.");
+            yield break;
+        }
+
+        // Если анимация уже выполняется, выходим
+        if (isUltraAttackInProgress)
+            yield break;
+
+        // Устанавливаем флаг, что анимация началась
+        isUltraAttackInProgress = true;
+
+        // Начальная позиция игрока
+        Vector3 playerPosition = Player.Instance.transform.position;
+
+        // Направление движения босса через игрока
+        Vector3 playerForward = Player.Instance.transform.forward.normalized;
+
+        // Смещения для начала и конца движения
+        Vector3 startOffset = -playerForward * 2f; // Позиция перед игроком
+        Vector3 endOffset = playerForward * 4f;   // Позиция за игроком
+
+        // Выбираем точку для движения
+        Vector3 _ultraAttackTargetPosition = playerPosition + endOffset;
+
+        // Включаем анимацию ультра-атаки (вращение уже в анимации)
+        _bossVisual.StartUltraAttackAnimation();
+
+        // Двигаемся к конечной позиции
+        _navMeshAgent.SetDestination(_ultraAttackTargetPosition);
+
+        float maxDuration = 2f; // Максимальная длительность атаки
+        float elapsedTime = 0f;
+
+        // Проверка по времени вместо расстояния
+        while (elapsedTime < maxDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Остановка ультра-атаки
+        _bossVisual.StopUltraAttackAnimation();
+
+        // Сбрасываем флаг, анимация завершена
+        isUltraAttackInProgress = false;
     }
 
 }

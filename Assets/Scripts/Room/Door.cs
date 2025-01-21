@@ -34,7 +34,7 @@ public class Door : MonoBehaviour
 
     private void ReplaceDoorWithWall()
     {
-        Debug.Log("ФЛИП");
+        Debug.Log("Колизия двери со стеной, замена на стену");
 
         if (!_isReplaced)
         {

@@ -217,11 +217,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 803163283949526879, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 890960200883729335, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1990432615175975335, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_Name
@@ -229,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2036049540045934402, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_LocalPosition.x
@@ -273,7 +273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6296901816762312938, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6646457650794250830, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
       propertyPath: m_Enabled
@@ -788,7 +788,7 @@ Transform:
   m_GameObject: {fileID: 651476661}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.42, y: 2.02, z: 0}
+  m_LocalPosition: {x: 4.69, y: 2.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -808,7 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b451218fb4af3b1469ae78dc50252a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 50
+  _maxHealth: 5100
   _healthDisplay: {fileID: 490813096}
   _movingSpeed: 5
   _keysDisplay: {fileID: 1141779010}

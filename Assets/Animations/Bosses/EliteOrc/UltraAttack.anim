@@ -21,27 +21,23 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1654006158, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.125
       value: {fileID: -1226798247, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.25
+    - time: 0.125
       value: {fileID: -1167634420, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.375
+    - time: 0.25
       value: {fileID: 1906805692, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.5
+    - time: 0.375
       value: {fileID: -1797277234, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.625
+    - time: 0.5
       value: {fileID: 1374037159, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.75
+    - time: 0.625
       value: {fileID: 246497191, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 0.875
+    - time: 0.75
       value: {fileID: -637190509, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 1
+    - time: 0.875
       value: {fileID: 367570385, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 1.125
+    - time: 1
       value: {fileID: 1095083890, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - time: 1.25
-      value: {fileID: 485786677, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -64,7 +60,6 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1654006158, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
     - {fileID: -1226798247, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
     - {fileID: -1167634420, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
     - {fileID: 1906805692, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
@@ -74,18 +69,17 @@ AnimationClip:
     - {fileID: -637190509, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
     - {fileID: 367570385, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
     - {fileID: 1095083890, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
-    - {fileID: 485786677, guid: d82ebb4e0f5cc3e45ac1111ae74b0b3b, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.375
+    m_StopTime: 1.125
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 0
+    m_LoopTime: 1
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -100,56 +94,56 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.125
+  - time: 0
     functionName: TriggerStartUltraAttack1
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: TriggerEndUltraAttack1
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.375
-    functionName: TriggerEndUltraAttack1
+    functionName: TriggerStartUltraAttack2
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: TriggerStartUltraAttack2
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.625
     functionName: TriggerEndUltraAttack2
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.625
+  - time: 0.5
     functionName: TriggerStartUltraAttack1
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.875
+  - time: 0.75
     functionName: TriggerEndUltraAttack1
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1
+  - time: 0.875
     functionName: TriggerStartUltraAttack2
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.125
+  - time: 1
     functionName: TriggerEndUltraAttack2
     data: 
     objectReferenceParameter: {fileID: 0}
