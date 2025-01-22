@@ -9,8 +9,8 @@ public class Boss : Enemy
     public PolygonCollider2D ultraAttackPolygonCollider1;
     public PolygonCollider2D ultraAttackPolygonCollider2;
 
-    private int _damageUltraAttack;
-    public int maxHealth;
+    private float _damageUltraAttack;
+    public float maxHealth;
     private bool _isUltraAttack = false;
 
     public override void Awake()
@@ -30,9 +30,9 @@ public class Boss : Enemy
     {
         currentHealth = _bossSO.health;
         maxHealth = _bossSO.health;
-        damageBasicAttack = _bossSO.damageAttack1;
-        damageStrongAttack = _bossSO.damageAttack2;
-        _damageUltraAttack = _bossSO.damageAttack3;
+        damageBasicAttack = _bossSO.damageBasicAttack;
+        damageStrongAttack = _bossSO.damageStrongAttack;
+        _damageUltraAttack = _bossSO.damageUltraAttack;
         BasicAttackColliderDisable();
         StrongAttackColliderDisable();
         UltraAttackCollider1Disable();

@@ -10,12 +10,12 @@ public class Player : MonoBehaviour
     private BoxCollider2D _boxCollider2D;
     private Rigidbody2D _rb;
 
-    private HealthDisplay _healthUI;
+    private HealthManager _healthManager;
 
     [Header("Health")]
     [SerializeField] private int _maxHealth;
     [SerializeField] private Text _healthDisplay;
-    private int _currentHealth;
+    private float _currentHealth;
 
     [Header("Moving")]
     [SerializeField] private int _movingSpeed = 5;
@@ -36,11 +36,14 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _knockBack = GetComponent<KnockBack>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _healthManager = GetComponent<HealthManager>();
     }
 
     private void Start()
     {
         _currentHealth = _maxHealth;
+        _healthManager.currentHealth = _currentHealth;
+        _healthManager.UpdateHeartsUI();
     }
 
     private void FixedUpdate()
@@ -62,7 +65,7 @@ public class Player : MonoBehaviour
         return playerScreenPosition;
     }
 
-    public void TakeDamage(Transform damageSourcePosition, int damage)
+    public void TakeDamage(Transform damageSourcePosition, float damage)
     {
         if (_currentHealth <= 0)
             return;
@@ -76,15 +79,18 @@ public class Player : MonoBehaviour
         OnHurt?.Invoke(this, EventArgs.Empty);
         _knockBack.GetKnockBack(damageSourcePosition);
         _currentHealth -= damage;
-        //_healthUI.TakeDamage(damage);
-        _healthDisplay.text = "HP: " + _currentHealth;
+        _healthManager.currentHealth = _currentHealth; // ќбновл€ем состо€ние здоровь€ в HealthManager
+        _healthManager.UpdateHeartsUI(); // ќбновл€ем UI здоровь€
         DetectDeath();
     }
 
     private void ChangeHealth(int bonusHealth)
     {
+        Debug.LogFormat("здоровье до бонуса{0}", _currentHealth);
         _currentHealth += bonusHealth;
-        _healthDisplay.text = "HP: " + _currentHealth;
+        Debug.LogFormat("здоровье после бонуса{0}", _currentHealth);
+        _healthManager.currentHealth = _currentHealth;
+        _healthManager.UpdateHeartsUI();
     }
     
     private void AddKeys()
@@ -123,7 +129,7 @@ public class Player : MonoBehaviour
     {
         if (collision.CompareTag("Heart"))
         {
-            ChangeHealth(5);
+            ChangeHealth(1);
             Destroy(collision.gameObject); ;
         }
         else if (collision.CompareTag("Key"))

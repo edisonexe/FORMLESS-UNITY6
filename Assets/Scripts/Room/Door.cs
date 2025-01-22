@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] private Direction _direction;
+    //[SerializeField] private Direction _direction;
+    [SerializeField] private GameObject wallPrefab;
     private BoxCollider2D _boxCollider2D;
     private bool _isProcessed = false;
     private bool _isReplaced = false;
@@ -14,8 +15,6 @@ public class Door : MonoBehaviour
         Right
     }
 
-    [SerializeField] private GameObject wallPrefab;
-
     private void Awake()
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
@@ -23,6 +22,12 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.transform != collision.transform.root)
+        {
+            return; // Игнорируем дочерние объекты
+        }
+
+        Debug.Log($"Столкновение с объектом: {collision.gameObject.name}");
         if (_isProcessed) return;
 
         if (collision.CompareTag("Wall"))

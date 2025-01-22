@@ -22,7 +22,6 @@ public class PlayerVisual : MonoBehaviour
         _material = _spriteRenderer.material;
     }
 
-
     private void Start()
     {
         PlayerFightController.Instance.OnFightControllerBasicAttack += PlayerVisual_OnPlayerBasicAttack;

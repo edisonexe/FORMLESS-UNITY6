@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: OrcSO
   m_EditorClassIdentifier: 
   enemyName: Skeleton
-  enemyHealth: 6
-  enemyDamageAttack1: 2
-  enemyDamageAttack2: 3
+  enemyHealth: 1.5
+  enemyBasicAttackDamage: 0.5
+  enemyStrongAttackDamage: 1

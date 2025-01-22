@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ArmoredOrcSO
   m_EditorClassIdentifier: 
   enemyName: Armored Orc
-  enemyHealth: 12
-  enemyDamageAttack1: 3
-  enemyDamageAttack2: 6
+  enemyHealth: 3.5
+  enemyBasicAttackDamage: 0.5
+  enemyStrongAttackDamage: 1.5

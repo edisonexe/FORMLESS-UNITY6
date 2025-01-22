@@ -15,15 +15,15 @@ public class Enemy : MonoBehaviour
     public event EventHandler OnTakeHit;
     public event EventHandler OnDie;
 
-    public int currentHealth;
-    protected int damageBasicAttack;
-    protected int damageStrongAttack;
+    public float currentHealth;
+    protected float damageBasicAttack;
+    protected float damageStrongAttack;
 
     private bool _isBasicAttack = false;
     private bool _isStrongAttack = false;
     private bool _isDead = false;
 
-    public int CurrentHealth => currentHealth;
+    public float CurrentHealth => currentHealth;
 
     public virtual void Awake()
     {
@@ -40,8 +40,8 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = _enemySO.enemyHealth;
-        damageBasicAttack = _enemySO.enemyDamageAttack1;
-        damageStrongAttack = _enemySO.enemyDamageAttack2;
+        damageBasicAttack = _enemySO.enemyBasicAttackDamage;
+        damageStrongAttack = _enemySO.enemyStrongAttackDamage;
         BasicAttackColliderDisable();
         StrongAttackColliderDisable();
     }
@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
         strongAttackPolygonCollider.enabled = false;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (currentHealth > 0)
         {
