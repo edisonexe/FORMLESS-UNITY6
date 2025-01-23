@@ -27,7 +27,7 @@ public class Door : MonoBehaviour
             return; // Игнорируем дочерние объекты
         }
 
-        Debug.Log($"Столкновение с объектом: {collision.gameObject.name}");
+        //Debug.Log($"Столкновение с объектом: {collision.gameObject.name}");
         if (_isProcessed) return;
 
         if (collision.CompareTag("Wall"))

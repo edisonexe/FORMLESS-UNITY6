@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+
+    [Header("Health and hearts")]
     public float currentHealth;
     private float _maxCountHearts;
     [SerializeField] private Image[] _hearts;
@@ -10,11 +13,27 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private Sprite _halfHeart;
     [SerializeField] private Sprite _emptyHeart;
 
+    [Header("Keys")]
+    public int currentCountKeys;
+    private int _maxCountKeys;
+    [SerializeField] private Image[] _keys;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // ”ничтожаем дубликат
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     private void Start()
     {
         _maxCountHearts = _hearts.Length;
-        UpdateHeartsUI();
-        Debug.Log(_maxCountHearts);
+        _maxCountKeys = _keys.Length;
     }
 
     public void UpdateHeartsUI()
@@ -35,5 +54,21 @@ public class HealthManager : MonoBehaviour
             }
         }
     }
+
+    public void UpdateKeysUI()
+    {
+        for (int i = 0; i < _maxCountKeys; i++)
+        {
+            if (i < currentCountKeys)
+            {
+                _keys[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                _keys[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
 
 }

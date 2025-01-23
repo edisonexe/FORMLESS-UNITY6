@@ -10,19 +10,19 @@ public class Player : MonoBehaviour
     private BoxCollider2D _boxCollider2D;
     private Rigidbody2D _rb;
 
-    private HealthManager _healthManager;
-
     [Header("Health")]
     [SerializeField] private int _maxHealth;
-    [SerializeField] private Text _healthDisplay;
     private float _currentHealth;
+
+    [Header("Damage")]
+    [SerializeField] public float damageBasicAttack = 0.5f;
+    [SerializeField] public float damageStrongAttack = 1f;
 
     [Header("Moving")]
     [SerializeField] private int _movingSpeed = 5;
     private float _minMovingSpeed = 0.1f;
 
     [Header("Keys")]
-    [SerializeField] private Text _keysDisplay;
     private int _keysCount;
 
     public event EventHandler OnDie;
@@ -36,14 +36,15 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _knockBack = GetComponent<KnockBack>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
-        _healthManager = GetComponent<HealthManager>();
     }
 
     private void Start()
     {
         _currentHealth = _maxHealth;
-        _healthManager.currentHealth = _currentHealth;
-        _healthManager.UpdateHeartsUI();
+        UIManager.Instance.currentHealth = _currentHealth;
+        UIManager.Instance.UpdateHeartsUI();
+        UIManager.Instance.currentCountKeys = _keysCount;
+        UIManager.Instance.UpdateKeysUI();
     }
 
     private void FixedUpdate()
@@ -79,24 +80,25 @@ public class Player : MonoBehaviour
         OnHurt?.Invoke(this, EventArgs.Empty);
         _knockBack.GetKnockBack(damageSourcePosition);
         _currentHealth -= damage;
-        _healthManager.currentHealth = _currentHealth; // Обновляем состояние здоровья в HealthManager
-        _healthManager.UpdateHeartsUI(); // Обновляем UI здоровья
+        UIManager.Instance.currentHealth = _currentHealth; // Обновляем состояние здоровья в HealthManager
+        UIManager.Instance.UpdateHeartsUI(); // Обновляем UI здоровья
         DetectDeath();
     }
 
     private void ChangeHealth(int bonusHealth)
     {
-        Debug.LogFormat("здоровье до бонуса{0}", _currentHealth);
         _currentHealth += bonusHealth;
-        Debug.LogFormat("здоровье после бонуса{0}", _currentHealth);
-        _healthManager.currentHealth = _currentHealth;
-        _healthManager.UpdateHeartsUI();
+        UIManager.Instance.currentHealth = _currentHealth;
+        UIManager.Instance.UpdateHeartsUI();
     }
     
     private void AddKeys()
     {
         _keysCount += 1;
-        _keysDisplay.text = "KEYS: " + _keysCount;
+        Debug.LogFormat("ключей стало {0}", _keysCount);
+        UIManager.Instance.currentCountKeys = _keysCount;
+        UIManager.Instance.UpdateKeysUI();
+        //_keysDisplay.text = "KEYS: " + _keysCount;
     }
 
     private void DetectDeath()
@@ -127,15 +129,22 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var collectible = collision.GetComponent<Collectible>();
+        if (collectible != null && collectible.isCollected) return;
+
         if (collision.CompareTag("Heart"))
         {
+            collectible.isCollected = true;
             ChangeHealth(1);
-            Destroy(collision.gameObject); ;
+            Destroy(collision.gameObject);
         }
         else if (collision.CompareTag("Key"))
         {
+            collectible.isCollected = true;
             AddKeys();
             Destroy(collision.gameObject);
         }
     }
+
+
 }

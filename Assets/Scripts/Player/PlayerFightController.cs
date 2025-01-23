@@ -12,9 +12,6 @@ public class PlayerFightController : MonoBehaviour
     public PolygonCollider2D _basicAttackPolygonCollider;
     public PolygonCollider2D _strongAttackPolygonCollider;
 
-    [SerializeField] private int _damageBasicAttack = 3;
-    [SerializeField] private int _damageStrongAttack = 6;
-
     private bool _isBasicAttack = false;
     private bool _isStrongAttack = false;
 
@@ -87,12 +84,12 @@ public class PlayerFightController : MonoBehaviour
         {
             if (_isBasicAttack)
             {
-                enemy.TakeDamage(_damageBasicAttack);
+                enemy.TakeDamage(Player.Instance.damageBasicAttack);
                 _isBasicAttack = false;
             }
             else if (_isStrongAttack) 
             {
-                enemy.TakeDamage(_damageStrongAttack);
+                enemy.TakeDamage(Player.Instance.damageStrongAttack);
                 _isStrongAttack = false;
             }
         }

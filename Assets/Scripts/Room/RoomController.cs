@@ -38,6 +38,11 @@ public class RoomController : MonoBehaviour
 
             foreach (Transform spawner in _enemySpawners)
             {
+                if (spawner == null) // Проверяем, существует ли спавнер
+                {
+                    continue;
+                }
+
                 int rand = Random.Range(0, 11);
                 if (rand < 9)
                 {
@@ -61,9 +66,11 @@ public class RoomController : MonoBehaviour
                     Instantiate(_key, spawner.position, Quaternion.identity);
                 }
             }
+
             StartCoroutine(CheckEnemies());
         }
     }
+
 
     private void Enemy_OnDie(object sender, System.EventArgs e)
     {
