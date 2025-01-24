@@ -5,12 +5,12 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemySO _enemySO;
-    [SerializeField] private EnemyAI _enemyAI;
+    [SerializeField] protected EnemyAI _enemyAI;
 
     public PolygonCollider2D basicAttackPolygonCollider;
     public PolygonCollider2D strongAttackPolygonCollider;
-    private BoxCollider2D _boxCollider2D;
-    private CapsuleCollider2D _capsuleCollider2D;
+    protected BoxCollider2D _boxCollider2D;
+    protected CapsuleCollider2D capsuleCollider2D;
 
     public event EventHandler OnTakeHit;
     public event EventHandler OnDie;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     private bool _isBasicAttack = false;
     private bool _isStrongAttack = false;
-    private bool _isDead = false;
+    protected bool _isDead = false;
 
     public float CurrentHealth => currentHealth;
 
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         strongAttackPolygonCollider = strongAttackObject.GetComponent<PolygonCollider2D>();
 
         _boxCollider2D = GetComponent<BoxCollider2D>();
-        _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
     }
 
     private void Start()
@@ -68,11 +68,12 @@ public class Enemy : MonoBehaviour
         strongAttackPolygonCollider.enabled = false;
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
+        currentHealth -= damage;
         if (currentHealth > 0)
         {
-            currentHealth -= damage;
+            //currentHealth -= damage;
             OnTakeHit?.Invoke(this, EventArgs.Empty);
         }
         else
@@ -82,14 +83,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void HandleDeath()
+    public virtual void HandleDeath()
     {
         if (!_isDead) return;
 
         _boxCollider2D.enabled = false;
         basicAttackPolygonCollider.enabled = false;
         strongAttackPolygonCollider.enabled = false;
-        _capsuleCollider2D.enabled = false;
+        capsuleCollider2D.enabled = false;
 
         _enemyAI.SetDeathState();
         OnDie?.Invoke(this, EventArgs.Empty);
@@ -110,6 +111,16 @@ public class Enemy : MonoBehaviour
                 _isStrongAttack = false;
             }
         }
+    }
+
+    protected virtual void InvokeOnTakeHit()
+    {
+        OnTakeHit?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void InvokeOnDie()
+    {
+        OnDie?.Invoke(this, EventArgs.Empty);
     }
 
 }

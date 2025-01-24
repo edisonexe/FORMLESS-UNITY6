@@ -547,7 +547,6 @@ MonoBehaviour:
   _boss: {fileID: 7566413556615581856}
   _bossVisual: {fileID: 5745232140184278901}
   secondPhaseHealthThreshold: 0.5
-  ultraAttackProbability: 0.6
 --- !u!114 &7566413556615581856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +565,7 @@ MonoBehaviour:
   strongAttackPolygonCollider: {fileID: 0}
   currentHealth: 0
   _bossSO: {fileID: 11400000, guid: 01b8e5c2fa6a630488f0c010def5bb34, type: 2}
+  _bossAI: {fileID: 7033711896726204290}
   ultraAttackPolygonCollider1: {fileID: 0}
   ultraAttackPolygonCollider2: {fileID: 0}
   maxHealth: 0

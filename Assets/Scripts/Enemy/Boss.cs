@@ -5,7 +5,7 @@ public class Boss : Enemy
 {
     [Header("BossSO")]
     [SerializeField] private BossSO _bossSO;
-
+    [SerializeField] private BossAI _bossAI;
     public PolygonCollider2D ultraAttackPolygonCollider1;
     public PolygonCollider2D ultraAttackPolygonCollider2;
 
@@ -30,6 +30,9 @@ public class Boss : Enemy
     {
         currentHealth = _bossSO.health;
         maxHealth = _bossSO.health;
+        UIManager.Instance.bossHealth = currentHealth;
+        UIManager.Instance.bossMaxHealth = maxHealth;
+        UIManager.Instance.EnableBossHealthBar();
         damageBasicAttack = _bossSO.damageBasicAttack;
         damageStrongAttack = _bossSO.damageStrongAttack;
         _damageUltraAttack = _bossSO.damageUltraAttack;
@@ -59,6 +62,44 @@ public class Boss : Enemy
     public void UltraAttackCollider2Disable()
     {
         ultraAttackPolygonCollider2.enabled = false;
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth > 0)
+        {
+            //currentHealth -= damage;
+            Debug.Log(currentHealth);
+            UIManager.Instance.bossHealth = currentHealth;
+            UIManager.Instance.UpdateBossHealthtBar();
+            InvokeOnTakeHit();
+        }
+        else
+        {
+            Debug.Log("Смерть босса");
+            UIManager.Instance.bossHealth = currentHealth;
+            UIManager.Instance.UpdateBossHealthtBar();
+            InvokeOnTakeHit();
+            _isDead = true;
+        }
+    }
+
+    public override void HandleDeath()
+    {
+        if (!_isDead) return;
+
+        _boxCollider2D.enabled = false;
+        basicAttackPolygonCollider.enabled = false;
+        strongAttackPolygonCollider.enabled = false;
+        UltraAttackCollider1Disable();
+        UltraAttackCollider2Disable();
+        capsuleCollider2D.enabled = false;
+
+        InvokeOnDie();
+
+        _bossAI.SetDeathState();
+        UIManager.Instance.DisableBossHealthBar();
     }
 
     public override void OnTriggerEnter2D(Collider2D collision)

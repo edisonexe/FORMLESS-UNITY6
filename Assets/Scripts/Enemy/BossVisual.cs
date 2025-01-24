@@ -10,7 +10,6 @@ public class BossVisual : EnemyVisual
     protected override void Start()
     {
         base.Start();
-        //_bossAI.OnBossUltraAttack += bossAI_OnBossUltraAttack;
     }
 
 
@@ -19,21 +18,15 @@ public class BossVisual : EnemyVisual
         base.Update();
     }
 
-    //private void bossAI_OnBossUltraAttack(object sender, System.EventArgs e)
-    //{
-    //    _animator.SetBool(IS_ULTRA_ATTACK);
-    //}
 
     public void StartUltraAttackAnimation()
     {
         _animator.SetBool(IS_ULTRA_ATTACK, true);
-        Debug.Log("True");
     }
 
     public void StopUltraAttackAnimation()
     {
         _animator.SetBool(IS_ULTRA_ATTACK, false);
-        Debug.Log("False");
     }
 
     public void TriggerStartUltraAttack1()
@@ -54,5 +47,10 @@ public class BossVisual : EnemyVisual
     public void TriggerEndUltraAttack2()
     {
         _boss.UltraAttackCollider2Disable();
+    }
+
+    public override void TriggerHandleDeath()
+    {
+        _boss.HandleDeath();
     }
 }

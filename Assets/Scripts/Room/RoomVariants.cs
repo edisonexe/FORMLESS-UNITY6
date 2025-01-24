@@ -15,38 +15,37 @@ public class RoomVariants : MonoBehaviour
 
     [SerializeField] private float _waitTime;
     [SerializeField] private GameObject boss;
-    private bool _IsBossSpawned;
 
+    private bool _isBossSpawned;
 
-    private void Update()
-    {
-        if (_waitTime<=0 && _IsBossSpawned == false)
-        {
-            for (int i = 0; i < rooms.Count; i++)
-            {
-                if (i == rooms.Count - 1)
-                {
-                    RemoveSpawners(rooms[i]);
-
-                    Instantiate(boss, rooms[i].transform.position, Quaternion.identity);
-                    _IsBossSpawned = true;
-                }
-            }
-        }
-        else if (_waitTime > 0)
-        {
-            _waitTime -= Time.deltaTime;
-        }
-    }
+    public GameObject LastRoom => rooms.Count > 0 ? rooms[rooms.Count - 1] : null;
 
     private void RemoveSpawners(GameObject room)
     {
-        // Найти дочерний объект с именем "SpawnEnemy"
         Transform spawnEnemy = room.transform.Find("Spawners");
         if (spawnEnemy != null)
         {
-            Destroy(spawnEnemy.gameObject); // Удалить найденный объект
+            Destroy(spawnEnemy.gameObject);
         }
     }
+
+    public void TrySpawnBoss(GameObject room)
+    {
+        if (_isBossSpawned)
+        {
+            return;
+        }
+
+        if (room != LastRoom)
+        {
+            return;
+        }
+
+        Debug.Log("Спавним босса в комнате: " + room.name);
+        RemoveSpawners(room);
+        Instantiate(boss, room.transform.position, Quaternion.identity);
+        _isBossSpawned = true;
+    }
+
 
 }

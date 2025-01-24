@@ -72,13 +72,14 @@ public class EnemyVisual : MonoBehaviour
         _enemy.StrongAttackColliderDisable();
     }
 
-    public void TriggerHandleDeath()
+    public virtual void TriggerHandleDeath()
     {
         _enemy.HandleDeath();
     }
 
     private void enemy_OnDie(object sender, System.EventArgs e)
     {
+        Debug.Log("Аниматор ISDIE TRUE");
         _animator.SetBool(IS_DIE, true);
         _spriteRenderer.sortingOrder = -1;
         StartCoroutine(FormlessUtils.FadeOutAndDestroy(gameObject, _material));

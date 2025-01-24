@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     {
         _currentHealth = _maxHealth;
         UIManager.Instance.currentHealth = _currentHealth;
+        Debug.Log(UIManager.Instance.currentHealth);
         UIManager.Instance.UpdateHeartsUI();
         UIManager.Instance.currentCountKeys = _keysCount;
         UIManager.Instance.UpdateKeysUI();

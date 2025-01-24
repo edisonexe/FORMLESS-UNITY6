@@ -7,10 +7,8 @@ public class BossAI : EnemyAI
     private const int BOSS_COUNT_OF_ATTACKS_STYLE = 3;
     [SerializeField] private Boss _boss;
     [SerializeField] private BossVisual _bossVisual;
-    public event EventHandler OnBossUltraAttack;
     private bool _isSecondPhase = false; // Флаг для второй фазы
     [SerializeField] private float secondPhaseHealthThreshold = 0.5f; // Порог здоровья для второй фазы
-    [SerializeField] private float ultraAttackProbability = 0.6f; // Вероятность третьего стиля атаки во второй фазе
     private Coroutine _ultraAttackCoroutine;
     private bool isUltraAttackInProgress = false;
     protected override void Awake()
@@ -31,6 +29,11 @@ public class BossAI : EnemyAI
             _isSecondPhase = true;
             Debug.Log("Босс переходит во вторую фазу!");
         }
+    }
+
+    public override void SetDeathState()
+    {
+        base.SetDeathState();
     }
 
     protected override void CheckCurrentState()
@@ -113,7 +116,6 @@ public class BossAI : EnemyAI
                     InvokeOnEnemyStrongAttack();
                     break;
                 case 3:
-                    Debug.Log("ULTRA ATTACK");
                     if (_ultraAttackCoroutine != null)
                     {
                         StopCoroutine(_ultraAttackCoroutine);

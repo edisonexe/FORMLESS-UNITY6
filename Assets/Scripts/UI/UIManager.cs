@@ -18,6 +18,12 @@ public class UIManager : MonoBehaviour
     private int _maxCountKeys;
     [SerializeField] private Image[] _keys;
 
+    [Header("BossHealth")]
+    [SerializeField] private Image _bossHealthBar;
+    [SerializeField] private Image _bossHealthLine;
+    public float bossHealth;
+    public float bossMaxHealth;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -71,4 +77,20 @@ public class UIManager : MonoBehaviour
     }
 
 
+    public void EnableBossHealthBar()
+    {
+        _bossHealthBar.gameObject.SetActive(true);
+        UpdateBossHealthtBar();
+    }
+
+    public void DisableBossHealthBar()
+    {
+        _bossHealthBar.gameObject.SetActive(false);
+    }
+
+    public void UpdateBossHealthtBar()
+    {
+        Debug.LogFormat("текущее {0} макс {1}", bossHealth, bossMaxHealth);
+        _bossHealthLine.fillAmount = bossHealth / bossMaxHealth;
+    }
 }

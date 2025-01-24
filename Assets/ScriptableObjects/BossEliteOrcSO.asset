@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossEliteOrcSO
   m_EditorClassIdentifier: 
   bossName: Elite Orc
-  health: 100
-  damageBasicAttack: 1
-  damageStrongAttack: 2
-  damageUltraAttack: 3
+  health: 20
+  damageBasicAttack: 0.5
+  damageStrongAttack: 1
+  damageUltraAttack: 1.5

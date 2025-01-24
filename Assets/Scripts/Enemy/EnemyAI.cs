@@ -74,7 +74,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    public void SetDeathState()
+    public virtual void SetDeathState()
     {
         _navMeshAgent.ResetPath();
         _currentState = State.Death;

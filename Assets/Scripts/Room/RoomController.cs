@@ -26,51 +26,64 @@ public class RoomController : MonoBehaviour
 
     private void Start()
     {
-        _roomVariants = GameObject.FindGameObjectWithTag("Room").GetComponent<RoomVariants>();
+        _roomVariants = GameObject.FindGameObjectWithTag("RoomVariants").GetComponent<RoomVariants>();
         _enemies = new List<Enemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !_isSpawnedEnemies)
+        if (collision.CompareTag("Player"))
         {
-            _isSpawnedEnemies = true;
-
-            foreach (Transform spawner in _enemySpawners)
+            if (!_isSpawnedEnemies)
             {
-                if (spawner == null) // Проверяем, существует ли спавнер
+                if (_roomVariants.LastRoom != null && _roomVariants.LastRoom.name == gameObject.name)
                 {
-                    continue;
+                    _roomVariants.TrySpawnBoss(gameObject);
                 }
-
-                int rand = Random.Range(0, 11);
-                if (rand < 9)
+                else
                 {
-                    GameObject enemyType = _enemyTypes[UnityEngine.Random.Range(0, _enemyTypes.Length)];
-                    GameObject enemyObj = Instantiate(enemyType, spawner.position, Quaternion.identity);
-                    enemyObj.transform.parent = transform;
-
-                    Enemy enemy = enemyObj.GetComponent<Enemy>();
-                    if (enemy != null)
-                    {
-                        _enemies.Add(enemy);
-                        enemy.OnDie += Enemy_OnDie;
-                    }
-                }
-                else if (rand == 9)
-                {
-                    Instantiate(_heart, spawner.position, Quaternion.identity);
-                }
-                else if (rand == 10)
-                {
-                    Instantiate(_key, spawner.position, Quaternion.identity);
+                    SpawnEnemies();
                 }
             }
-
-            StartCoroutine(CheckEnemies());
         }
     }
 
+
+
+    private void SpawnEnemies()
+    {
+        _isSpawnedEnemies = true;
+
+        foreach (Transform spawner in _enemySpawners)
+        {
+            if (spawner == null) continue;
+
+            int rand = Random.Range(0, 11);
+            if (rand < 9)
+            {
+                GameObject enemyType = _enemyTypes[Random.Range(0, _enemyTypes.Length)];
+                GameObject enemyObj = Instantiate(enemyType, spawner.position, Quaternion.identity);
+                enemyObj.transform.parent = transform;
+
+                Enemy enemy = enemyObj.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    _enemies.Add(enemy);
+                    enemy.OnDie += Enemy_OnDie;
+                }
+            }
+            else if (rand == 9)
+            {
+                Instantiate(_heart, spawner.position, Quaternion.identity);
+            }
+            else if (rand == 10)
+            {
+                Instantiate(_key, spawner.position, Quaternion.identity);
+            }
+        }
+
+        StartCoroutine(CheckEnemies());
+    }
 
     private void Enemy_OnDie(object sender, System.EventArgs e)
     {
