@@ -1,0 +1,69 @@
+using Formless.Core.Animations;
+using Formless.Enemy.States;
+using Formless.Enemy;
+using Formless.Player;
+using UnityEngine;
+using Formless.SM;
+
+public abstract class ChasingState<T> : EnemyState where T : Enemy
+{
+    protected T entity;
+    protected Animator animator;
+
+    public ChasingState(T entity, StateMachine stateMachine, Animator animator)
+        : base(entity, stateMachine)
+    {
+        this.entity = entity;
+        this.animator = animator;
+    }
+
+    public override void Enter()
+    {
+        //Debug.Log($"{typeof(T).Name} enter [CHASING]");
+        animator.SetBool(AnimationConstants.IS_MOVING, true);
+        entity.navMeshAgent.speed = entity.chasingSpeed;
+    }
+
+    public override void Update()
+    {
+        if (entity.CanSeePlayer())
+        {
+            entity.LookAtPlayer();
+            Vector3 targetPos = GetChaseTargetPosition();
+            entity.navMeshAgent.SetDestination(targetPos);
+
+            if (Vector2.Distance(entity.transform.position, Player.Instance.transform.position) <= entity.attackRange)
+            {
+                ChangerState.ChangeToAttackState(entity, stateMachine, animator);
+            }
+        }
+        else
+        {
+            ChangerState.ChangeToIdleState(entity, stateMachine, animator);
+        }
+    }
+
+    public override void Exit()
+    {
+        //Debug.Log($"{typeof(T).Name} exit [CHASING]");
+        entity.navMeshAgent.speed = entity.movingSpeed;
+    }
+
+    private Vector3 GetChaseTargetPosition()
+    {
+        Vector3 playerPos = Player.Instance.transform.position;
+        float offsetX = 0.5f;
+        Vector3 targetPos = playerPos;
+
+        if (entity.transform.position.x < playerPos.x)
+        {
+            targetPos.x -= offsetX;
+        }
+        else
+        {
+            targetPos.x += offsetX;
+        }
+
+        return targetPos;
+    }
+}

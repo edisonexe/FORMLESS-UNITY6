@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782c604d11e348a4f921f2d4de71bdd0, type: 3}
+  m_Name: EliteOrcBoss
+  m_EditorClassIdentifier: 
+  bossName: Elite Orc
+  maxHealth: 15
+  damageBasicAttack: 0.5
+  damageStrongAttack: 1
+  damageSpecialAttack: 1
+  patrolDistanceMin: 6
+  patrolDistanceMax: 6
+  moveSpeed: 1.2
+  detectionRange: 5
+  chasingSpeedMultiplier: 1.2
