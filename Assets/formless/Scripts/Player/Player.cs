@@ -31,6 +31,8 @@ namespace Formless.Player
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
+        private int _keysCount;
+
         protected override void Awake()
         {
             base.Awake();
@@ -60,6 +62,12 @@ namespace Formless.Player
             basicAttackCollider.enabled = false;
             strongAttackCollider.enabled = false;
             _material = _spriteRenderer.material;
+
+            UIManager.Instance.currentHealth = Health;
+            Debug.Log(UIManager.Instance.currentHealth);
+            UIManager.Instance.UpdateHeartsUI();
+            UIManager.Instance.currentCountKeys = _keysCount;
+            UIManager.Instance.UpdateKeysUI();
         }
 
         private void FixedUpdate()
@@ -103,10 +111,10 @@ namespace Formless.Player
         {
             base.TakeDamage(damageSourcePosition, damage);
 
-            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
+            UIManager.Instance.currentHealth = Health;
+            UIManager.Instance.UpdateHeartsUI();
 
-            //UIManager.Instance.currentHealth = _currentHealth; // ќбновл¤ем состо¤ние здоровь¤ в HealthManager
-            //UIManager.Instance.UpdateHeartsUI(); // ќбновл¤ем UI здоровь¤
+            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
         }
 
         public void BasicAttackColliderEnable()
@@ -147,11 +155,45 @@ namespace Formless.Player
                     _isStrongAttack = false;
                 }
             }
+            else
+            {
+                var collectible = collision.GetComponent<Collectible>();
+                if (collectible != null && collectible.isCollected) return;
+
+                if (collision.CompareTag("Heart"))
+                {
+                    collectible.isCollected = true;
+                    ChangeHealth(1);
+                    Destroy(collision.gameObject);
+                }
+                else if (collision.CompareTag("Key"))
+                {
+                    collectible.isCollected = true;
+                    AddKeys();
+                    Destroy(collision.gameObject);
+                }
+            }
         }
 
         public void StartFadeAndDestroy()
         {
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
+        }
+
+        private void ChangeHealth(int bonusHealth)
+        {
+            Health += bonusHealth;
+            UIManager.Instance.currentHealth = Health;
+            UIManager.Instance.UpdateHeartsUI();
+        }
+    
+        private void AddKeys()
+        {
+            _keysCount += 1;
+            Debug.LogFormat("ключей стало {0}", _keysCount);
+            UIManager.Instance.currentCountKeys = _keysCount;
+            UIManager.Instance.UpdateKeysUI();
+            //_keysDisplay.text = "KEYS: " + _keysCount;
         }
     }
 }

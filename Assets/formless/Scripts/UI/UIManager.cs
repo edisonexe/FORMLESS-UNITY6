@@ -76,11 +76,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
     public void EnableBossHealthBar()
     {
         _bossHealthBar.gameObject.SetActive(true);
-        UpdateBossHealthtBar();
+        UpdateBossHealthBar();
     }
 
     public void DisableBossHealthBar()
@@ -88,7 +87,7 @@ public class UIManager : MonoBehaviour
         _bossHealthBar.gameObject.SetActive(false);
     }
 
-    public void UpdateBossHealthtBar()
+    public void UpdateBossHealthBar()
     {
         Debug.LogFormat("текущее {0} макс {1}", bossHealth, bossMaxHealth);
         _bossHealthLine.fillAmount = bossHealth / bossMaxHealth;

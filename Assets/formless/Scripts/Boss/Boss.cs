@@ -42,6 +42,10 @@ namespace Formless.Boss
             specialAttackFirstCollider.enabled = false;
             specialAttackSecondCollider.enabled = false;
 
+            UIManager.Instance.bossHealth = Health;
+            UIManager.Instance.bossMaxHealth = Health;
+            UIManager.Instance.EnableBossHealthBar();
+
             _material = spriteRenderer.material;
 
             StateMachine.ChangeState(new BossIdleState(this, StateMachine, animator));
@@ -95,6 +99,8 @@ namespace Formless.Boss
         public override void TakeDamage(Transform damageSourcePosition, float damage)
         {
             base.TakeDamage(damageSourcePosition, damage);
+            UIManager.Instance.bossHealth = Health;
+            UIManager.Instance.UpdateBossHealthBar();
         }
 
         public override void ChangeFacingDirection(Vector2 from, Vector2 to)
