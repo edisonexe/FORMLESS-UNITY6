@@ -3,16 +3,19 @@ using Formless.Player;
 
 public class TeleportTrigger : MonoBehaviour
 {
-    [SerializeField] private GameObject _eKeyPrefab;
-    private GameObject _hintUI;
-    private bool playerInRange = false;
+    [SerializeField] private GameObject _hintUI;  // UI-подсказка "Нажмите E"
+
+    private bool _playerInRange = false;
 
     private void Start()
     {
-        if (_eKeyPrefab != null)
+        if (_hintUI != null)
         {
-            _hintUI = Instantiate(_eKeyPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-            _hintUI.SetActive(false);
+            _hintUI.SetActive(false); // Подсказка выключена по умолчанию
+        }
+        else
+        {
+            Debug.LogError("TeleportTrigger: _hintUI не назначен в инспекторе!");
         }
     }
 
@@ -20,10 +23,12 @@ public class TeleportTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Игрок зашёл на телепорт");
-            playerInRange = true;
-            _hintUI.SetActive(true);
-            Debug.Log(_hintUI.name);
+            if (!_playerInRange)
+            {
+                Debug.Log("Игрок зашёл на телепорт");
+                _playerInRange = true;
+                _hintUI.SetActive(true);
+            }
         }
     }
 
@@ -32,14 +37,14 @@ public class TeleportTrigger : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Debug.Log("Игрок покинул телепорт");
-            playerInRange = false;
+            _playerInRange = false;
             _hintUI.SetActive(false);
         }
     }
 
     private void Update()
     {
-        if (playerInRange && Player.Instance.IsTeleportPressed())
+        if (_playerInRange && Player.Instance.IsTeleportPressed())
         {
             ActivatePortal();
         }
@@ -47,8 +52,7 @@ public class TeleportTrigger : MonoBehaviour
 
     private void ActivatePortal()
     {
-        // Логика активации портала
         Debug.Log("Перемещение через портал...");
-        // Тут можно добавить логику перехода на новый уровень
+        // Здесь можно добавить логику загрузки следующего уровня
     }
 }

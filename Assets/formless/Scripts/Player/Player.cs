@@ -10,7 +10,6 @@ namespace Formless.Player
         public static Player Instance { get; private set; }
         public Transform LastDamageSource { get; private set; }
 
-
         public BoxCollider2D boxCollider2D;
         public CapsuleCollider2D capsuleCollider2D;
         private Animator _animator;
