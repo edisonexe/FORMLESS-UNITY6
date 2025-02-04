@@ -1,9 +1,6 @@
 using UnityEngine;
 using Formless.Core;
 using Formless.Player.States;
-using Formless.Core.Animations;
-using Formless.Enemy;
-using Formless.Enemy.States;
 using Formless.Core.Utilties;
 
 namespace Formless.Player
@@ -31,7 +28,7 @@ namespace Formless.Player
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
-        private bool _isInTeleport = false;
+        //private bool _isInTeleport = false;
 
         private int _keysCount;
 
@@ -143,14 +140,14 @@ namespace Formless.Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Teleport"))
-            {
-                if (!_isInTeleport)
-                {
-                    _isInTeleport = true;
-                    Debug.Log("Телепорт");
-                }
-            }
+            //if (collision.CompareTag("Teleport"))
+            //{
+            //    if (!_isInTeleport)
+            //    {
+            //        _isInTeleport = true;
+            //        Debug.Log("Телепорт");
+            //    }
+            //}
 
             if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
             {
@@ -174,47 +171,52 @@ namespace Formless.Player
                 if (collision.CompareTag("Heart"))
                 {
                     collectible.isCollected = true;
-                    ChangeHealth(1);
+                    AddHealth(1);
                     Destroy(collision.gameObject);
                 }
                 else if (collision.CompareTag("Key"))
                 {
                     collectible.isCollected = true;
-                    AddKeys();
+                    AddKey();
                     Destroy(collision.gameObject);
                 }
             }
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Teleport"))
-        {
-            if (_isInTeleport)
-            {
-                _isInTeleport = false;
-                Debug.Log("Игрок покинул телепорт");
-            }
-        }
-    }
+        //private void OnTriggerExit2D(Collider2D collision)
+        //{
+        //    if (collision.CompareTag("Teleport"))
+        //    {
+        //        if (_isInTeleport)
+        //        {
+        //            _isInTeleport = false;
+        //            Debug.Log("Игрок покинул телепорт");
+        //        }
+        //    }
+        //}
 
         public void StartFadeAndDestroy()
         {
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
         }
 
-        private void ChangeHealth(int bonusHealth)
+        private void AddHealth(int bonusHealth)
         {
             Health += bonusHealth;
             UIManager.Instance.currentHealth = Health;
             UIManager.Instance.UpdateHeartsUI();
         }
     
-        private void AddKeys()
+        private void AddKey()
         {
             _keysCount += 1;
             UIManager.Instance.currentCountKeys = _keysCount;
             UIManager.Instance.UpdateKeysUI();
+        }
+
+        public bool IsTeleportPressed()
+        {
+            return _inputHandler.IsInteractionPressed();
         }
     }
 }

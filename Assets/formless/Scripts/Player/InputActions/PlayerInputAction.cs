@@ -53,6 +53,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1a30210-29b6-4cc6-b68e-fc12e8fdf674"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -187,6 +196,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""StrongAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df6240b6-7ad9-453e-89c9-e5df56835dcf"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -198,6 +218,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Moving = m_Player.FindAction("Moving", throwIfNotFound: true);
         m_Player_BasicAttack = m_Player.FindAction("BasicAttack", throwIfNotFound: true);
         m_Player_StrongAttack = m_Player.FindAction("StrongAttack", throwIfNotFound: true);
+        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -267,6 +288,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Moving;
     private readonly InputAction m_Player_BasicAttack;
     private readonly InputAction m_Player_StrongAttack;
+    private readonly InputAction m_Player_Interaction;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -274,6 +296,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Moving => m_Wrapper.m_Player_Moving;
         public InputAction @BasicAttack => m_Wrapper.m_Player_BasicAttack;
         public InputAction @StrongAttack => m_Wrapper.m_Player_StrongAttack;
+        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -292,6 +315,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @StrongAttack.started += instance.OnStrongAttack;
             @StrongAttack.performed += instance.OnStrongAttack;
             @StrongAttack.canceled += instance.OnStrongAttack;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -305,6 +331,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @StrongAttack.started -= instance.OnStrongAttack;
             @StrongAttack.performed -= instance.OnStrongAttack;
             @StrongAttack.canceled -= instance.OnStrongAttack;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -327,5 +356,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnMoving(InputAction.CallbackContext context);
         void OnBasicAttack(InputAction.CallbackContext context);
         void OnStrongAttack(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
     }
 }

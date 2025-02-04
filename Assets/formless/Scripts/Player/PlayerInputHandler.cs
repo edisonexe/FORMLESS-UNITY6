@@ -42,14 +42,19 @@ namespace Formless.Player
             return inputActions.Player.StrongAttack.triggered;
         }
 
-        public bool IsBasicAttackPerformed()
-        {
-            return inputActions.Player.BasicAttack.WasPerformedThisFrame();
-        }
+        //public bool IsBasicAttackPerformed()
+        //{
+        //    return inputActions.Player.BasicAttack.WasPerformedThisFrame();
+        //}
 
-        public bool IsStrongAttackPerformed()
+        //public bool IsStrongAttackPerformed()
+        //{
+        //    return inputActions.Player.StrongAttack.WasPerformedThisFrame();
+        //}
+
+        public bool IsInteractionPressed()
         {
-            return inputActions.Player.StrongAttack.WasPerformedThisFrame();
+            return inputActions.Player.Interaction.triggered;
         }
     }
 }
