@@ -1,6 +1,8 @@
 using UnityEngine;
 using Formless.Boss.States;
 using Formless.SM;
+using System;
+using Formless.Core.Utilties;
 
 namespace Formless.Boss
 {
@@ -8,6 +10,7 @@ namespace Formless.Boss
     {
         [SerializeField] private BossSO _bossSO;
 
+        public new event Action<Boss> OnDie;
         public float damageSpecialAttack;
         public PolygonCollider2D specialAttackFirstCollider;
         public PolygonCollider2D specialAttackSecondCollider;
@@ -112,6 +115,7 @@ namespace Formless.Boss
         {
             base.LookAtPlayer();
         }
+
         public override bool CanSeePlayer()
         {
             return base.CanSeePlayer();
@@ -119,7 +123,8 @@ namespace Formless.Boss
 
         public override void StartFadeAndDestroy()
         {
-            base.StartFadeAndDestroy();
+            OnDie?.Invoke(this);
+            StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
         }
 
         public override Vector2 GetRandomPatrolPosition()

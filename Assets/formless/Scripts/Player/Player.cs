@@ -31,6 +31,8 @@ namespace Formless.Player
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
+        private bool _isInTeleport = false;
+
         private int _keysCount;
 
         protected override void Awake()
@@ -141,6 +143,15 @@ namespace Formless.Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            if (collision.CompareTag("Teleport"))
+            {
+                if (!_isInTeleport)
+                {
+                    _isInTeleport = true;
+                    Debug.Log("Телепорт");
+                }
+            }
+
             if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
             {
                 Debug.Log("Столкновение с врагом");
@@ -175,6 +186,18 @@ namespace Formless.Player
             }
         }
 
+        private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Teleport"))
+        {
+            if (_isInTeleport)
+            {
+                _isInTeleport = false;
+                Debug.Log("Игрок покинул телепорт");
+            }
+        }
+    }
+
         public void StartFadeAndDestroy()
         {
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
@@ -190,10 +213,8 @@ namespace Formless.Player
         private void AddKeys()
         {
             _keysCount += 1;
-            Debug.LogFormat("ключей стало {0}", _keysCount);
             UIManager.Instance.currentCountKeys = _keysCount;
             UIManager.Instance.UpdateKeysUI();
-            //_keysDisplay.text = "KEYS: " + _keysCount;
         }
     }
 }

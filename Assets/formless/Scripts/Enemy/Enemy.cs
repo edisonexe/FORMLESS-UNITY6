@@ -19,7 +19,7 @@ namespace Formless.Enemy
         protected SpriteRenderer spriteRenderer;
         protected Animator animator;
 
-        public Action<Enemy> OnDie;
+        public event Action<Enemy> OnDie;
 
         public Vector2 startPosition;
 

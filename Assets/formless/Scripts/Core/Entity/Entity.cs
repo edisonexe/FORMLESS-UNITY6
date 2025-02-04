@@ -6,7 +6,7 @@ namespace Formless.Core
 {
     public abstract class Entity : MonoBehaviour
     {
-        public float Health { get; protected set; }
+        public float Health { get; protected set; } //потом вернуть protected set
         public StateMachine StateMachine { get; private set; }
         protected Rigidbody2D _rb;
         

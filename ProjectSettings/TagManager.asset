@@ -12,6 +12,7 @@ TagManager:
   - RoomVariants
   - Room
   - SpawnPointRoom
+  - Teleport
   layers:
   - Default
   - TransparentFX

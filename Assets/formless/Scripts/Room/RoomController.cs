@@ -21,30 +21,34 @@ namespace Formless.Room
         [Header("Effects")] 
         [SerializeField] private GameObject _lockDestroyEffect;
 
+        private Boss.Boss _boss;
+
         private List<Enemy.Enemy> _enemies;
-        private RoomVariants _roomVariants;
         private bool _isSpawnedEnemies;
 
         private void Start()
         {
-            _roomVariants = GameObject.FindGameObjectWithTag("RoomVariants").GetComponent<RoomVariants>();
+            GameManager.Instance.rooms.Add(gameObject);
             _enemies = new List<Enemy.Enemy>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player"))
+            if (collision.CompareTag("Player") && !_isSpawnedEnemies)
             {
-                if (!_isSpawnedEnemies)
+                if (GameManager.Instance.LastRoom != null && GameManager.Instance.LastRoom.name == gameObject.name)
                 {
-                    if (_roomVariants.LastRoom != null && _roomVariants.LastRoom.name == gameObject.name)
+                    // Спавним босса через GameManager
+                    GameManager.Instance.TrySpawnBoss(gameObject);
+
+                    if (_boss != null)
                     {
-                        _roomVariants.TrySpawnBoss(gameObject);
+                        _boss.OnDie += Boss_OnDie;
                     }
-                    else
-                    {
-                        SpawnEnemies();
-                    }
+                }
+                else
+                {
+                    SpawnEnemies();
                 }
             }
         }
@@ -86,12 +90,21 @@ namespace Formless.Room
 
         private void Enemy_OnDie(Enemy.Enemy enemy)
         {
-            Debug.Log("Враг умер (проверка)");
             if (enemy == null) return;
     
             _enemies.Remove(enemy);
             enemy.OnDie -= Enemy_OnDie;
-            Debug.Log("Враг умер");
+        }
+
+        private void Boss_OnDie(Boss.Boss boss)
+        {
+            Debug.Log("Босс побежден!");
+    
+            if (boss == null) return;
+
+            boss.OnDie -= Boss_OnDie;
+
+            GameManager.Instance.SpawnTeleport(boss);
         }
 
         IEnumerator CheckEnemies()
