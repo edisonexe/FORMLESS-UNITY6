@@ -36,9 +36,12 @@ public class TeleportTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Игрок покинул телепорт");
-            _playerInRange = false;
-            _hintUI.SetActive(false);
+            if (_playerInRange)
+            {
+                Debug.Log("Игрок покинул телепорт");
+                _playerInRange = false;
+                _hintUI.SetActive(false);
+            }
         }
     }
 
@@ -53,6 +56,6 @@ public class TeleportTrigger : MonoBehaviour
     private void ActivatePortal()
     {
         Debug.Log("Перемещение через портал...");
-        // Здесь можно добавить логику загрузки следующего уровня
+        GameManager.Instance.LoadNextDungeon();
     }
 }
