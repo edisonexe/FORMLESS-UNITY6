@@ -25,7 +25,7 @@ public class TeleportTrigger : MonoBehaviour
         {
             if (!_playerInRange)
             {
-                Debug.Log("Игрок зашёл на телепорт");
+                //Debug.Log("Игрок зашёл на телепорт");
                 _playerInRange = true;
                 _hintUI.SetActive(true);
             }
@@ -38,7 +38,7 @@ public class TeleportTrigger : MonoBehaviour
         {
             if (_playerInRange)
             {
-                Debug.Log("Игрок покинул телепорт");
+                //Debug.Log("Игрок покинул телепорт");
                 _playerInRange = false;
                 _hintUI.SetActive(false);
             }

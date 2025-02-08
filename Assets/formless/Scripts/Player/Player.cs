@@ -27,8 +27,6 @@ namespace Formless.Player
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
-        //private bool _isInTeleport = false;
-
         private int _keysCount;
 
         protected override void Awake()
@@ -62,7 +60,7 @@ namespace Formless.Player
             _material = _spriteRenderer.material;
 
             UIManager.Instance.currentHealth = Health;
-            Debug.Log(UIManager.Instance.currentHealth);
+            //Debug.Log(UIManager.Instance.currentHealth);
             UIManager.Instance.UpdateHeartsUI();
             UIManager.Instance.currentCountKeys = _keysCount;
             UIManager.Instance.UpdateKeysUI();
@@ -139,15 +137,6 @@ namespace Formless.Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            //if (collision.CompareTag("Teleport"))
-            //{
-            //    if (!_isInTeleport)
-            //    {
-            //        _isInTeleport = true;
-            //        Debug.Log("Телепорт");
-            //    }
-            //}
-
             if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
             {
                 Debug.Log("Столкновение с врагом");
@@ -182,18 +171,6 @@ namespace Formless.Player
             }
         }
 
-        //private void OnTriggerExit2D(Collider2D collision)
-        //{
-        //    if (collision.CompareTag("Teleport"))
-        //    {
-        //        if (_isInTeleport)
-        //        {
-        //            _isInTeleport = false;
-        //            Debug.Log("Игрок покинул телепорт");
-        //        }
-        //    }
-        //}
-
         public void StartFadeAndDestroy()
         {
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
@@ -202,6 +179,9 @@ namespace Formless.Player
         private void AddHealth(int bonusHealth)
         {
             Health += bonusHealth;
+
+            GameManager.Instance.HeartCollected();
+
             UIManager.Instance.currentHealth = Health;
             UIManager.Instance.UpdateHeartsUI();
         }
@@ -209,6 +189,8 @@ namespace Formless.Player
         private void AddKey()
         {
             _keysCount += 1;
+
+            GameManager.Instance.KeyCollected();
             UIManager.Instance.currentCountKeys = _keysCount;
             UIManager.Instance.UpdateKeysUI();
         }

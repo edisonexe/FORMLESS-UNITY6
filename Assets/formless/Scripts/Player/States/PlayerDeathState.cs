@@ -27,6 +27,8 @@ namespace Formless.Player.States
             player.capsuleCollider2D.enabled = false;
             
             player.StartFadeAndDestroy();
+        
+            GameManager.Instance.PrintStats();
         }
 
         public override void Update()

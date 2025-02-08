@@ -62,6 +62,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rebirth"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f0e3c70-a345-45c9-a1b5-3a6f33b3fd63"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39714dc8-91d6-4ba2-80cd-23ce046ff306"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rebirth"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +239,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_BasicAttack = m_Player.FindAction("BasicAttack", throwIfNotFound: true);
         m_Player_StrongAttack = m_Player.FindAction("StrongAttack", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_Rebirth = m_Player.FindAction("Rebirth", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -289,6 +310,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_BasicAttack;
     private readonly InputAction m_Player_StrongAttack;
     private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_Rebirth;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -297,6 +319,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @BasicAttack => m_Wrapper.m_Player_BasicAttack;
         public InputAction @StrongAttack => m_Wrapper.m_Player_StrongAttack;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @Rebirth => m_Wrapper.m_Player_Rebirth;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -318,6 +341,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @Rebirth.started += instance.OnRebirth;
+            @Rebirth.performed += instance.OnRebirth;
+            @Rebirth.canceled += instance.OnRebirth;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -334,6 +360,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @Rebirth.started -= instance.OnRebirth;
+            @Rebirth.performed -= instance.OnRebirth;
+            @Rebirth.canceled -= instance.OnRebirth;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -357,5 +386,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnBasicAttack(InputAction.CallbackContext context);
         void OnStrongAttack(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnRebirth(InputAction.CallbackContext context);
     }
 }

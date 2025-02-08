@@ -23,12 +23,12 @@ public class PlayerAttackState : PlayerState
         if (_inputHandler.IsBasicAttackPressed())
         {
             _animator.SetTrigger(AnimationConstants.BASIC_ATTACK);
-            player.BasicAttack();
+            //player.BasicAttack();
         }
         else if (_inputHandler.IsStrongAttackPressed())
         {
             _animator.SetTrigger(AnimationConstants.STRONG_ATTACK);
-            player.StrongAttack();
+            //player.StrongAttack();
         }
     }
 

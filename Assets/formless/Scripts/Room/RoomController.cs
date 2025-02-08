@@ -91,7 +91,10 @@ namespace Formless.Room
         private void Enemy_OnDie(Enemy.Enemy enemy)
         {
             if (enemy == null) return;
-    
+            
+            GameManager.Instance.EnemyKilled();
+            GameManager.Instance.SetLastKilledEnemy(enemy);
+
             _enemies.Remove(enemy);
             enemy.OnDie -= Enemy_OnDie;
         }
@@ -139,6 +142,8 @@ namespace Formless.Room
                 }
             }
 
+
+            GameManager.Instance.RoomCleared();
             Debug.Log("Замки открылись");
         }
     }

@@ -4,10 +4,15 @@ using Formless.Boss;
 using UnityEngine;
 using UnityEngine.UI;
 using Formless.Player;
+using System;
+using Formless.Enemy;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public GameStats Stats { get; private set; } = new GameStats();
+    public EnemyData LastKilledEnemyData { get; private set; }
 
     [Header("Rooms Data")]
     [SerializeField] public GameObject[] topRooms;
@@ -43,7 +48,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Stats.StartTrackingTime();
         _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
+    }
+
+    private void Update()
+    {
+        Stats.UpdateTime(Time.deltaTime);
     }
 
     public void TrySpawnBoss(GameObject room)
@@ -90,7 +101,10 @@ public class GameManager : MonoBehaviour
         // 5. Перемещаем игрока в центр
         Player.Instance.transform.position = Vector3.zero;
 
-        // 6. Убираем затемнение
+        // 6. Перемещаем камеру в центр
+        Camera.main.transform.position = new Vector3(0, 1, -10);
+
+        // 7. Убираем затемнение
         yield return StartCoroutine(FadeToClear());
     }
 
@@ -115,5 +129,39 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         _fadeScreen.color = new Color(0, 0, 0, 0);
+    }
+
+     public void EnemyKilled()
+     {
+        Stats.EnemyKilled();
+     }
+
+    public void RoomCleared()
+    {
+        Stats.RoomCleared();
+    }
+
+    public void HeartCollected()
+    {
+        Stats.HeartCollected();
+    }
+
+    public void KeyCollected()
+    {
+        Stats.KeyCollected();
+    }
+
+    public void SetLastKilledEnemy(Enemy enemy)
+    {
+        LastKilledEnemyData = new EnemyData(enemy);
+    }
+
+    public void PrintStats()
+    {
+        Debug.LogFormat("Время забега: {0}", Stats.PlayTime);
+        Debug.LogFormat("Количество убитых врагов: {0}", Stats.EnemiesKilled);
+        Debug.LogFormat("Количество защиенных комнат: {0}", Stats.ClearedRooms);
+        Debug.LogFormat("Количество поднятых сердец: {0}", Stats.HeartsCollected);
+        Debug.LogFormat("Количество поднятых ключей: {0}", Stats.KeysCollected);
     }
 }

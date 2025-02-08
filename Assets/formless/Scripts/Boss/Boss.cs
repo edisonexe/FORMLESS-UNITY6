@@ -125,6 +125,7 @@ namespace Formless.Boss
         {
             OnDie?.Invoke(this);
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
+            UIManager.Instance.DisableBossHealthBar();
         }
 
         public override Vector2 GetRandomPatrolPosition()

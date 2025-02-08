@@ -33,15 +33,6 @@ namespace Formless.Core.Utilties
 
             material.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-            // Удаляем родительский объект, а не дочерний
-            //if (targetObject.transform.parent != null)
-            //{
-            //    Object.Destroy(targetObject.transform.parent.gameObject);
-            //}
-            //else
-            //{
-            //    Object.Destroy(targetObject);
-            //}
             Object.Destroy(targetObject);
         }
     }

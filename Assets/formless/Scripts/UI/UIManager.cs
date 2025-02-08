@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     {
         _maxCountHearts = _hearts.Length;
         _maxCountKeys = _keys.Length;
+
     }
 
     public void UpdateHeartsUI()
