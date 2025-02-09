@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _bossHealthLine;
     public float bossHealth;
     public float bossMaxHealth;
+
+    [SerializeField] private Image _bossKey;
+    private bool _hasBossKey;
 
     private void Awake()
     {
@@ -92,5 +96,22 @@ public class UIManager : MonoBehaviour
     {
         Debug.LogFormat("текущее {0} макс {1}", bossHealth, bossMaxHealth);
         _bossHealthLine.fillAmount = bossHealth / bossMaxHealth;
+    }
+
+    public void HasBossKey()
+    {
+        _hasBossKey = true;
+    }
+
+    public void UpdateBossKeyUI()
+    {
+        if (_hasBossKey)
+        {
+            _bossKey.gameObject.SetActive(true);
+        }
+        else
+        {
+            _bossKey.gameObject.SetActive(false);
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace Formless.Player
         public PolygonCollider2D strongAttackCollider;
 
         private int _keysCount;
+        private bool _hasBossKey;
 
         protected override void Awake()
         {
@@ -168,6 +169,12 @@ namespace Formless.Player
                     AddKey();
                     Destroy(collision.gameObject);
                 }
+                //else if (collision.CompareTag("BossKey"))
+                //{
+                //    collectible.isCollected = true;
+                //    AddBossKey();
+                //    Destroy(collision.gameObject);
+                //}
             }
         }
 
@@ -193,6 +200,14 @@ namespace Formless.Player
             GameManager.Instance.KeyCollected();
             UIManager.Instance.currentCountKeys = _keysCount;
             UIManager.Instance.UpdateKeysUI();
+        }
+
+        private void AddBossKey()
+        {
+            _hasBossKey = true;
+            GameManager.Instance.PickupBossKey();
+            UIManager.Instance.HasBossKey();
+            UIManager.Instance.UpdateBossKeyUI();
         }
 
         public bool IsTeleportPressed()

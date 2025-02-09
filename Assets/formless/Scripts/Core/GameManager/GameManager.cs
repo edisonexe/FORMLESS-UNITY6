@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public GameStats Stats { get; private set; } = new GameStats();
     public EnemyData LastKilledEnemyData { get; private set; }
+    public bool HasBossKey { get; private set; } = false;
 
     [Header("Rooms Data")]
     [SerializeField] public GameObject[] topRooms;
@@ -163,5 +164,12 @@ public class GameManager : MonoBehaviour
         Debug.LogFormat("Количество защиенных комнат: {0}", Stats.ClearedRooms);
         Debug.LogFormat("Количество поднятых сердец: {0}", Stats.HeartsCollected);
         Debug.LogFormat("Количество поднятых ключей: {0}", Stats.KeysCollected);
+    }
+
+    public void PickupBossKey()
+    {
+        HasBossKey = true;
+        UIManager.Instance.HasBossKey();
+        UIManager.Instance.UpdateBossKeyUI();
     }
 }
