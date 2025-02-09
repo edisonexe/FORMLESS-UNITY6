@@ -14,14 +14,8 @@ namespace Formless.Room
             _boxCollider2D = GetComponent<BoxCollider2D>();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerStay2D(Collider2D collision)
         {
-            if (collision.transform != collision.transform.root)
-            {
-                return; // Игнорируем дочерние объекты
-            }
-
-            //Debug.Log($"Столкновение с объектом: {collision.gameObject.name}");
             if (_isProcessed) return;
 
             if (collision.CompareTag("Wall"))
@@ -29,7 +23,12 @@ namespace Formless.Room
                 ReplaceDoorWithWall();
                 _isProcessed = true;
             }
+            else
+            {
+                _boxCollider2D.enabled = false;
+            }
         }
+
 
         private void ReplaceDoorWithWall()
         {
@@ -37,8 +36,8 @@ namespace Formless.Room
 
             if (!_isReplaced)
             {
-                Instantiate(wallPrefab, transform.position, Quaternion.identity, transform.parent);
                 _boxCollider2D.enabled = false;
+                Instantiate(wallPrefab, transform.position, Quaternion.identity, transform.parent);
                 _isReplaced = true;
                 Destroy(gameObject);
             }

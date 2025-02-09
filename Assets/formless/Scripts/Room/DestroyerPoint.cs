@@ -8,7 +8,7 @@ namespace Formless.Room
         {
             if (collision.CompareTag("SpawnPointRoom"))
             {
-                Debug.Log("Удаление комнат main");
+                Debug.Log("Удаление комнат над main");
                 Destroy(collision.gameObject);
             }
         }

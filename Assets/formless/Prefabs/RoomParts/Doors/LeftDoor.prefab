@@ -346,7 +346,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -9.999661, y: 0.15940666}
+  m_Offset: {x: -10.074093, y: 0.15940666}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -356,7 +356,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.13398, y: 0.6858399}
+  m_Size: {x: 8.282843, y: 0.6858399}
   m_EdgeRadius: 0
 --- !u!19719996 &243689575300813335
 TilemapCollider2D:
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e328caca88eeddb439290bf3d729b9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 5116054314923764263}
+  wallPrefab: {fileID: 3759661192901619838, guid: 9a6837c859263c44bb8c63b110557c1b, type: 3}
 --- !u!1 &5592641063123716898
 GameObject:
   m_ObjectHideFlags: 0
