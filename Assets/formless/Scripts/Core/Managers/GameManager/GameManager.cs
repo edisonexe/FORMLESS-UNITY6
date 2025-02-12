@@ -31,9 +31,6 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject bossPrefab;
         [SerializeField] private GameObject teleportPrefab;
 
-        //[Header("Prefabs")]
-        //[SerializeField] private GameObject _lockDestroyEffect;
-
         private BossSpawner _bossSpawner;
 
         private int _heartsSpawned = 0;
@@ -43,8 +40,6 @@ namespace Formless.Core.Managers
 
         public GameObject LastRoom => rooms.Count > 0 ? rooms[rooms.Count - 1] : null;
         public GameObject PenultimateRoom => rooms.Count > 1 ? rooms[rooms.Count - 2] : null;
-
-        //public GameObject LockDestroyEffect => _lockDestroyEffect;
 
         private void Awake()
         {
@@ -63,7 +58,6 @@ namespace Formless.Core.Managers
         {
             Stats.StartTrackingTime();
             _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
-            //StartCoroutine(SetPenultimateRoomAfterDelay(2f));
         }
 
         private void Update()
@@ -223,25 +217,6 @@ namespace Formless.Core.Managers
                     Debug.Log($"Игрок вошёл в комнату: {room.gameObject.name}");
                 }
             }
-
-        //private IEnumerator SetPenultimateRoomAfterDelay(float delay)
-        //{
-        //    // Ждем указанное количество времени
-        //    yield return new WaitForSeconds(delay);
-
-        //    // Получаем предпоследнюю комнату после задержки
-        //    GameObject penultimateRoom = PenultimateRoom;
-
-        //    // Проверяем, что она существует, перед тем как использовать
-        //    if (penultimateRoom != null)
-        //    {
-        //        Debug.Log(penultimateRoom.name);
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("Предпоследняя комната не найдена.");
-        //    }
-        //}
     }
 
 }
