@@ -1,61 +1,64 @@
 using UnityEngine;
-using Formless.Player;
+using Formless.Core.Managers;
 
-public class TeleportTrigger : MonoBehaviour
+namespace Formless.UI
 {
-    [SerializeField] private GameObject _hintUI;  // UI-подсказка "Нажмите E"
-
-    private bool _playerInRange = false;
-
-    private void Start()
+    public class TeleportTrigger : MonoBehaviour
     {
-        if (_hintUI != null)
-        {
-            _hintUI.SetActive(false); // Подсказка выключена по умолчанию
-        }
-        else
-        {
-            Debug.LogError("TeleportTrigger: _hintUI не назначен в инспекторе!");
-        }
-    }
+        [SerializeField] private GameObject _hintUI;  // UI-подсказка "Нажмите E"
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        private bool _playerInRange = false;
+
+        private void Start()
         {
-            if (!_playerInRange)
+            if (_hintUI != null)
             {
-                //Debug.Log("Игрок зашёл на телепорт");
-                _playerInRange = true;
-                _hintUI.SetActive(true);
+                _hintUI.SetActive(false); // Подсказка выключена по умолчанию
+            }
+            else
+            {
+                Debug.LogError("TeleportTrigger: _hintUI не назначен в инспекторе!");
             }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (_playerInRange)
+            if (collision.CompareTag("Player"))
             {
-                //Debug.Log("Игрок покинул телепорт");
-                _playerInRange = false;
-                _hintUI.SetActive(false);
+                if (!_playerInRange)
+                {
+                    //Debug.Log("Игрок зашёл на телепорт");
+                    _playerInRange = true;
+                    _hintUI.SetActive(true);
+                }
             }
         }
-    }
 
-    private void Update()
-    {
-        if (_playerInRange && Player.Instance.IsTeleportPressed())
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            ActivatePortal();
+            if (collision.CompareTag("Player"))
+            {
+                if (_playerInRange)
+                {
+                    //Debug.Log("Игрок покинул телепорт");
+                    _playerInRange = false;
+                    _hintUI.SetActive(false);
+                }
+            }
         }
-    }
 
-    private void ActivatePortal()
-    {
-        Debug.Log("Перемещение через портал...");
-        GameManager.Instance.LoadNextDungeon();
+        private void Update()
+        {
+            if (_playerInRange && Player.Player.Instance.IsTeleportPressed())
+            {
+                ActivatePortal();
+            }
+        }
+
+        private void ActivatePortal()
+        {
+            Debug.Log("Перемещение через портал...");
+            GameManager.Instance.LoadNextDungeon();
+        }
     }
 }

@@ -1,150 +1,298 @@
+//using UnityEngine;
+//using System.Collections.Generic;
+//using System.Collections;
+//using UnityEngine.Tilemaps;
+
+//namespace Formless.Room
+//{
+//    public class RoomController : MonoBehaviour
+//    {
+//        [Header("Enemies")] 
+//        [SerializeField] private GameObject[] _enemyTypes;
+//        [SerializeField] private Transform[] _enemySpawners;
+
+//        [Header("Items")] 
+//        [SerializeField] private GameObject _heart;
+//        [SerializeField] private GameObject _key;
+
+//        [Header("Doors")] 
+//        [SerializeField] private GameObject[] _doors;
+
+//        [Header("Effects")] 
+//        [SerializeField] private GameObject _lockDestroyEffect;
+
+//        private Boss.Boss _boss;
+
+//        private List<Enemy.Enemy> _enemies;
+//        private bool _isSpawnedEnemies;
+
+//        private void Start()
+//        {
+//            GameManager.Instance.rooms.Add(gameObject);
+//            _enemies = new List<Enemy.Enemy>();
+//        }
+
+//        private void OnTriggerEnter2D(Collider2D collision)
+//        {
+//            if (collision.CompareTag("Player") && !_isSpawnedEnemies)
+//            {
+//                if (GameManager.Instance.LastRoom != null && GameManager.Instance.LastRoom.name == gameObject.name)
+//                {
+//                    // Спавним босса через GameManager
+//                    GameManager.Instance.TrySpawnBoss(gameObject);
+
+//                    if (_boss != null)
+//                    {
+//                        _boss.OnDie += Boss_OnDie;
+//                    }
+//                }
+//                else
+//                {
+//                    SpawnEnemies();
+//                }
+//            }
+//        }
+
+//        private void SpawnEnemies()
+//        {
+//            _isSpawnedEnemies = true;
+
+//            foreach (Transform spawner in _enemySpawners)
+//            {
+//                if (spawner == null) continue;
+
+//                int rand = Random.Range(0, 11);
+//                if (rand < 9)
+//                {
+//                    GameObject enemyType = _enemyTypes[Random.Range(0, _enemyTypes.Length)];
+//                    GameObject enemyObj = Instantiate(enemyType, spawner.position, Quaternion.identity);
+//                    enemyObj.transform.parent = transform;
+
+//                    Enemy.Enemy enemy = enemyObj.GetComponent<Enemy.Enemy>();
+//                    if (enemy != null)
+//                    {
+//                        _enemies.Add(enemy);
+//                        enemy.OnDie += Enemy_OnDie;
+//                    }
+//                }
+//                else if (rand == 9)
+//                {
+//                    Instantiate(_heart, spawner.position, Quaternion.identity);
+//                }
+//                else if (rand == 10)
+//                {
+//                    Instantiate(_key, spawner.position, Quaternion.identity);
+//                }
+//            }
+
+//            StartCoroutine(CheckEnemies());
+//        }
+
+//        private void Enemy_OnDie(Enemy.Enemy enemy)
+//        {
+//            if (enemy == null) return;
+            
+//            GameManager.Instance.EnemyKilled();
+//            GameManager.Instance.SetLastKilledEnemy(enemy);
+
+//            _enemies.Remove(enemy);
+//            enemy.OnDie -= Enemy_OnDie;
+//        }
+
+//        private void Boss_OnDie(Boss.Boss boss)
+//        {
+//            Debug.Log("Босс побежден!");
+    
+//            if (boss == null) return;
+
+//            boss.OnDie -= Boss_OnDie;
+
+//            GameManager.Instance.SpawnTeleport(boss);
+//        }
+
+//        IEnumerator CheckEnemies()
+//        {
+//            yield return new WaitForSeconds(1f);
+//            yield return new WaitUntil(() => _enemies.Count == 0);
+//            DestroyLocks();
+//        }
+
+//        private void DestroyLocks()
+//        {
+//            Debug.Log("Начало удаления замков");
+//            foreach (GameObject door in _doors)
+//            {
+//                Transform lockObject = door.transform.Find("Lock");
+//                if (lockObject != null)
+//                {
+//                    Instantiate(_lockDestroyEffect, lockObject.position, Quaternion.identity);
+//                    Destroy(lockObject.gameObject);
+//                }
+
+//                Transform moverObject = door.transform.Find("Mover");
+//                if (moverObject != null)
+//                {
+//                    moverObject.gameObject.SetActive(true);
+//                }
+
+//                TilemapCollider2D collider = door.GetComponent<TilemapCollider2D>();
+//                if (collider != null)
+//                {
+//                    collider.enabled = false;
+//                }
+//            }
+
+
+//            GameManager.Instance.RoomCleared();
+//            Debug.Log("Замки открылись");
+//        }
+//    }
+//}
+
+//using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using Formless.Core.Managers;
+//namespace Formless.Room
+//{
+//    public class RoomController : MonoBehaviour
+//    {
+//        [Header("Components")]
+//        [SerializeField] private RoomStateChecker _roomStateChecker;
+//        [SerializeField] private DoorsController _doorsController;
+//        [SerializeField] private EnemySpawner _enemySpawner;
+//        [SerializeField] private ItemSpawner _itemSpawner;
+
+//        private Boss.Boss _boss;
+//        private bool _isEnemiesSpawned;
+
+//        private void Start()
+//        {
+//            GameManager.Instance.rooms.Add(gameObject);
+
+//            if (_enemySpawner != null)
+//            {
+//                _enemySpawner.OnEnemiesSpawned += OnEnemiesSpawned;
+//            }
+//        }
+
+//        private void OnTriggerEnter2D(Collider2D collision)
+//        {
+//            if (collision.CompareTag("Player") && !_isEnemiesSpawned)
+//            {
+//                _isEnemiesSpawned = true;
+//                GameManager.Instance.SetCurrentRoom(this);
+
+//                if (GameManager.Instance.LastRoom != null && GameManager.Instance.LastRoom.name == gameObject.name)
+//                {
+//                    // Спавним босса через GameManager
+//                    GameManager.Instance.TrySpawnBoss(gameObject);
+
+//                    if (_boss != null)
+//                    {
+//                        _boss.OnDie += Boss_OnDie;
+//                    }
+//                }
+//                else
+//                {
+//                    _enemySpawner.Spawn();
+//                    _itemSpawner.Spawn();
+//                }
+//            }
+//        }
+
+//        private void OnEnemiesSpawned(List<Enemy.Enemy> enemies)
+//        {
+//            foreach (var enemy in enemies)
+//            {
+//                _roomStateChecker.AddEnemy(enemy);
+//            }
+//        }
+
+//        private void Boss_OnDie(Boss.Boss boss)
+//        {
+//            Debug.Log("Босс побежден!");
+
+//            if (boss == null) return;
+
+//            boss.OnDie -= Boss_OnDie;
+//            GameManager.Instance.SpawnTeleport(boss);
+//        }
+//    }
+//}
+
+
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using Formless.Core.Managers;
+using Formless.Boss;
 
 namespace Formless.Room
 {
     public class RoomController : MonoBehaviour
     {
-        [Header("Enemies")] 
-        [SerializeField] private GameObject[] _enemyTypes;
-        [SerializeField] private Transform[] _enemySpawners;
+        [Header("Components")]
+        private RoomStateChecker _roomStateChecker;
+        private EnemySpawner _enemySpawner;
+        private ItemSpawner _itemSpawner;
+        private BossSpawner _bossSpawner;
 
-        [Header("Items")] 
-        [SerializeField] private GameObject _heart;
-        [SerializeField] private GameObject _key;
-
-        [Header("Doors")] 
-        [SerializeField] private GameObject[] _doors;
-
-        [Header("Effects")] 
-        [SerializeField] private GameObject _lockDestroyEffect;
-
-        private Boss.Boss _boss;
-
-        private List<Enemy.Enemy> _enemies;
-        private bool _isSpawnedEnemies;
+        private bool _isEnemiesSpawned;
+        private bool _itemWasSpawned;
+        private void Awake()
+        {
+            _roomStateChecker = GetComponent<RoomStateChecker>();
+            _enemySpawner = GetComponent<EnemySpawner>();
+            _itemSpawner = GetComponent<ItemSpawner>();
+            _bossSpawner = new BossSpawner(PrefabManager.Instance.BossPrefab, PrefabManager.Instance.TeleportPrefab);
+        }
 
         private void Start()
         {
             GameManager.Instance.rooms.Add(gameObject);
-            _enemies = new List<Enemy.Enemy>();
+
+            if (_enemySpawner != null)
+            {
+                _enemySpawner.OnEnemiesSpawned += OnEnemiesSpawned;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player") && !_isSpawnedEnemies)
+            if (collision.CompareTag("Player") && !_isEnemiesSpawned)
             {
-                if (GameManager.Instance.LastRoom != null && GameManager.Instance.LastRoom.name == gameObject.name)
-                {
-                    // Спавним босса через GameManager
-                    GameManager.Instance.TrySpawnBoss(gameObject);
+                _isEnemiesSpawned = true;
+                GameManager.Instance.SetCurrentRoom(this);
 
-                    if (_boss != null)
-                    {
-                        _boss.OnDie += Boss_OnDie;
-                    }
+                if (GameManager.Instance.PenultimateRoom != null && transform == GameManager.Instance.PenultimateRoom.transform)
+                {
+                    Debug.Log("Игрок вошел в предпоследнюю комнату");
+                    _itemSpawner.SpawnKeyForPenultimateRoom();
+                    _itemWasSpawned = true;
+                }
+
+                if (GameManager.Instance.LastRoom != null && GameManager.Instance.LastRoom.transform == transform)
+                {
+                    // Спавним босса через BossSpawner
+                    _bossSpawner.TrySpawnBoss(gameObject);  // Переносим логику спавна босса сюда
                 }
                 else
                 {
-                    SpawnEnemies();
+                    _enemySpawner.Spawn();
+                    if (!_itemWasSpawned)
+                        _itemSpawner.Spawn();
                 }
             }
         }
 
-        private void SpawnEnemies()
+        private void OnEnemiesSpawned(List<Enemy.Enemy> enemies)
         {
-            _isSpawnedEnemies = true;
-
-            foreach (Transform spawner in _enemySpawners)
+            foreach (var enemy in enemies)
             {
-                if (spawner == null) continue;
-
-                int rand = Random.Range(0, 11);
-                if (rand < 9)
-                {
-                    GameObject enemyType = _enemyTypes[Random.Range(0, _enemyTypes.Length)];
-                    GameObject enemyObj = Instantiate(enemyType, spawner.position, Quaternion.identity);
-                    enemyObj.transform.parent = transform;
-
-                    Enemy.Enemy enemy = enemyObj.GetComponent<Enemy.Enemy>();
-                    if (enemy != null)
-                    {
-                        _enemies.Add(enemy);
-                        enemy.OnDie += Enemy_OnDie;
-                    }
-                }
-                else if (rand == 9)
-                {
-                    Instantiate(_heart, spawner.position, Quaternion.identity);
-                }
-                else if (rand == 10)
-                {
-                    Instantiate(_key, spawner.position, Quaternion.identity);
-                }
+                _roomStateChecker.AddEnemy(enemy);
             }
-
-            StartCoroutine(CheckEnemies());
-        }
-
-        private void Enemy_OnDie(Enemy.Enemy enemy)
-        {
-            if (enemy == null) return;
-            
-            GameManager.Instance.EnemyKilled();
-            GameManager.Instance.SetLastKilledEnemy(enemy);
-
-            _enemies.Remove(enemy);
-            enemy.OnDie -= Enemy_OnDie;
-        }
-
-        private void Boss_OnDie(Boss.Boss boss)
-        {
-            Debug.Log("Босс побежден!");
-    
-            if (boss == null) return;
-
-            boss.OnDie -= Boss_OnDie;
-
-            GameManager.Instance.SpawnTeleport(boss);
-        }
-
-        IEnumerator CheckEnemies()
-        {
-            yield return new WaitForSeconds(1f);
-            yield return new WaitUntil(() => _enemies.Count == 0);
-            DestroyLocks();
-        }
-
-        private void DestroyLocks()
-        {
-            Debug.Log("Начало удаления замков");
-            foreach (GameObject door in _doors)
-            {
-                Transform lockObject = door.transform.Find("Lock");
-                if (lockObject != null)
-                {
-                    Instantiate(_lockDestroyEffect, lockObject.position, Quaternion.identity);
-                    Destroy(lockObject.gameObject);
-                }
-
-                Transform moverObject = door.transform.Find("Mover");
-                if (moverObject != null)
-                {
-                    moverObject.gameObject.SetActive(true);
-                }
-
-                TilemapCollider2D collider = door.GetComponent<TilemapCollider2D>();
-                if (collider != null)
-                {
-                    collider.enabled = false; // Отключаем коллайдер
-                }
-            }
-
-
-            GameManager.Instance.RoomCleared();
-            Debug.Log("Замки открылись");
         }
     }
 }
+

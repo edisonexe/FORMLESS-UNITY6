@@ -3,7 +3,7 @@ using Formless.SM;
 using Formless.Player;
 using Formless.Core.Animations;
 using Formless.Enemy;
-
+using Formless.Core.Managers;
 namespace Formless.Player.States
 {
     public class PlayerDeathState : PlayerState
@@ -28,7 +28,7 @@ namespace Formless.Player.States
             
             player.StartFadeAndDestroy();
         
-            GameManager.Instance.PrintStats();
+            //GameManager.Instance.PrintStats();
         }
 
         public override void Update()

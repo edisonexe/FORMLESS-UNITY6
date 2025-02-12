@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Formless.Core.Managers;
 public class BossKey : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)

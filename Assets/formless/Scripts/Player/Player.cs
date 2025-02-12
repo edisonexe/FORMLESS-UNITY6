@@ -2,6 +2,7 @@ using UnityEngine;
 using Formless.Core;
 using Formless.Player.States;
 using Formless.Core.Utilties;
+using Formless.Core.Managers;
 
 namespace Formless.Player
 {
@@ -169,12 +170,6 @@ namespace Formless.Player
                     AddKey();
                     Destroy(collision.gameObject);
                 }
-                //else if (collision.CompareTag("BossKey"))
-                //{
-                //    collectible.isCollected = true;
-                //    AddBossKey();
-                //    Destroy(collision.gameObject);
-                //}
             }
         }
 
