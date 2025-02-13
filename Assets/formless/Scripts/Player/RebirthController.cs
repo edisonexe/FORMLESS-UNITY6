@@ -44,7 +44,7 @@ namespace Formless.Player
        private void TryReincarnate()
        {
             // Получаем данные о последнем убитом враге
-            EnemyData lastEnemy = GameManager.Instance.LastKilledEnemyData;
+            EnemyData lastEnemy = GameplayManager.Instance.LastKilledEnemyData;
             if (lastEnemy == null)
             {
                 Debug.Log("Нет убитых врагов для перерождения.");

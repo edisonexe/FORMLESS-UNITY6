@@ -13,6 +13,7 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _bossPrefab;
         [SerializeField] private GameObject _teleportPrefab;
         [SerializeField] private GameObject _lockDestroyEffect;
+        [SerializeField] private GameObject _bossLockDestroyEffect;
         [SerializeField] private GameObject _bossKeyPrefab;
         [SerializeField] private GameObject _bossLockPrefab;
 
@@ -34,6 +35,7 @@ namespace Formless.Core.Managers
         public GameObject BossPrefab => _bossPrefab;
         public GameObject TeleportPrefab => _teleportPrefab;
         public GameObject LockDestroyEffect => _lockDestroyEffect;
+        public GameObject BossLockDestroyEffect => _bossLockDestroyEffect;
         public GameObject BossKeyPrefab => _bossKeyPrefab;
         public GameObject BossLockPrefab => _bossLockPrefab;
     }

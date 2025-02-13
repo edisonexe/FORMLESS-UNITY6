@@ -10,7 +10,7 @@ public class BossKey : MonoBehaviour
             if (collectible != null && collectible.isCollected) return;
 
             collectible.isCollected = true;
-            GameManager.Instance.PickupBossKey();
+            GameplayManager.Instance.PickupBossKey();
             Destroy(gameObject);
         }
     }

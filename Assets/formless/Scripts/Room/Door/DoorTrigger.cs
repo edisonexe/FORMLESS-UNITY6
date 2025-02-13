@@ -1,23 +1,18 @@
 using UnityEngine;
-using Formless.Core.Managers;
 
-namespace Formless.UI
+namespace Formless.Room
 {
-    public class TeleportTrigger : MonoBehaviour
+    public class DoorTrigger : MonoBehaviour
     {
-        [SerializeField] private GameObject _hintUI;  // UI-подсказка "Нажмите E"
-
         private bool _playerInRange = false;
+        private Door _door;
 
         private void Start()
         {
-            if (_hintUI != null)
+            _door = GetComponentInParent<Door>();
+            if (_door == null)
             {
-                _hintUI.SetActive(false); // Подсказка выключена по умолчанию
-            }
-            else
-            {
-                Debug.LogError("TeleportTrigger: _hintUI не назначен в инспекторе!");
+                Debug.LogError("DoorTrigger не нашел родительский Door!");
             }
         }
 
@@ -27,9 +22,8 @@ namespace Formless.UI
             {
                 if (!_playerInRange)
                 {
-                    //Debug.Log("Игрок зашёл на телепорт");
+                    Debug.Log("Игрок зашёл на дверь");
                     _playerInRange = true;
-                    _hintUI.SetActive(true);
                 }
             }
         }
@@ -40,9 +34,8 @@ namespace Formless.UI
             {
                 if (_playerInRange)
                 {
-                    //Debug.Log("Игрок покинул телепорт");
+                    Debug.Log("Игрок покинул дверь");
                     _playerInRange = false;
-                    _hintUI.SetActive(false);
                 }
             }
         }
@@ -51,14 +44,9 @@ namespace Formless.UI
         {
             if (_playerInRange && Player.Player.Instance.IsInteractionPressed())
             {
-                ActivatePortal();
+                _door.TryUnlockDoor();
             }
-        }
-
-        private void ActivatePortal()
-        {
-            Debug.Log("Перемещение через портал...");
-            GameplayManager.Instance.LoadNextDungeon();
         }
     }
 }
+

@@ -182,7 +182,7 @@ namespace Formless.Player
         {
             Health += bonusHealth;
 
-            GameManager.Instance.HeartCollected();
+            GameplayManager.Instance.HeartCollected();
 
             UIManager.Instance.currentHealth = Health;
             UIManager.Instance.UpdateHeartsUI();
@@ -192,20 +192,12 @@ namespace Formless.Player
         {
             _keysCount += 1;
 
-            GameManager.Instance.KeyCollected();
+            GameplayManager.Instance.KeyCollected();
             UIManager.Instance.currentCountKeys = _keysCount;
             UIManager.Instance.UpdateKeysUI();
         }
 
-        private void AddBossKey()
-        {
-            _hasBossKey = true;
-            GameManager.Instance.PickupBossKey();
-            UIManager.Instance.HasBossKey();
-            UIManager.Instance.UpdateBossKeyUI();
-        }
-
-        public bool IsTeleportPressed()
+        public bool IsInteractionPressed()
         {
             return _inputHandler.IsInteractionPressed();
         }

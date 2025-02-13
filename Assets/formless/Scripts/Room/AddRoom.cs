@@ -7,7 +7,7 @@ namespace Formless.Room
     {
         private void Start()
         {
-            GameManager.Instance.rooms.Add(gameObject);
+            GameplayManager.Instance.rooms.Add(gameObject);
         }
     }
 }

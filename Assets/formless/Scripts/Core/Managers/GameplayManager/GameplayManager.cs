@@ -7,9 +7,9 @@ using Formless.Room;
 
 namespace Formless.Core.Managers
 {
-    public class GameManager : MonoBehaviour
+    public class GameplayManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
+        public static GameplayManager Instance { get; private set; }
 
         public RoomController CurrentRoom { get; private set; }
         public GameStats Stats { get; private set; } = new GameStats();
@@ -35,9 +35,9 @@ namespace Formless.Core.Managers
 
         private int _heartsSpawned = 0;
         private int _keysSpawned = 0;
-        private int _closedDoors = 0;
-        private const int MaxHearts = 2;
-
+        private const int MAX_HEARTS = 2;
+        private const int MAX_KEYS = 2;
+        private int _keys = 0;
         public GameObject LastRoom => rooms.Count > 0 ? rooms[rooms.Count - 1] : null;
         public GameObject PenultimateRoom => rooms.Count > 1 ? rooms[rooms.Count - 2] : null;
 
@@ -65,15 +65,15 @@ namespace Formless.Core.Managers
             Stats.UpdateTime(Time.deltaTime);
         }
 
-        public void TrySpawnBoss(GameObject room)
-        {
-            _bossSpawner.TrySpawnBoss(room);
-        }
+        //public void TrySpawnBoss(GameObject room)
+        //{
+        //    _bossSpawner.TrySpawnBoss(room);
+        //}
 
-        public void SpawnTeleport(Boss.Boss boss)
-        {
-            _bossSpawner.SpawnTeleport(boss);
-        }
+        //public void SpawnTeleport(Boss.Boss boss)
+        //{
+        //    _bossSpawner.SpawnTeleport(boss);
+        //}
 
         public void LoadNextDungeon()
         {
@@ -139,10 +139,10 @@ namespace Formless.Core.Managers
             _fadeScreen.color = new Color(0, 0, 0, 0);
         }
 
-         public void EnemyKilled()
-         {
+        public void EnemyKilled()
+        {
             Stats.EnemyKilled();
-         }
+        }
 
         public void RoomCleared()
         {
@@ -157,24 +157,29 @@ namespace Formless.Core.Managers
         public void KeyCollected()
         {
             Stats.KeyCollected();
-        }
-
-        public void SetClosedDoors(int count)
-        {
-            _closedDoors = count;
-            _keysSpawned = 0; // Сбрасываем количество ключей
+            _keys += 1;
         }
 
         public bool CanSpawnHeart()
         {
-            return _heartsSpawned < MaxHearts;
+            return _heartsSpawned < MAX_HEARTS;
         }
 
         public bool CanSpawnKey()
         {
-            return true;
-            /*return _keysSpawned < _closedDoors;*/ // Ключей не должно быть больше, чем закрытых дверей
+            return _keysSpawned < MAX_KEYS;
         }
+
+        public bool CanSetKeyRequiredDoor()
+        {
+            return _keysSpawned >= 1;
+        }
+
+        //public bool CanSpawnKey()
+        //{
+        //    return true;
+        //    /*return _keysSpawned < _closedDoors;*/ // Ключей не должно быть больше, чем закрытых дверей
+        //}
 
         public void RegisterHeart()
         {
@@ -207,16 +212,35 @@ namespace Formless.Core.Managers
             UIManager.Instance.UpdateBossKeyUI();
         }
 
-        public void SetCurrentRoom(RoomController room)
-            {
-                if (CurrentRoom != room)
-                {
-                    //LastRoom = CurrentRoom;
-                    CurrentRoom = room;
+        public void UseBossKey()
+        {
+            HasBossKey = false;
+        }
 
-                    Debug.Log($"Игрок вошёл в комнату: {room.gameObject.name}");
-                }
+        public void SetCurrentRoom(RoomController room)
+        {
+            if (CurrentRoom != room)
+            {
+                //LastRoom = CurrentRoom;
+                CurrentRoom = room;
+
+                Debug.Log($"Игрок вошёл в комнату: {room.gameObject.name}");
             }
+        }
+
+        public bool HasKey()
+        {
+            return _keys > 0;
+        }
+
+        public void UseKey()
+        {
+            if (_keys > 0)
+            {
+                _keys--;
+                _keysSpawned--;
+            }
+        }
     }
 
 }

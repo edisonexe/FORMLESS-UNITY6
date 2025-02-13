@@ -98,9 +98,19 @@ public class UIManager : MonoBehaviour
         _bossHealthLine.fillAmount = bossHealth / bossMaxHealth;
     }
 
+    public void UseKey()
+    {
+        currentCountKeys -= 1;
+    }
+
     public void HasBossKey()
     {
         _hasBossKey = true;
+    }
+
+    public void UseBossKey()
+    {
+        _hasBossKey = false;
     }
 
     public void UpdateBossKeyUI()

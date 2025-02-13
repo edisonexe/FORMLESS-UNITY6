@@ -13,19 +13,19 @@ namespace Formless.Room
             {
                 if (spawner == null) continue;
 
-                int rand = Random.Range(1, 6);
-
-                if (rand == 1 && GameManager.Instance.CanSpawnHeart())
+                int rand = Random.Range(1, 4);
+                Debug.LogFormat("ItemSpawner Rand = {0}", rand);
+                if (rand == 1 && GameplayManager.Instance.CanSpawnHeart())
                 {
                     Debug.Log("Спаун сердечка");
                     Instantiate(PrefabManager.Instance.HeartPrefab, spawner.position, Quaternion.identity);
-                    GameManager.Instance.RegisterHeart();
+                    GameplayManager.Instance.RegisterHeart();
                 }
-                else if (rand == 2 && GameManager.Instance.CanSpawnKey())
+                else if (rand == 2 && GameplayManager.Instance.CanSpawnKey())
                 {
                     Debug.Log("Спаун ключа");
                     Instantiate(PrefabManager.Instance.KeyPrefab, spawner.position, Quaternion.identity);
-                    GameManager.Instance.RegisterKey();
+                    GameplayManager.Instance.RegisterKey();
                 }
             }
         }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Formless.Core.Managers;
 
 namespace Formless.Room
 {
@@ -29,7 +30,7 @@ namespace Formless.Room
 
             enemy.OnDie -= RemoveEnemy;
             _enemies.Remove(enemy);
-
+            GameplayManager.Instance.EnemyKilled();
             if (_enemies.Count == 0)
             {
                 StartCoroutine(OpenDoorsAfterDelay());
@@ -39,7 +40,7 @@ namespace Formless.Room
         private IEnumerator OpenDoorsAfterDelay()
         {
             yield return new WaitForSeconds(0.5f);
-            _doorsController.OpenDoors();
+            _doorsController.OpenRegularDoors();
         }
     }
 }
