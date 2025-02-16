@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: -1064163287651866113}
   - component: {fileID: 1615113705146740824}
   m_Layer: 0
-  m_Name: RightDoor
+  m_Name: KRRightDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1167,7 +1167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 8019039930616655844, guid: 47dba53409afca44dbea04e04b57bf29, type: 3}
-  doorType: 0
+  doorType: 2
+  direction: 2
 --- !u!114 &1615113705146740824
 MonoBehaviour:
   m_ObjectHideFlags: 0

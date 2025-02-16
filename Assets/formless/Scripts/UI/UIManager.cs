@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateBossHealthBar()
     {
-        Debug.LogFormat("текущее {0} макс {1}", bossHealth, bossMaxHealth);
+        //Debug.LogFormat("текущее {0} макс {1}", bossHealth, bossMaxHealth);
         _bossHealthLine.fillAmount = bossHealth / bossMaxHealth;
     }
 

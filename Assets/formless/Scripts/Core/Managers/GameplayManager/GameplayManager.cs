@@ -4,6 +4,7 @@ using Formless.Boss;
 using UnityEngine;
 using UnityEngine.UI;
 using Formless.Room;
+using System.Linq;
 
 namespace Formless.Core.Managers
 {
@@ -33,10 +34,10 @@ namespace Formless.Core.Managers
 
         private BossSpawner _bossSpawner;
 
-        private int _heartsSpawned = 0;
-        private int _keysSpawned = 0;
-        private const int MAX_HEARTS = 2;
-        private const int MAX_KEYS = 2;
+        private int _heartsSpawned;
+        private int _keysSpawned;
+        private int _maxCountHearts;
+        private int _maxCountKeys;
         private int _keys = 0;
         public GameObject LastRoom => rooms.Count > 0 ? rooms[rooms.Count - 1] : null;
         public GameObject PenultimateRoom => rooms.Count > 1 ? rooms[rooms.Count - 2] : null;
@@ -58,11 +59,78 @@ namespace Formless.Core.Managers
         {
             Stats.StartTrackingTime();
             _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
+            Invoke("SetMaxCountKeys", 1f);
+            Invoke("SetMaxCountHearts", 1f);
+            //Invoke("AssignKeyRequiredDoors", 3f);
         }
 
         private void Update()
         {
             Stats.UpdateTime(Time.deltaTime);
+        }
+
+        void AssignKeyRequiredDoors()
+        {
+            List<Door> allDoors = new List<Door>();
+
+            // Проходим по всем комнатам
+            foreach (GameObject room in rooms)
+            {
+                // Получаем компонент DoorsController
+                DoorsController doorsController = room.GetComponent<DoorsController>();
+        
+                // Если компонента нет, выводим предупреждение
+                if (doorsController == null)
+                {
+                    Debug.LogWarning($"Комната {room.name} не имеет компонента DoorsController!");
+                    continue;
+                }
+
+                // Если у комнаты нет дверей, выводим сообщение и продолжаем
+                if (doorsController.doors == null || doorsController.doors.Length == 0)
+                {
+                    Debug.Log($"Комната {room.name} не имеет дверей!");
+                    continue;
+                }
+
+                Debug.Log($"Комната {room.name} имеет {doorsController.doors.Length} дверей.");
+
+                // Добавляем двери в список allDoors, проверяя, что они не уничтожены
+                allDoors.AddRange(doorsController.doors
+                    .Select(d => d.GetComponent<Door>())
+                    .Where(d => d != null)); // Убираем null-объекты
+            }
+
+            // Выводим количество дверей
+            Debug.Log($"Общее количество дверей: {allDoors.Count}");
+
+            int keyCount = _keysSpawned;
+            if (keyCount == 0 || allDoors.Count == 0) return;
+
+            // Перемешиваем двери случайным образом
+            System.Random rng = new System.Random();
+            allDoors = allDoors.OrderBy(d => rng.Next()).ToList();
+
+            // Для каждой двери назначаем, что она требует ключа
+            for (int i = 0; i < keyCount && i < allDoors.Count; i++)
+            {
+                allDoors[i].SetKeyRequired();
+            }
+        }
+
+
+
+
+        private void SetMaxCountKeys()
+        {
+            _maxCountKeys = rooms.Count / 2;
+            Debug.Log("Макс. кол-во ключей " + _maxCountKeys);
+        }
+
+        private void SetMaxCountHearts()
+        {
+            _maxCountHearts = rooms.Count / 3;
+            Debug.Log("Макс. кол-во ключей " + _maxCountHearts);
         }
 
         //public void TrySpawnBoss(GameObject room)
@@ -162,12 +230,12 @@ namespace Formless.Core.Managers
 
         public bool CanSpawnHeart()
         {
-            return _heartsSpawned < MAX_HEARTS;
+            return _heartsSpawned < _maxCountHearts;
         }
 
         public bool CanSpawnKey()
         {
-            return _keysSpawned < MAX_KEYS;
+            return _keysSpawned < _maxCountKeys;
         }
 
         public bool CanSetKeyRequiredDoor()
@@ -181,12 +249,12 @@ namespace Formless.Core.Managers
         //    /*return _keysSpawned < _closedDoors;*/ // Ключей не должно быть больше, чем закрытых дверей
         //}
 
-        public void RegisterHeart()
+        public void HeartSpawned()
         {
             _heartsSpawned++;
         }
 
-        public void RegisterKey()
+        public void KeySpawned()
         {
             _keysSpawned++;
         }

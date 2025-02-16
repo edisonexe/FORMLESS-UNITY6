@@ -1,22 +1,39 @@
 using UnityEngine;
 using Formless.Core.Managers;
+using System.Linq;
 
 namespace Formless.Room
 {
     public class DoorsController : MonoBehaviour
     {
-        [SerializeField] private GameObject[] _doors;
+        [SerializeField] public GameObject[] doors;
+
+        private void Start()
+        {
+            InitializeDoors();
+            //Debug.Log("Кол-во дверей в комнате " +  doors.Length);
+        }
+
+        private void InitializeDoors()
+        {
+            doors = GetComponentsInChildren<Door>().Select(d => d.gameObject).ToArray();
+        }
+
 
         public void OpenRegularDoors()
         {
-            Debug.Log("Начало удаления замков");
-            foreach (GameObject door in _doors)
+            foreach (GameObject door in doors)
             {
-
-                Door doorComponent = door.GetComponent<Door>(); // ? MissingReferenceException: The object of type 'UnityEngine.GameObject' has been destroyed but you are still trying to access it.
-                if (doorComponent != null && doorComponent.doorType == Door.DoorType.Regular)
+                // Проверка на null перед обращением
+                if (door == null)
                 {
-                    doorComponent.OpenDoor("Lock");
+                    continue; // Пропускаем этот объект, если он был уничтожен
+                }
+
+                Door doorComponent = door.GetComponent<Door>();
+                if (doorComponent != null && doorComponent.doorType == DoorType.Regular)
+                {
+                    doorComponent.OpenDoor(LockConstants.REGULAR_LOCK);
                 }
             }
 
@@ -24,15 +41,16 @@ namespace Formless.Room
             Debug.Log("Замки открылись");
         }
 
+
         public void TrySetKeyRequiredDoor()
         {
             if (GameplayManager.Instance.CanSetKeyRequiredDoor())
             {
-                int randDoor = Random.Range(0,_doors.Length);
-                Door currentDoor = _doors[randDoor].GetComponent<Door>();
-                if (currentDoor != null && currentDoor.doorType != Door.DoorType.Boss) 
+                int randDoor = Random.Range(0,doors.Length);
+                Door currentDoor = doors[randDoor].GetComponent<Door>();
+                if (currentDoor != null && currentDoor.doorType != DoorType.Boss) 
                 {
-                    currentDoor.doorType = Door.DoorType.KeyRequired;
+                    currentDoor.doorType = DoorType.KeyRequired;
                     Debug.Log("KeyRequired Door SET");
                 }
                 else

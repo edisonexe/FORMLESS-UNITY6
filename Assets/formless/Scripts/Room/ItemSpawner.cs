@@ -14,18 +14,18 @@ namespace Formless.Room
                 if (spawner == null) continue;
 
                 int rand = Random.Range(1, 4);
-                Debug.LogFormat("ItemSpawner Rand = {0}", rand);
+                //Debug.LogFormat("ItemSpawner Rand = {0}", rand);
                 if (rand == 1 && GameplayManager.Instance.CanSpawnHeart())
                 {
-                    Debug.Log("Спаун сердечка");
+                    //Debug.Log("Спаун сердечка");
                     Instantiate(PrefabManager.Instance.HeartPrefab, spawner.position, Quaternion.identity);
-                    GameplayManager.Instance.RegisterHeart();
+                    GameplayManager.Instance.HeartSpawned();
                 }
                 else if (rand == 2 && GameplayManager.Instance.CanSpawnKey())
                 {
-                    Debug.Log("Спаун ключа");
+                    //Debug.Log("Спаун ключа");
                     Instantiate(PrefabManager.Instance.KeyPrefab, spawner.position, Quaternion.identity);
-                    GameplayManager.Instance.RegisterKey();
+                    GameplayManager.Instance.KeySpawned();
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace Formless.Room
 
                 Instantiate(PrefabManager.Instance.BossKeyPrefab, spawner.position, Quaternion.identity);
             }
-            Debug.Log("Спавн ключа для предпоследней комнаты");
+            //Debug.Log("Спавн ключа для предпоследней комнаты");
         }
     }
 }

@@ -1,47 +1,39 @@
+using System.Collections.Generic;
 using Formless.Core.Managers;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.Tilemaps;
 
 namespace Formless.Room
 {
     public class Door : MonoBehaviour
     {
+        private static List<(Door, Door)> _doorPairs = new List<(Door, Door)>();
+
         [SerializeField] private GameObject wallPrefab;
         private BoxCollider2D _boxCollider2D;
         private BoxCollider2D _interactionCollider;
         public DoorType doorType;
+        [SerializeField] public Direction direction;
         private bool _isProcessed = false;
         private bool _isReplaced = false;
         private bool _isOpened = false;
         private bool _isBossDoorSet = false;
-        public enum DoorType
-        {
-            Regular,     // Открывается после зачистки комнаты
-            KeyRequired, // Открывается ключом
-            Boss         // Открывается только ключом босса
-        }
+        private Door _linkedDoor;
 
         private void Awake()
         {
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _interactionCollider = transform.Find("InteractionTrigger")?.GetComponent<BoxCollider2D>();
-            if (_interactionCollider != null)
-            {
-                Debug.Log("InteractionTrigger найден");
-            }
-            else
-            {
-                Debug.LogWarning("InteractionTrigger не найден");
-            }
         }
 
         private void Start()
         {
-            doorType = DoorType.Regular;
-            if (!_isOpened)
-            {
-                Invoke("DisableDoorBoxCollider", 2f);
-            }
+            //doorType = DoorType.Regular;
+            //if (!_isOpened)
+            //{
+            //    Invoke("DisableDoorBoxCollider", 2f);
+            //}
             Invoke("CheckIfDoorTouchesLastRoom", 1f);
         }
 
@@ -50,21 +42,42 @@ namespace Formless.Room
             _isOpened = true;
             _boxCollider2D.enabled = false;
             _interactionCollider.enabled = false;
-            DestroyLockAndActivateMover(lockName);
+            DestroyLockAndActivateMover(lockName, doorType);
+
+            if (_linkedDoor != null)
+            {
+                _linkedDoor.SyncOpenDoor(lockName);
+            }
+        }
+
+        private void SyncOpenDoor(string lockName)
+        {
+            _isOpened = true;
+            _boxCollider2D.enabled = false;
+            _interactionCollider.enabled = false;
+            DestroyLockAndActivateMover(lockName, doorType);
         }
 
         public void SetAsBossDoor()
         {
             if (_isBossDoorSet) return;
-        
             _isBossDoorSet = true;
             doorType = DoorType.Boss;
+            ReplaceDoor(DoorType.Boss);
 
-            // Визуально выделяем дверь
-            GetComponent<Tilemap>().color = Color.red;
-            Debug.Log("Дверь к боссу установлена: " + gameObject.name);
+            if (_linkedDoor != null)
+            {
+                _linkedDoor.SetAsBossDoor();
+            }
+        }
 
-            ReplaceLockWithBossLock();
+        public void SetKeyRequired()
+        {
+            doorType = DoorType.KeyRequired;
+            if (_linkedDoor != null)
+            {
+                _linkedDoor.doorType = DoorType.KeyRequired;
+            }
         }
 
         public void CheckIfDoorTouchesLastRoom()
@@ -77,18 +90,19 @@ namespace Formless.Room
                 // Проверка пересечения с последней комнатой
                 if (_boxCollider2D.IsTouching(_lastRoomCollider))
                 {
-                    Debug.Log("Дверь пересекается с последней комнатой.");
+                    //Debug.Log("Дверь пересекается с последней комнатой.");
                     SetAsBossDoor();
+                    DisableDoorBoxCollider();
                 }
                 else
                 {
-                    Debug.Log("Дверь не пересекается с последней комнатой.");
+                    //Debug.Log("Дверь не пересекается с последней комнатой.");
                 }
             }
-            else
-            {
-                Debug.LogWarning("Коллайдеры не найдены!");
-            }
+            //else
+            //{
+            //    //Debug.LogWarning("Коллайдеры не найдены!");
+            //}
         }
 
 
@@ -101,45 +115,84 @@ namespace Formless.Room
                 ReplaceDoorWithWall();
                 _isProcessed = true;
             }
+            else if (collision.CompareTag("Door"))
+            {
+                _isProcessed = true;
+                Door otherDoor = collision.GetComponent<Door>();
+                if (otherDoor != null && otherDoor != this)
+                {
+                    LinkDoors(otherDoor);
+                }
+            }
         }
+
+        private void LinkDoors(Door otherDoor)
+        {
+            if (_linkedDoor == null && otherDoor._linkedDoor == null)
+            {
+                _linkedDoor = otherDoor;
+                otherDoor._linkedDoor = this;
+                _doorPairs.Add((this, otherDoor));
+
+                //Debug.Log($"Связаны двери: {this.gameObject.name} <-> {otherDoor.gameObject.name}");
+                SyncDoorType();
+            }
+        }
+
+        private void SyncDoorType()
+        {
+            if (_linkedDoor == null) return;
+
+            DoorType previousDoorType = doorType;
+            DoorType prevLinkedDoorType = _linkedDoor.doorType;
+
+            // Если текущая дверь уже открыта, не синхронизировать её тип с KeyRequired или Boss
+            if (this.doorType == DoorType.Opened || _linkedDoor.doorType == DoorType.Opened)
+            {
+                doorType = DoorType.Opened;
+                _linkedDoor.doorType = DoorType.Opened;
+            }
+
+            if (this.doorType == DoorType.KeyRequired)
+            {
+                _linkedDoor.doorType = DoorType.KeyRequired;
+            }
+            else if (this.doorType == DoorType.Boss)
+            {
+                _linkedDoor.doorType = DoorType.Boss;
+            }
+
+            //Debug.Log($"Направление двери: {direction}");
+
+
+            if (doorType != previousDoorType)
+            {
+                ReplaceDoor(doorType);
+            }
+
+            if (_linkedDoor.doorType != prevLinkedDoorType)
+            {
+                _linkedDoor.ReplaceDoor(_linkedDoor.doorType);
+            }
+
+            //ReplaceDoorIfNecessary(previousDoorType, doorType);
+
+            //Debug.Log($"Тип двери синхронизирован: {this.gameObject.name} ({this.doorType}) <-> {_linkedDoor.gameObject.name} ({_linkedDoor.doorType})");
+        }
+
 
         private void ReplaceDoorWithWall()
         {
             Debug.Log("Колизия двери со стеной, замена на стену");
+            Transform room = gameObject.transform.parent;
+            if (room.CompareTag("RoomMain")) return;
 
             if (!_isReplaced)
             {
-                _boxCollider2D.enabled = false;
+                DisableDoorBoxCollider();
                 Instantiate(wallPrefab, transform.position, Quaternion.identity, transform.parent);
                 _isReplaced = true;
                 Destroy(gameObject);
-            }
-        }
-
-        private void ReplaceLockWithBossLock()
-        {
-            // Ищем дочерний объект с названием "Lock"
-            Transform lockTransform = transform.Find("Lock");
-
-            if (lockTransform != null)
-            {
-                // Заменяем на PrefabManager.Instance.BossLock
-                GameObject newLock = PrefabManager.Instance.BossLockPrefab;
-                if (newLock != null)
-                {
-                    // Заменяем старый объект на новый
-                    Destroy(lockTransform.gameObject); // Удаляем старый объект
-                    Instantiate(newLock, lockTransform.position, lockTransform.rotation, transform); // Создаем новый объект
-                    Debug.Log("Замена Lock на BossLock завершена.");
-                }
-                else
-                {
-                    Debug.LogWarning("BossLock не найден в PrefabManager.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Дочерний объект Lock не найден.");
             }
         }
 
@@ -149,7 +202,7 @@ namespace Formless.Room
             {
                 OpenDoor("BossLock");
                 GameplayManager.Instance.UseBossKey();
-                DestroyLockAndActivateMover("BossLock");
+                DestroyLockAndActivateMover(LockConstants.BOSS_LOCK, doorType);
                 UIManager.Instance.UseBossKey();
                 UIManager.Instance.UpdateBossKeyUI();
                 Debug.Log("Дверь босса открыта");
@@ -158,7 +211,7 @@ namespace Formless.Room
             {
                 OpenDoor("Lock");
                 GameplayManager.Instance.UseKey();
-                DestroyLockAndActivateMover("Lock");
+                DestroyLockAndActivateMover(LockConstants.LOCK, doorType);
                 UIManager.Instance.UseKey();
                 UIManager.Instance.UpdateKeysUI();
                 Debug.Log("Обычная дверь открыта");
@@ -169,49 +222,114 @@ namespace Formless.Room
             }
         }
 
-       private void DestroyLockAndActivateMover(string lockName)
+       private void DestroyLockAndActivateMover(string lockName, DoorType doorType)
         {
             Transform lockObject = transform.Find(lockName) ?? transform.Find(lockName + "(Clone)");
             if (lockObject != null)
             {
-                GameObject lockDestroyEffect;
+                // Мы всегда используем один префаб для разрушения
+                GameObject lockDestroyEffect = PrefabManager.Instance.LockDestroyEffect;
 
-                // Выбираем эффект в зависимости от типа замка
-                if (lockName == "BossLock")
-                {
-                    lockDestroyEffect = PrefabManager.Instance.BossLockDestroyEffect;
-                }
-                else
-                {
-                    lockDestroyEffect = PrefabManager.Instance.LockDestroyEffect;
-                }
-
-                // Если эффект существует, создаём его на позиции замка
                 if (lockDestroyEffect != null)
                 {
+                    // Устанавливаем цвет эффекта разрушения в зависимости от типа двери
+                    SetLockDestroyEffectColor(lockDestroyEffect, doorType);
+
+                    // Создаем эффект разрушения в позиции замка
                     Instantiate(lockDestroyEffect, lockObject.position, Quaternion.identity);
                 }
 
+                // Уничтожаем объект замка
                 Destroy(lockObject.gameObject);
             }
 
+            // Найдем объект с движущей платформой и активируем его
             Transform moverObject = transform.Find("Mover");
             if (moverObject != null)
             {
                 moverObject.gameObject.SetActive(true);
             }
 
+            // Выключаем коллайдер Tilemap
             TilemapCollider2D collider = GetComponent<TilemapCollider2D>();
             if (collider != null)
             {
                 collider.enabled = false;
-            }    
+            }
         }
- 
+
+        private void SetLockDestroyEffectColor(GameObject destroyEffect, DoorType doorType)
+        {
+            // Получаем компонент ParticleSystem
+            ParticleSystem particleSystem = destroyEffect.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                // Получаем основной модуль системы частиц
+                var main = particleSystem.main;
+        
+                // Устанавливаем цвет в зависимости от типа двери
+                switch (doorType)
+                {
+                    case DoorType.Regular:
+                        main.startColor = Color.green; // Зеленый для обычного замка
+                        break;
+
+                    case DoorType.KeyRequired:
+                        main.startColor = Color.yellow; // Желтый для замка с ключом
+                        break;
+
+                    case DoorType.Boss:
+                        main.startColor = Color.red; // Красный для замка босса
+                        break;
+                }
+            }
+        }
 
         private void DisableDoorBoxCollider()
         {
-            _boxCollider2D.enabled = false;
+            if (_boxCollider2D != null)
+            {
+                _boxCollider2D.enabled = false;
+            }
+        }
+
+        //public void SetKeyRequired()
+        //{
+        //    doorType =DoorType.KeyRequired;
+        //}
+
+
+        public void ReplaceDoorIfNecessary(DoorType oldDoorType, DoorType newDoorType)
+        {
+            if (oldDoorType != newDoorType)
+            {
+                ReplaceDoor(newDoorType);
+            }
+        }
+
+        private void ReplaceDoor(DoorType newDoorType)
+        {
+            GameObject newDoorPrefab;
+            if (!_isReplaced)
+            {
+                DisableDoorBoxCollider();
+
+                newDoorPrefab = PrefabManager.Instance.GetDoorPrefab("SandStyle", newDoorType, direction);
+
+                if (newDoorPrefab != null)
+                {
+                    GameObject newDoorObject = Instantiate(newDoorPrefab, transform.position, Quaternion.identity, transform.parent);
+                    Door newDoor = newDoorObject.GetComponent<Door>();
+
+                    if (_linkedDoor != null)
+                    {
+                        newDoor.LinkDoors(_linkedDoor);
+                    }
+                }
+
+                _isReplaced = true;
+                Destroy(gameObject);
+            }
         }
 
     }

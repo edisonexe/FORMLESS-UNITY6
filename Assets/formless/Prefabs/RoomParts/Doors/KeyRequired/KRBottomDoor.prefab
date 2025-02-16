@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -4644367182401736467}
   - component: {fileID: 3907258379235923547}
   m_Layer: 0
-  m_Name: BottomDoor
+  m_Name: KRBottomDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -331,7 +331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 3760896545907093220, guid: 4048369dddc49d14c98a01e9c639add8, type: 3}
-  doorType: 0
+  doorType: 2
+  direction: 3
 --- !u!114 &3907258379235923547
 MonoBehaviour:
   m_ObjectHideFlags: 0

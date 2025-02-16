@@ -14,6 +14,7 @@ TagManager:
   - SpawnPointRoom
   - Teleport
   - BossKey
+  - RoomMain
   layers:
   - Default
   - TransparentFX

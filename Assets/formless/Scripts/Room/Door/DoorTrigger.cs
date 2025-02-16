@@ -12,7 +12,7 @@ namespace Formless.Room
             _door = GetComponentInParent<Door>();
             if (_door == null)
             {
-                Debug.LogError("DoorTrigger не нашел родительский Door!");
+                //Debug.LogError("DoorTrigger не нашел родительский Door!");
             }
         }
 
@@ -22,7 +22,7 @@ namespace Formless.Room
             {
                 if (!_playerInRange)
                 {
-                    Debug.Log("Игрок зашёл на дверь");
+                    //Debug.Log("Игрок зашёл на дверь");
                     _playerInRange = true;
                 }
             }
@@ -34,7 +34,7 @@ namespace Formless.Room
             {
                 if (_playerInRange)
                 {
-                    Debug.Log("Игрок покинул дверь");
+                    //Debug.Log("Игрок покинул дверь");
                     _playerInRange = false;
                 }
             }

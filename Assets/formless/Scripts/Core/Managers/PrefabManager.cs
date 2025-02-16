@@ -1,3 +1,5 @@
+using Formless.Room;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Formless.Core.Managers
@@ -17,6 +19,11 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _bossKeyPrefab;
         [SerializeField] private GameObject _bossLockPrefab;
 
+        [Header("Door Styles")]
+        [SerializeField] private List<DoorStyle> _doorStyles; // ScriptableObject
+        private Dictionary<string, DoorStyle> _doorStyleMap;
+
+
         private void Awake()
         {
             if (Instance == null)
@@ -29,6 +36,11 @@ namespace Formless.Core.Managers
             }
         }
 
+        private void Start()
+        {
+            InitializeDoorStyles();
+        }
+
         public GameObject HeartPrefab => _heartPrefab;
         public GameObject KeyPrefab => _keyPrefab;
         public GameObject[] EnemyPrefabs => _enemyPrefabs;
@@ -38,5 +50,57 @@ namespace Formless.Core.Managers
         public GameObject BossLockDestroyEffect => _bossLockDestroyEffect;
         public GameObject BossKeyPrefab => _bossKeyPrefab;
         public GameObject BossLockPrefab => _bossLockPrefab;
+
+        private void InitializeDoorStyles()
+        {
+            _doorStyleMap = new Dictionary<string, DoorStyle>();
+
+            foreach (var style in _doorStyles)
+            {
+                style.Initialize();
+                _doorStyleMap[style.Name] = style;
+            }
+        }
+
+        //public GameObject GetDoorPrefab(string styleName, DoorType type, Direction direction)
+        //{
+        //    Debug.Log("Тип закр " + type + " Направление " + direction);
+        //    return _doorStyleMap.TryGetValue(styleName, out var style) ? style.GetDoor(type, direction) : null;
+        //}
+
+        public GameObject GetDoorPrefab(string styleName, DoorType type, Direction direction)
+        {
+            Debug.Log($"Входные данные: стиль = {styleName}, тип = {type}, направление = {direction}");
+
+            if (_doorStyleMap.TryGetValue(styleName, out var style))
+            {
+                var door = style.GetDoor(type, direction);
+                Debug.Log($"Получен префаб: {door?.name ?? "null"}");
+                return door;
+            }
+
+            Debug.LogWarning($"Не найден стиль: {styleName}");
+            return null;
+        }
+
+
+
+
+        //public GameObject GetDoorPrefab(string styleName, DoorType type, Direction direction)
+        //{
+        //    Debug.Log($"Входные данные: стиль = {styleName}, тип = {type}, направление = {direction}");
+
+        //    if (_doorStyleMap.TryGetValue(styleName, out var style))
+        //    {
+        //        var door = style.GetDoor(type, direction);
+        //        Debug.Log($"Получен префаб: {door.name}");
+        //        return door;
+        //    }
+
+        //    Debug.LogWarning($"Не найден стиль: {styleName}");
+        //    return null;
+        //}
+
+
     }
 }

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7cb94769ec81945b2bc9399ee5dad4, type: 3}
+  m_Name: SandStyle
+  m_EditorClassIdentifier: 
+  _name: SandStyle
+  _doorPrefabs:
+  - {fileID: 8215499928478129428, guid: e9d3f8083d249c34bae1db303bc7056c, type: 3}
+  - {fileID: 3191335920655236376, guid: 3c601c7d987edd847b87493c58becefa, type: 3}
+  - {fileID: 4299972776741966989, guid: 378bcaea0f6e674499cc86c4c1ef12ce, type: 3}
+  - {fileID: 1677125534777275202, guid: 29f337d8dcfee984bb21fc146aa15841, type: 3}
+  - {fileID: 3743761403909790628, guid: 327931e507d6c78498b4bfba8e1cd28d, type: 3}
+  - {fileID: 874204998340405231, guid: f01999136b0e5eb49a043dbcc45b341d, type: 3}
+  - {fileID: 5659953402275512900, guid: 04013065eabf8e34890ddef8723f275e, type: 3}
+  - {fileID: 7652343609227471497, guid: 7884d12bd4019514b85152db8eed681d, type: 3}
+  - {fileID: 5289400280399184852, guid: 48804b9fba44699428d8f53e3e289e63, type: 3}
+  - {fileID: 5116054314923764263, guid: 42db70e44e18dd344b9dc987322f9a4f, type: 3}
+  - {fileID: 7884986836074144537, guid: f6316bfc73830c046ba81a9cb849fef8, type: 3}
+  - {fileID: 2042900941493024991, guid: e1f69c1607dc8f44d97831e04b485f3e, type: 3}
+  - {fileID: 8199430584445823832, guid: a2a31c42572ee734c998acdafb96f8ed, type: 3}
+  - {fileID: 967830002360217471, guid: 920b3d6999f0a5e4a987132a27866b4f, type: 3}
+  - {fileID: 8687589788769595609, guid: b7e07e95df50d384090e422a641f18fd, type: 3}
+  - {fileID: 896904050005487225, guid: 4a0c9c43b2b8df94b94a24bdb915e57e, type: 3}
