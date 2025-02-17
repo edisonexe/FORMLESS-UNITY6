@@ -1,5 +1,6 @@
 using UnityEngine;
 using Formless.Core.Managers;
+using Formless.Player;
 public class BossKey : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
@@ -10,7 +11,7 @@ public class BossKey : MonoBehaviour
             if (collectible != null && collectible.isCollected) return;
 
             collectible.isCollected = true;
-            GameplayManager.Instance.PickupBossKey();
+            Player.Instance.PickupBossKey();
             Destroy(gameObject);
         }
     }

@@ -61,7 +61,7 @@ namespace Formless.Core.Managers
             _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
             Invoke("SetMaxCountKeys", 1f);
             Invoke("SetMaxCountHearts", 1f);
-            //Invoke("AssignKeyRequiredDoors", 3f);
+            Invoke("AssignKeyRequiredDoors", 3f);
         }
 
         private void Update()
@@ -82,27 +82,33 @@ namespace Formless.Core.Managers
                 // Если компонента нет, выводим предупреждение
                 if (doorsController == null)
                 {
-                    Debug.LogWarning($"Комната {room.name} не имеет компонента DoorsController!");
+                    /*Debug.LogWarning($"Комната {room.name} не имеет компонента DoorsController!")*/;
                     continue;
                 }
 
                 // Если у комнаты нет дверей, выводим сообщение и продолжаем
                 if (doorsController.doors == null || doorsController.doors.Length == 0)
                 {
-                    Debug.Log($"Комната {room.name} не имеет дверей!");
+                    Debug.LogWarning($"Комната {room.name} не имеет дверей!");
                     continue;
                 }
 
-                Debug.Log($"Комната {room.name} имеет {doorsController.doors.Length} дверей.");
+                //Debug.Log($"Комната {room.name} имеет {doorsController.doors.Length} дверей.");
 
-                // Добавляем двери в список allDoors, проверяя, что они не уничтожены
+                //// Добавляем двери в список allDoors, проверяя, что они не уничтожены
+                //allDoors.AddRange(doorsController.doors
+                //    .Select(d => d.GetComponent<Door>())
+                //    .Where(d => d != null)); // Убираем null-объекты
+
                 allDoors.AddRange(doorsController.doors
+                    .Where(d => d != null && d.gameObject != null) // Проверяем, что объект не null
                     .Select(d => d.GetComponent<Door>())
                     .Where(d => d != null)); // Убираем null-объекты
+
             }
 
             // Выводим количество дверей
-            Debug.Log($"Общее количество дверей: {allDoors.Count}");
+            //Debug.Log($"Общее количество дверей: {allDoors.Count}");
 
             int keyCount = _keysSpawned;
             if (keyCount == 0 || allDoors.Count == 0) return;
@@ -118,9 +124,6 @@ namespace Formless.Core.Managers
             }
         }
 
-
-
-
         private void SetMaxCountKeys()
         {
             _maxCountKeys = rooms.Count / 2;
@@ -130,7 +133,7 @@ namespace Formless.Core.Managers
         private void SetMaxCountHearts()
         {
             _maxCountHearts = rooms.Count / 3;
-            Debug.Log("Макс. кол-во ключей " + _maxCountHearts);
+            Debug.Log("Макс. кол-во сердец " + _maxCountHearts);
         }
 
         //public void TrySpawnBoss(GameObject room)
@@ -243,12 +246,6 @@ namespace Formless.Core.Managers
             return _keysSpawned >= 1;
         }
 
-        //public bool CanSpawnKey()
-        //{
-        //    return true;
-        //    /*return _keysSpawned < _closedDoors;*/ // Ключей не должно быть больше, чем закрытых дверей
-        //}
-
         public void HeartSpawned()
         {
             _heartsSpawned++;
@@ -257,6 +254,7 @@ namespace Formless.Core.Managers
         public void KeySpawned()
         {
             _keysSpawned++;
+            Debug.Log("Всего ключей" +  _keysSpawned);
         }
 
         public void SetLastKilledEnemy(Enemy.Enemy enemy)
@@ -301,13 +299,9 @@ namespace Formless.Core.Managers
             return _keys > 0;
         }
 
-        public void UseKey()
+        public void SetKeysCount(int count)
         {
-            if (_keys > 0)
-            {
-                _keys--;
-                _keysSpawned--;
-            }
+            _keys = count;
         }
     }
 

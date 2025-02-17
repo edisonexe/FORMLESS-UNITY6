@@ -62,45 +62,19 @@ namespace Formless.Core.Managers
             }
         }
 
-        //public GameObject GetDoorPrefab(string styleName, DoorType type, Direction direction)
-        //{
-        //    Debug.Log("Тип закр " + type + " Направление " + direction);
-        //    return _doorStyleMap.TryGetValue(styleName, out var style) ? style.GetDoor(type, direction) : null;
-        //}
-
         public GameObject GetDoorPrefab(string styleName, DoorType type, Direction direction)
         {
-            Debug.Log($"Входные данные: стиль = {styleName}, тип = {type}, направление = {direction}");
+            //Debug.Log($"Входные данные: стиль = {styleName}, тип = {type}, направление = {direction}");
 
             if (_doorStyleMap.TryGetValue(styleName, out var style))
             {
                 var door = style.GetDoor(type, direction);
-                Debug.Log($"Получен префаб: {door?.name ?? "null"}");
+                //Debug.Log($"Получен префаб: {door?.name ?? "null"}");
                 return door;
             }
 
-            Debug.LogWarning($"Не найден стиль: {styleName}");
+            //Debug.LogWarning($"Не найден стиль: {styleName}");
             return null;
         }
-
-
-
-
-        //public GameObject GetDoorPrefab(string styleName, DoorType type, Direction direction)
-        //{
-        //    Debug.Log($"Входные данные: стиль = {styleName}, тип = {type}, направление = {direction}");
-
-        //    if (_doorStyleMap.TryGetValue(styleName, out var style))
-        //    {
-        //        var door = style.GetDoor(type, direction);
-        //        Debug.Log($"Получен префаб: {door.name}");
-        //        return door;
-        //    }
-
-        //    Debug.LogWarning($"Не найден стиль: {styleName}");
-        //    return null;
-        //}
-
-
     }
 }

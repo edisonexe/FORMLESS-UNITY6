@@ -68,20 +68,20 @@ namespace Formless.Room
             _doors[(DoorType.Opened, Direction.Right)] = _openedRightDoor;
 
             // Логирование
-            Debug.Log($"DoorStyle '{_name}' initialized with {_doors.Count} doors.");
+            //Debug.Log($"DoorStyle '{_name}' initialized with {_doors.Count} doors.");
         }
 
         public GameObject GetDoor(DoorType type, Direction direction)
         {
-            Debug.Log($"Ищем дверь: Тип = {type}, Направление = {direction}");
+            //Debug.Log($"Ищем дверь: Тип = {type}, Направление = {direction}");
 
             if (_doors.TryGetValue((type, direction), out var door))
             {
-                Debug.Log($"Найдена дверь: {door?.name ?? "null"}");
+                //Debug.Log($"Найдена дверь: {door?.name ?? "null"}");
                 return door;
             }
 
-            Debug.LogWarning($"Дверь не найдена для: Тип = {type}, Направление = {direction}");
+            //Debug.LogWarning($"Дверь не найдена для: Тип = {type}, Направление = {direction}");
             return null;
         }
     }

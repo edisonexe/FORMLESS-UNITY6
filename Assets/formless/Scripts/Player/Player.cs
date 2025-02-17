@@ -61,11 +61,8 @@ namespace Formless.Player
             strongAttackCollider.enabled = false;
             _material = _spriteRenderer.material;
 
-            UIManager.Instance.currentHealth = Health;
-            //Debug.Log(UIManager.Instance.currentHealth);
-            UIManager.Instance.UpdateHeartsUI();
-            UIManager.Instance.currentCountKeys = _keysCount;
-            UIManager.Instance.UpdateKeysUI();
+            UIManager.Instance.SetHealthCount(Health);
+            UIManager.Instance.SetKeysCount(_keysCount);
         }
 
         private void FixedUpdate()
@@ -109,8 +106,7 @@ namespace Formless.Player
         {
             base.TakeDamage(damageSourcePosition, damage);
 
-            UIManager.Instance.currentHealth = Health;
-            UIManager.Instance.UpdateHeartsUI();
+            UIManager.Instance.SetHealthCount(Health);
 
             StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
         }
@@ -153,24 +149,6 @@ namespace Formless.Player
                     _isStrongAttack = false;
                 }
             }
-            else
-            {
-                var collectible = collision.GetComponent<Collectible>();
-                if (collectible != null && collectible.isCollected) return;
-
-                if (collision.CompareTag("Heart"))
-                {
-                    collectible.isCollected = true;
-                    AddHealth(1);
-                    Destroy(collision.gameObject);
-                }
-                else if (collision.CompareTag("Key"))
-                {
-                    collectible.isCollected = true;
-                    AddKey();
-                    Destroy(collision.gameObject);
-                }
-            }
         }
 
         public void StartFadeAndDestroy()
@@ -178,23 +156,48 @@ namespace Formless.Player
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
         }
 
-        private void AddHealth(int bonusHealth)
+        public void AddHealth()
         {
-            Health += bonusHealth;
+            Health += 1;
 
             GameplayManager.Instance.HeartCollected();
 
-            UIManager.Instance.currentHealth = Health;
-            UIManager.Instance.UpdateHeartsUI();
+            UIManager.Instance.PickupHeart();
         }
     
-        private void AddKey()
+        public void AddKey()
         {
             _keysCount += 1;
 
             GameplayManager.Instance.KeyCollected();
-            UIManager.Instance.currentCountKeys = _keysCount;
-            UIManager.Instance.UpdateKeysUI();
+            UIManager.Instance.SetKeysCount(_keysCount);
+        }
+
+        public void UseKey()
+        {
+            if ( _keysCount > 0)
+            {
+                _keysCount--;
+                GameplayManager.Instance.SetKeysCount(_keysCount);
+                UIManager.Instance.SetKeysCount(_keysCount);
+            }
+        }
+
+        public void PickupBossKey()
+        {
+            _hasBossKey = true;
+            GameplayManager.Instance.PickupBossKey();
+            UIManager.Instance.HasBossKey();
+        }
+
+        public void UseBossKey()
+        {
+            if (_hasBossKey == true)
+            {
+                _hasBossKey = false;
+                GameplayManager.Instance.UseBossKey();
+                UIManager.Instance.UseBossKey();
+            }
         }
 
         public bool IsInteractionPressed()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Formless.Core.Managers;
 using UnityEngine;
@@ -9,6 +10,9 @@ namespace Formless.Room
     public class Door : MonoBehaviour
     {
         private static List<(Door, Door)> _doorPairs = new List<(Door, Door)>();
+
+        public static event Action<GameObject, GameObject> OnDoorReplaced;
+        public static event Action<GameObject, Direction> OnKeyRequired;
 
         [SerializeField] private GameObject wallPrefab;
         private BoxCollider2D _boxCollider2D;
@@ -74,9 +78,11 @@ namespace Formless.Room
         public void SetKeyRequired()
         {
             doorType = DoorType.KeyRequired;
+            ReplaceDoor(DoorType.KeyRequired);
             if (_linkedDoor != null)
             {
                 _linkedDoor.doorType = DoorType.KeyRequired;
+                _linkedDoor.ReplaceDoor(DoorType.KeyRequired);
             }
         }
 
@@ -201,19 +207,15 @@ namespace Formless.Room
             if (GameplayManager.Instance.HasBossKey && doorType == DoorType.Boss)
             {
                 OpenDoor("BossLock");
-                GameplayManager.Instance.UseBossKey();
+                Player.Player.Instance.UseBossKey();
                 DestroyLockAndActivateMover(LockConstants.BOSS_LOCK, doorType);
-                UIManager.Instance.UseBossKey();
-                UIManager.Instance.UpdateBossKeyUI();
                 Debug.Log("Дверь босса открыта");
             }
             else if (GameplayManager.Instance.HasKey() && doorType == DoorType.KeyRequired)
             {
                 OpenDoor("Lock");
-                GameplayManager.Instance.UseKey();
+                Player.Player.Instance.UseKey();
                 DestroyLockAndActivateMover(LockConstants.LOCK, doorType);
-                UIManager.Instance.UseKey();
-                UIManager.Instance.UpdateKeysUI();
                 Debug.Log("Обычная дверь открыта");
             }
             else
@@ -293,12 +295,6 @@ namespace Formless.Room
             }
         }
 
-        //public void SetKeyRequired()
-        //{
-        //    doorType =DoorType.KeyRequired;
-        //}
-
-
         public void ReplaceDoorIfNecessary(DoorType oldDoorType, DoorType newDoorType)
         {
             if (oldDoorType != newDoorType)
@@ -318,6 +314,7 @@ namespace Formless.Room
 
                 if (newDoorPrefab != null)
                 {
+                    GameObject oldDoorObject = this.gameObject;
                     GameObject newDoorObject = Instantiate(newDoorPrefab, transform.position, Quaternion.identity, transform.parent);
                     Door newDoor = newDoorObject.GetComponent<Door>();
 
@@ -325,6 +322,8 @@ namespace Formless.Room
                     {
                         newDoor.LinkDoors(_linkedDoor);
                     }
+
+                    OnDoorReplaced?.Invoke(oldDoorObject, newDoorObject);
                 }
 
                 _isReplaced = true;

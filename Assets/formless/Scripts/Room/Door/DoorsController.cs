@@ -11,14 +11,34 @@ namespace Formless.Room
         private void Start()
         {
             InitializeDoors();
-            //Debug.Log("Кол-во дверей в комнате " +  doors.Length);
+        }
+
+        private void OnEnable()
+        {
+            Door.OnDoorReplaced += HandleDoorReplaced;
+        }
+
+        private void OnDisable()
+        {
+            Door.OnDoorReplaced -= HandleDoorReplaced;
+        }
+
+        private void HandleDoorReplaced(GameObject oldDoor, GameObject newDoor)
+        {
+            for (int i = 0; i < doors.Length; i++)
+            {
+                if (doors[i] == oldDoor) // Находим старую дверь
+                {
+                    doors[i] = newDoor; // Заменяем её на новую
+                    return;
+                }
+            }
         }
 
         private void InitializeDoors()
         {
             doors = GetComponentsInChildren<Door>().Select(d => d.gameObject).ToArray();
         }
-
 
         public void OpenRegularDoors()
         {
@@ -38,30 +58,6 @@ namespace Formless.Room
             }
 
             GameplayManager.Instance.RoomCleared();
-            Debug.Log("Замки открылись");
-        }
-
-
-        public void TrySetKeyRequiredDoor()
-        {
-            if (GameplayManager.Instance.CanSetKeyRequiredDoor())
-            {
-                int randDoor = Random.Range(0,doors.Length);
-                Door currentDoor = doors[randDoor].GetComponent<Door>();
-                if (currentDoor != null && currentDoor.doorType != DoorType.Boss) 
-                {
-                    currentDoor.doorType = DoorType.KeyRequired;
-                    Debug.Log("KeyRequired Door SET");
-                }
-                else
-                {
-                    Debug.LogWarning("Дверь к боссу не может стать KeyRequired!");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Не заспавнено ни одного ключа на локации");
-            }
         }
     }
 }

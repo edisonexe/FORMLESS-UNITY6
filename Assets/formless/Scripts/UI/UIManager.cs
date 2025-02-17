@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [Header("Health and hearts")]
-    public float currentHealth;
+    private float _currentHealth;
     private float _maxCountHearts;
     [SerializeField] private Image[] _hearts;
     [SerializeField] private Sprite _fullHeart;
@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite _emptyHeart;
 
     [Header("Keys")]
-    public int currentCountKeys;
+    private int _currentCountKeys;
     private int _maxCountKeys;
     [SerializeField] private Image[] _keys;
 
@@ -51,11 +51,11 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < _maxCountHearts; i++)
         {
-            if (i < currentHealth - 0.5f) // Полное сердце
+            if (i < _currentHealth - 0.5f) // Полное сердце
             {
                 _hearts[i].sprite = _fullHeart;
             }
-            else if (i < currentHealth) // Половина сердца
+            else if (i < _currentHealth) // Половина сердца
             {
                 _hearts[i].sprite = _halfHeart;
             }
@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < _maxCountKeys; i++)
         {
-            if (i < currentCountKeys)
+            if (i < _currentCountKeys)
             {
                 _keys[i].gameObject.SetActive(true);
             }
@@ -98,11 +98,6 @@ public class UIManager : MonoBehaviour
         _bossHealthLine.fillAmount = bossHealth / bossMaxHealth;
     }
 
-    public void UseKey()
-    {
-        currentCountKeys -= 1;
-    }
-
     public void HasBossKey()
     {
         _hasBossKey = true;
@@ -111,6 +106,7 @@ public class UIManager : MonoBehaviour
     public void UseBossKey()
     {
         _hasBossKey = false;
+        UpdateBossKeyUI();
     }
 
     public void UpdateBossKeyUI()
@@ -123,5 +119,23 @@ public class UIManager : MonoBehaviour
         {
             _bossKey.gameObject.SetActive(false);
         }
+    }
+
+    public void PickupHeart()
+    {
+        _currentHealth += 1;
+        UpdateHeartsUI();
+    }
+
+    public void SetHealthCount(float count)
+    {
+        _currentHealth = count;
+        UpdateHeartsUI();
+    }
+
+    public void SetKeysCount(int count)
+    {
+        _currentCountKeys = count;
+        UpdateKeysUI();
     }
 }
