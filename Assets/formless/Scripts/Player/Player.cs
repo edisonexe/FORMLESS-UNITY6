@@ -178,7 +178,7 @@ namespace Formless.Player
             if ( _keysCount > 0)
             {
                 _keysCount--;
-                GameplayManager.Instance.SetKeysCount(_keysCount);
+                GameplayManager.Instance.SetPlayerKeysCount(_keysCount);
                 UIManager.Instance.SetKeysCount(_keysCount);
             }
         }

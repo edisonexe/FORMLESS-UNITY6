@@ -12,7 +12,7 @@ namespace Formless.Room
         private static List<(Door, Door)> _doorPairs = new List<(Door, Door)>();
 
         public static event Action<GameObject, GameObject> OnDoorReplaced;
-        public static event Action<GameObject, Direction> OnKeyRequired;
+        //public static event Action<GameObject, Direction> OnKeyRequired;
 
         [SerializeField] private GameObject wallPrefab;
         private BoxCollider2D _boxCollider2D;
@@ -24,6 +24,8 @@ namespace Formless.Room
         private bool _isOpened = false;
         private bool _isBossDoorSet = false;
         private Door _linkedDoor;
+        private DungeonGenerator _dungerGenerator;
+
 
         private void Awake()
         {
@@ -33,12 +35,23 @@ namespace Formless.Room
 
         private void Start()
         {
+            DungeonGenerator.OnDungeonGenerationCompleted += HandleDungeonGenerationCompleted;
             //doorType = DoorType.Regular;
             //if (!_isOpened)
             //{
             //    Invoke("DisableDoorBoxCollider", 2f);
             //}
-            Invoke("CheckIfDoorTouchesLastRoom", 1f);
+            //Invoke("CheckIfDoorTouchesLastRoom", 1f);
+        }
+
+        private void OnDestroy()
+        {
+            DungeonGenerator.OnDungeonGenerationCompleted -= HandleDungeonGenerationCompleted;
+        }
+
+        private void HandleDungeonGenerationCompleted()
+        {
+            CheckIfDoorTouchesLastRoom();
         }
 
         public void OpenDoor(string lockName)
@@ -88,7 +101,7 @@ namespace Formless.Room
 
         public void CheckIfDoorTouchesLastRoom()
         {
-            BoxCollider2D _lastRoomCollider = GameplayManager.Instance.LastRoom.GetComponent<BoxCollider2D>(); // ѕолучаем коллайдер последней комнаты
+            BoxCollider2D _lastRoomCollider = DungeonGenerator.Instance.LastRoom.GetComponent<BoxCollider2D>(); // ѕолучаем коллайдер последней комнаты
 
 
             if (_lastRoomCollider != null && _boxCollider2D != null && !_isBossDoorSet)

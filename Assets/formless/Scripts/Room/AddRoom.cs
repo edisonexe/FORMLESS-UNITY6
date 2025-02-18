@@ -1,14 +1,14 @@
-using UnityEngine;
-using Formless.Core.Managers;
+//using UnityEngine;
+//using Formless.Core.Managers;
 
-namespace Formless.Room
-{
-    public class AddRoom : MonoBehaviour
-    {
-        private void Start()
-        {
-            GameplayManager.Instance.rooms.Add(gameObject);
-        }
-    }
-}
+//namespace Formless.Room
+//{
+//    public class AddRoom : MonoBehaviour
+//    {
+//        private void Start()
+//        {
+//            GameplayManager.Instance._rooms.Add(gameObject);
+//        }
+//    }
+//}
 

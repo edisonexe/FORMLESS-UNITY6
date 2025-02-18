@@ -26,46 +26,24 @@ namespace Formless.Room
 
         private void Start()
         {
-            GameplayManager.Instance.rooms.Add(gameObject);
+            DungeonGenerator dungeonGenerator = GameplayManager.Instance.GetDungeonGenerator();
+            if (dungeonGenerator != null)
+            {
+                dungeonGenerator.RegisterRoom(gameObject);
+            }
 
             if (_enemySpawner != null)
             {
                 _enemySpawner.OnEnemiesSpawned += OnEnemiesSpawned;
             }
-            Invoke("SpawnItemInRoom", 2f);
+            DungeonGenerator.OnDungeonGenerationCompleted += HandleRoomAfterDungeonGen;
+
         }
 
-        //private void OnTriggerEnter2D(Collider2D collision)
-        //{
-        //    // Игрок зашёл в комнату
-        //    if (collision.CompareTag("Player") && !_isEnemiesSpawned)
-        //    {
-        //        _isEnemiesSpawned = true;
-        //        GameplayManager.Instance.SetCurrentRoom(this);
-
-        //        // Спавн ключа к боссу в предпоследней комнате
-        //        //if (GameplayManager.Instance.PenultimateRoom != null && transform == GameplayManager.Instance.PenultimateRoom.transform)
-        //        //{
-        //        //    Debug.Log("Игрок вошел в предпоследнюю комнату");
-        //        //    _itemSpawner.SpawnKeyForPenultimateRoom();
-        //        //    _itemWasSpawned = true;
-        //        //}
-
-        //        // Спавн босса в последней комнате
-        //        if (GameplayManager.Instance.LastRoom != null && GameplayManager.Instance.LastRoom.transform == transform)
-        //        {
-        //            _bossSpawner.TrySpawnBoss(gameObject);
-        //        }
-        //        else
-        //        {
-        //            // Обычная комната, спавн врагов и предметов
-        //            _enemySpawner.Spawn();
-        //            if (!_itemWasSpawned)
-        //                _itemSpawner.Spawn();
-        //        }
-        //        //_doorsController.TrySetKeyRequiredDoor();
-        //    }
-        //}
+        private void OnDestroy()
+        {
+            DungeonGenerator.OnDungeonGenerationCompleted -= HandleRoomAfterDungeonGen;
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -76,7 +54,7 @@ namespace Formless.Room
                 GameplayManager.Instance.SetCurrentRoom(this);
 
                 // Спавн босса в последней комнате
-                if (GameplayManager.Instance.LastRoom != null && GameplayManager.Instance.LastRoom.transform == transform)
+                if (DungeonGenerator.Instance.LastRoom != null && DungeonGenerator.Instance.LastRoom.transform == transform)
                 {
                     _bossSpawner.TrySpawnBoss(gameObject);
                 }
@@ -85,6 +63,19 @@ namespace Formless.Room
                 {
                     _enemySpawner.Spawn();
                 }
+            }
+        }
+
+        private void HandleRoomAfterDungeonGen()
+        {
+            if (transform == DungeonGenerator.Instance.LastRoom.transform)
+            {
+                RemoveObjectsWithTagInRoom(gameObject, "EnemySpawner");
+                RemoveObjectsWithTagInRoom(gameObject, "ItemSpawner");
+            }
+            else
+            {
+                SpawnItemInRoom();
             }
         }
 
@@ -98,7 +89,7 @@ namespace Formless.Room
 
         private void TrySpawnBossKeyInPenultimateRoom()
         {
-            if (GameplayManager.Instance.PenultimateRoom != null && transform == GameplayManager.Instance.PenultimateRoom.transform)
+            if (DungeonGenerator.Instance.PenultimateRoom != null && transform == DungeonGenerator.Instance.PenultimateRoom.transform)
             {
                 //Debug.Log("Спавн ключа босса в предпоследней комнате!");
                 _itemSpawner.SpawnKeyForPenultimateRoom();
@@ -120,6 +111,21 @@ namespace Formless.Room
             TrySpawnBossKeyInPenultimateRoom();
             TrySpawnKeyOrHeartInRoom();
         }
+
+        // ДОДЕЛАТЬ УДАЛЕНИЕ СПАУНЕРОВ ИЗ BOSS_ROOM
+        void RemoveObjectsWithTagInRoom(GameObject room, string tagToRemove)
+        {
+            GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(tagToRemove);
+    
+            foreach (GameObject obj in objectsWithTag)
+            {
+                if (obj.transform.IsChildOf(room.transform))
+                {
+                    Destroy(obj);
+                }
+            }
+        }
+
     }
 }
 

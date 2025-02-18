@@ -15,18 +15,20 @@ namespace Formless.Room
 
                 int rand = Random.Range(1, 4);
                 //Debug.LogFormat("ItemSpawner Rand = {0}", rand);
-                if (rand == 1 && GameplayManager.Instance.CanSpawnHeart())
+                if (rand == 1 && DungeonGenerator.Instance.CanSpawnHeart())
                 {
                     //Debug.Log("Спаун сердечка");
                     Instantiate(PrefabManager.Instance.HeartPrefab, spawner.position, Quaternion.identity);
-                    GameplayManager.Instance.HeartSpawned();
+                    DungeonGenerator.Instance.RegisterHeart();
                 }
-                else if (rand == 2 && GameplayManager.Instance.CanSpawnKey())
+                else if (rand == 2 && DungeonGenerator.Instance.CanSpawnKey())
                 {
                     //Debug.Log("Спаун ключа");
                     Instantiate(PrefabManager.Instance.KeyPrefab, spawner.position, Quaternion.identity);
-                    GameplayManager.Instance.KeySpawned();
+                    DungeonGenerator.Instance.RegisterKey();
                 }
+
+                //Debug.Log("CanSpawnKey "+ DungeonGenerator.Instance.CanSpawnKey() + "CanSpawnHeart " + DungeonGenerator.Instance.CanSpawnHeart());
             }
         }
 

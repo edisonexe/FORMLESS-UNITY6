@@ -4,7 +4,6 @@ using Formless.Boss;
 using UnityEngine;
 using UnityEngine.UI;
 using Formless.Room;
-using System.Linq;
 
 namespace Formless.Core.Managers
 {
@@ -17,6 +16,8 @@ namespace Formless.Core.Managers
         public EnemyData LastKilledEnemyData { get; private set; }
         public bool HasBossKey { get; private set; } = false;
 
+        private DungeonGenerator _dungeonGenerator;
+
         [Header("Rooms Data")]
         [SerializeField] public GameObject[] topRooms;
         [SerializeField] public GameObject[] bottomRooms;
@@ -26,7 +27,7 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _mainRoomPrefab;
 
         [SerializeField] private Image _fadeScreen;
-        public List<GameObject> rooms;
+        private List<GameObject> _rooms;
 
         [Header("Boss Data")]
         [SerializeField] private GameObject bossPrefab;
@@ -34,13 +35,9 @@ namespace Formless.Core.Managers
 
         private BossSpawner _bossSpawner;
 
-        private int _heartsSpawned;
-        private int _keysSpawned;
-        private int _maxCountHearts;
-        private int _maxCountKeys;
         private int _keys = 0;
-        public GameObject LastRoom => rooms.Count > 0 ? rooms[rooms.Count - 1] : null;
-        public GameObject PenultimateRoom => rooms.Count > 1 ? rooms[rooms.Count - 2] : null;
+        public GameObject LastRoom => _rooms.Count > 0 ? _rooms[_rooms.Count - 1] : null;
+        public GameObject PenultimateRoom => _rooms.Count > 1 ? _rooms[_rooms.Count - 2] : null;
 
         private void Awake()
         {
@@ -59,9 +56,6 @@ namespace Formless.Core.Managers
         {
             Stats.StartTrackingTime();
             _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
-            Invoke("SetMaxCountKeys", 1f);
-            Invoke("SetMaxCountHearts", 1f);
-            Invoke("AssignKeyRequiredDoors", 3f);
         }
 
         private void Update()
@@ -69,82 +63,20 @@ namespace Formless.Core.Managers
             Stats.UpdateTime(Time.deltaTime);
         }
 
-        void AssignKeyRequiredDoors()
+        public void SetDungeonGenerator(DungeonGenerator generator)
         {
-            List<Door> allDoors = new List<Door>();
-
-            // Проходим по всем комнатам
-            foreach (GameObject room in rooms)
-            {
-                // Получаем компонент DoorsController
-                DoorsController doorsController = room.GetComponent<DoorsController>();
-        
-                // Если компонента нет, выводим предупреждение
-                if (doorsController == null)
-                {
-                    /*Debug.LogWarning($"Комната {room.name} не имеет компонента DoorsController!")*/;
-                    continue;
-                }
-
-                // Если у комнаты нет дверей, выводим сообщение и продолжаем
-                if (doorsController.doors == null || doorsController.doors.Length == 0)
-                {
-                    Debug.LogWarning($"Комната {room.name} не имеет дверей!");
-                    continue;
-                }
-
-                //Debug.Log($"Комната {room.name} имеет {doorsController.doors.Length} дверей.");
-
-                //// Добавляем двери в список allDoors, проверяя, что они не уничтожены
-                //allDoors.AddRange(doorsController.doors
-                //    .Select(d => d.GetComponent<Door>())
-                //    .Where(d => d != null)); // Убираем null-объекты
-
-                allDoors.AddRange(doorsController.doors
-                    .Where(d => d != null && d.gameObject != null) // Проверяем, что объект не null
-                    .Select(d => d.GetComponent<Door>())
-                    .Where(d => d != null)); // Убираем null-объекты
-
-            }
-
-            // Выводим количество дверей
-            //Debug.Log($"Общее количество дверей: {allDoors.Count}");
-
-            int keyCount = _keysSpawned;
-            if (keyCount == 0 || allDoors.Count == 0) return;
-
-            // Перемешиваем двери случайным образом
-            System.Random rng = new System.Random();
-            allDoors = allDoors.OrderBy(d => rng.Next()).ToList();
-
-            // Для каждой двери назначаем, что она требует ключа
-            for (int i = 0; i < keyCount && i < allDoors.Count; i++)
-            {
-                allDoors[i].SetKeyRequired();
-            }
+            _dungeonGenerator = generator;
         }
 
-        private void SetMaxCountKeys()
+        public DungeonGenerator GetDungeonGenerator()
         {
-            _maxCountKeys = rooms.Count / 2;
-            Debug.Log("Макс. кол-во ключей " + _maxCountKeys);
+            return _dungeonGenerator;
         }
 
-        private void SetMaxCountHearts()
+        public void SetRoomsList(List<GameObject> rooms)
         {
-            _maxCountHearts = rooms.Count / 3;
-            Debug.Log("Макс. кол-во сердец " + _maxCountHearts);
+            _rooms = rooms;
         }
-
-        //public void TrySpawnBoss(GameObject room)
-        //{
-        //    _bossSpawner.TrySpawnBoss(room);
-        //}
-
-        //public void SpawnTeleport(Boss.Boss boss)
-        //{
-        //    _bossSpawner.SpawnTeleport(boss);
-        //}
 
         public void LoadNextDungeon()
         {
@@ -167,7 +99,7 @@ namespace Formless.Core.Managers
             }
 
             // 3. Очищаем список комнат
-            rooms.Clear();
+            _rooms.Clear();
 
             yield return new WaitForSeconds(2f);
 
@@ -175,7 +107,7 @@ namespace Formless.Core.Managers
             // 4. Спавним новую комнату в центре
             GameObject newRoom = Instantiate(_mainRoomPrefab, Vector3.zero, Quaternion.identity);
             newRoom.name = "RoomMain";
-            rooms.Add(newRoom);
+            _rooms.Add(newRoom);
 
             // 5. Перемещаем игрока в центр
             Player.Player.Instance.transform.position = Vector3.zero;
@@ -231,32 +163,6 @@ namespace Formless.Core.Managers
             _keys += 1;
         }
 
-        public bool CanSpawnHeart()
-        {
-            return _heartsSpawned < _maxCountHearts;
-        }
-
-        public bool CanSpawnKey()
-        {
-            return _keysSpawned < _maxCountKeys;
-        }
-
-        public bool CanSetKeyRequiredDoor()
-        {
-            return _keysSpawned >= 1;
-        }
-
-        public void HeartSpawned()
-        {
-            _heartsSpawned++;
-        }
-
-        public void KeySpawned()
-        {
-            _keysSpawned++;
-            Debug.Log("Всего ключей" +  _keysSpawned);
-        }
-
         public void SetLastKilledEnemy(Enemy.Enemy enemy)
         {
             LastKilledEnemyData = new EnemyData(enemy);
@@ -287,7 +193,6 @@ namespace Formless.Core.Managers
         {
             if (CurrentRoom != room)
             {
-                //LastRoom = CurrentRoom;
                 CurrentRoom = room;
 
                 Debug.Log($"Игрок вошёл в комнату: {room.gameObject.name}");
@@ -299,7 +204,7 @@ namespace Formless.Core.Managers
             return _keys > 0;
         }
 
-        public void SetKeysCount(int count)
+        public void SetPlayerKeysCount(int count)
         {
             _keys = count;
         }
