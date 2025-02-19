@@ -18,14 +18,6 @@ namespace Formless.Core.Managers
 
         private DungeonGenerator _dungeonGenerator;
 
-        [Header("Rooms Data")]
-        [SerializeField] public GameObject[] topRooms;
-        [SerializeField] public GameObject[] bottomRooms;
-        [SerializeField] public GameObject[] leftRooms;
-        [SerializeField] public GameObject[] rightRooms;
-        [SerializeField] public GameObject closedRoom;
-        [SerializeField] private GameObject _mainRoomPrefab;
-
         [SerializeField] private Image _fadeScreen;
         private List<GameObject> _rooms;
 
@@ -103,9 +95,9 @@ namespace Formless.Core.Managers
 
             yield return new WaitForSeconds(2f);
 
-
+            GameObject mainRoomPrefab = DungeonGenerator.Instance.MainRoomPrefab;
             // 4. Спавним новую комнату в центре
-            GameObject newRoom = Instantiate(_mainRoomPrefab, Vector3.zero, Quaternion.identity);
+            GameObject newRoom = Instantiate(mainRoomPrefab, Vector3.zero, Quaternion.identity);
             newRoom.name = "RoomMain";
             _rooms.Add(newRoom);
 

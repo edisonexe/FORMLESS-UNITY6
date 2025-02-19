@@ -32,20 +32,20 @@ namespace Formless.Room
                 switch (_direction)
                 {
                     case Direction.Top:
-                        _randNumberOfRoom = Random.Range(0, GameplayManager.Instance.topRooms.Length);
-                        Instantiate(GameplayManager.Instance.topRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
+                        _randNumberOfRoom = Random.Range(0, DungeonGenerator.Instance.TopRooms.Length);
+                        Instantiate(DungeonGenerator.Instance.TopRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
                         break;
                     case Direction.Bottom:
-                        _randNumberOfRoom = Random.Range(0, GameplayManager.Instance.bottomRooms.Length);
-                        Instantiate(GameplayManager.Instance.bottomRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
+                        _randNumberOfRoom = Random.Range(0, DungeonGenerator.Instance.BottomRooms.Length);
+                        Instantiate(DungeonGenerator.Instance.BottomRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
                         break;
                     case Direction.Left:
-                        _randNumberOfRoom = Random.Range(0, GameplayManager.Instance.leftRooms.Length);
-                        Instantiate(GameplayManager.Instance.leftRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
+                        _randNumberOfRoom = Random.Range(0, DungeonGenerator.Instance.LeftRooms.Length);
+                        Instantiate(DungeonGenerator.Instance.LeftRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
                         break;
                     case Direction.Right:
-                        _randNumberOfRoom = Random.Range(0, GameplayManager.Instance.rightRooms.Length);
-                        Instantiate(GameplayManager.Instance.rightRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
+                        _randNumberOfRoom = Random.Range(0, DungeonGenerator.Instance.RightRooms.Length);
+                        Instantiate(DungeonGenerator.Instance.RightRooms[_randNumberOfRoom], transform.position, Quaternion.identity);
                         break;
                 }
 
@@ -59,7 +59,7 @@ namespace Formless.Room
             {
                 if (collision.GetComponent<RoomSpawner>()._isSpawned == false && _isSpawned == false)
                 {
-                    GameObject closedRoom = Instantiate(GameplayManager.Instance.closedRoom, transform.position, Quaternion.identity);
+                    GameObject closedRoom = Instantiate(DungeonGenerator.Instance.ClosedRoom, transform.position, Quaternion.identity);
                     Debug.Log("Пустая комната");
 
                     // Удаляем объект через 5 секунд

@@ -168,28 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e22890288ae1bf4980f1173c2edc153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topRooms:
-  - {fileID: 1990432615175975335, guid: fda4417514634fd4082983d22fd5c3c2, type: 3}
-  - {fileID: 1990432615175975335, guid: 2ce2946e6735c4745b5048e1cbb56625, type: 3}
-  - {fileID: 1990432615175975335, guid: d3069696627a72946884b68d7a5c3b3f, type: 3}
-  - {fileID: 1990432615175975335, guid: d74a8f81a42046d4aa435a78c97e0c8c, type: 3}
-  bottomRooms:
-  - {fileID: 1990432615175975335, guid: e3fc5cbe2fb6b534caf776b4e2bba2cf, type: 3}
-  - {fileID: 1990432615175975335, guid: ba6552ae31fdf8d45895701ed90edd96, type: 3}
-  - {fileID: 1990432615175975335, guid: 9432732ab2b007a4eb80c143f5cb61a5, type: 3}
-  - {fileID: 1990432615175975335, guid: 2ce2946e6735c4745b5048e1cbb56625, type: 3}
-  leftRooms:
-  - {fileID: 1990432615175975335, guid: ba6552ae31fdf8d45895701ed90edd96, type: 3}
-  - {fileID: 1990432615175975335, guid: 7544d68453222e9498393ae818335d79, type: 3}
-  - {fileID: 1990432615175975335, guid: 58fd2ffe6a857c34c95fa64d5c8ecd5c, type: 3}
-  - {fileID: 1990432615175975335, guid: d3069696627a72946884b68d7a5c3b3f, type: 3}
-  rightRooms:
-  - {fileID: 1990432615175975335, guid: 9432732ab2b007a4eb80c143f5cb61a5, type: 3}
-  - {fileID: 1990432615175975335, guid: 58fd2ffe6a857c34c95fa64d5c8ecd5c, type: 3}
-  - {fileID: 1990432615175975335, guid: c26b8274fe920a3458d54ba651df9382, type: 3}
-  - {fileID: 1990432615175975335, guid: d74a8f81a42046d4aa435a78c97e0c8c, type: 3}
-  closedRoom: {fileID: 1990432615175975335, guid: b6db3699a4c041a478eb682db9ba4752, type: 3}
-  _mainRoomPrefab: {fileID: 1990432615175975335, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
   _fadeScreen: {fileID: 1732713227}
   bossPrefab: {fileID: 3465621915036097783, guid: 17a4769531cadee41a1fbc57e36ba060, type: 3}
   teleportPrefab: {fileID: 2248309027355465974, guid: 5b866572652559440bfab98803a7f67c, type: 3}
@@ -779,63 +757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1033128884
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1990432615175975335, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_Name
-      value: RoomMain
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689429305793018752, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
 --- !u!114 &1074326731 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 378511017510032873, guid: ae6cf0296d65d4946897aa70a12be0ab, type: 3}
@@ -876,6 +797,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47e1e3653dde6ba42b5f4d0937725e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _topRooms:
+  - {fileID: 1990432615175975335, guid: fda4417514634fd4082983d22fd5c3c2, type: 3}
+  - {fileID: 1990432615175975335, guid: 2ce2946e6735c4745b5048e1cbb56625, type: 3}
+  - {fileID: 1990432615175975335, guid: d3069696627a72946884b68d7a5c3b3f, type: 3}
+  - {fileID: 1990432615175975335, guid: d74a8f81a42046d4aa435a78c97e0c8c, type: 3}
+  _bottomRooms:
+  - {fileID: 1990432615175975335, guid: e3fc5cbe2fb6b534caf776b4e2bba2cf, type: 3}
+  - {fileID: 1990432615175975335, guid: ba6552ae31fdf8d45895701ed90edd96, type: 3}
+  - {fileID: 1990432615175975335, guid: 9432732ab2b007a4eb80c143f5cb61a5, type: 3}
+  - {fileID: 1990432615175975335, guid: 2ce2946e6735c4745b5048e1cbb56625, type: 3}
+  _leftRooms:
+  - {fileID: 1990432615175975335, guid: ba6552ae31fdf8d45895701ed90edd96, type: 3}
+  - {fileID: 1990432615175975335, guid: 7544d68453222e9498393ae818335d79, type: 3}
+  - {fileID: 1990432615175975335, guid: 58fd2ffe6a857c34c95fa64d5c8ecd5c, type: 3}
+  - {fileID: 1990432615175975335, guid: d3069696627a72946884b68d7a5c3b3f, type: 3}
+  _rightRooms:
+  - {fileID: 1990432615175975335, guid: 9432732ab2b007a4eb80c143f5cb61a5, type: 3}
+  - {fileID: 1990432615175975335, guid: 58fd2ffe6a857c34c95fa64d5c8ecd5c, type: 3}
+  - {fileID: 1990432615175975335, guid: c26b8274fe920a3458d54ba651df9382, type: 3}
+  - {fileID: 1990432615175975335, guid: d74a8f81a42046d4aa435a78c97e0c8c, type: 3}
+  _closedRoom: {fileID: 1990432615175975335, guid: b6db3699a4c041a478eb682db9ba4752, type: 3}
+  _mainRoomPrefab: {fileID: 1990432615175975335, guid: ed76718c338f0524484cd5516aa5a698, type: 3}
 --- !u!4 &1076459704
 Transform:
   m_ObjectHideFlags: 0
@@ -2238,4 +2181,3 @@ SceneRoots:
   - {fileID: 313318485}
   - {fileID: 2072531188}
   - {fileID: 1417052480}
-  - {fileID: 1033128884}

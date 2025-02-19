@@ -9,6 +9,14 @@ using System.Linq;
 public class DungeonGenerator : MonoBehaviour
 {
     public static DungeonGenerator Instance { get; private set; }
+    
+    [Header("Rooms Data")]
+    [SerializeField] private GameObject[] _topRooms;
+    [SerializeField] private GameObject[] _bottomRooms;
+    [SerializeField] private GameObject[] _leftRooms;
+    [SerializeField] private GameObject[] _rightRooms;
+    [SerializeField] private GameObject _closedRoom;
+    [SerializeField] private GameObject _mainRoomPrefab;
 
     public static Action OnDungeonGenerationCompleted;
     private List<GameObject> _generatedRooms = new List<GameObject>();
@@ -21,6 +29,12 @@ public class DungeonGenerator : MonoBehaviour
     public int MaxCountKeys { get; private set; }
     public int HeartsSpawned { get; private set; }
     public int MaxCountHearts { get; private set; }
+    public GameObject[] TopRooms => _topRooms;
+    public GameObject[] BottomRooms => _bottomRooms;
+    public GameObject[] LeftRooms => _leftRooms;
+    public GameObject[] RightRooms => _rightRooms;
+    public GameObject ClosedRoom => _closedRoom;
+    public GameObject MainRoomPrefab => _mainRoomPrefab;
 
     private void Awake()
     {
@@ -38,9 +52,10 @@ public class DungeonGenerator : MonoBehaviour
     private void Start()
     {
         GameplayManager.Instance.SetDungeonGenerator(this);
+        SpawnMainRoom();
         StartCoroutine(CheckDungeonGenerationCompleteness());
     }
-
+    
     public void RegisterKey()
     {
         KeysSpawned++;
@@ -179,5 +194,10 @@ public class DungeonGenerator : MonoBehaviour
             allDoors[i].SetKeyRequired();
             //Debug.Log("Дверь" + allDoors[i] + "стала KeyRequired!");
         }
+    }
+
+    private void SpawnMainRoom()
+    {
+        Instantiate(_mainRoomPrefab, transform.position, Quaternion.identity);
     }
 }
