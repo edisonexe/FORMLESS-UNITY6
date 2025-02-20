@@ -174,7 +174,8 @@ public class DungeonGenerator : MonoBehaviour
             allDoors.AddRange(doorsController.doors
                 .Where(d => d != null && d.gameObject != null) // Проверяем, что объект не null
                 .Select(d => d.GetComponent<Door>())
-                .Where(d => d != null)); // Убираем null-объекты
+                .Where(d => d != null && d.doorType != DoorType.Boss)); // Убираем null-объекты и двери Boss
+
 
         }
 
