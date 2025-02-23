@@ -83,7 +83,6 @@ namespace Formless.Room
             else
             {
                 TrySpawnBossKeyInPenultimateRoom();
-                //SpawnItemInRoom();
             }
         }
 
@@ -99,26 +98,9 @@ namespace Formless.Room
         {
             if (DungeonGenerator.Instance.PenultimateRoom != null && transform == DungeonGenerator.Instance.PenultimateRoom.transform)
             {
-                //Debug.Log("Спавн ключа босса в предпоследней комнате!");
                 _itemSpawner.SpawnKeyForPenultimateRoom();
-                //_itemWasSpawned = true;
             }
         }
-
-        //private void TrySpawnHeartInRoom()
-        //{
-        //    if (!_itemWasSpawned)
-        //    {
-        //        _itemWasSpawned = true;
-        //        _itemSpawner.Spawn();
-        //    }
-        //}
-
-        //private void SpawnItemInRoom()
-        //{
-        //    TrySpawnBossKeyInPenultimateRoom();
-        //    TrySpawnHeartInRoom(); //тут был спавн ключа
-        //}
 
         // ДОДЕЛАТЬ УДАЛЕНИЕ СПАУНЕРОВ ИЗ BOSS_ROOM
         void RemoveObjectsWithTagInRoom(GameObject room, string tagToRemove)

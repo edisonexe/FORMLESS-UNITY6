@@ -13,32 +13,6 @@ namespace Formless.Room
             _roomController = GetComponent<RoomController>();
         }
 
-        //public void Spawn()
-        //{
-        //    foreach (Transform spawner in _itemSpawners)
-        //    {
-        //        if (spawner == null) continue;
-
-        //        int rand = Random.Range(1, 3);
-        //        //Debug.LogFormat("ItemSpawner Rand = {0}", rand);
-        //        if (rand == 1 && DungeonGenerator.Instance.CanSpawnHeart())
-        //        {
-        //            //Debug.Log("Спаун сердечка");
-        //            Instantiate(PrefabManager.Instance.HeartPrefab, spawner.position, Quaternion.identity);
-        //            DungeonGenerator.Instance.RegisterHeart();
-        //        }
-        //        //else if (rand == 2 && DungeonGenerator.Instance.CanSpawnKey())
-        //        //{
-        //        //    //Debug.Log("Спаун ключа");
-        //        //    Instantiate(PrefabManager.Instance.KeyPrefab, spawner.position, Quaternion.identity);
-        //        //    DungeonGenerator.Instance.RegisterKey();
-        //        //}
-
-        //        //Debug.Log("CanSpawnKey "+ DungeonGenerator.Instance.CanSpawnKey() + "CanSpawnHeart " + DungeonGenerator.Instance.CanSpawnHeart());
-        //        Destroy(spawner.gameObject);
-        //    }
-        //}
-
         public void SpawnKey()
         {
             Debug.Log("Спавн ключа");
@@ -67,7 +41,8 @@ namespace Formless.Room
             foreach (Transform spawner in _itemSpawners)
             {
                 if (spawner == null) continue;
-                Instantiate(prefab, spawner.position, Quaternion.identity);
+                GameObject itemObj = Instantiate(prefab, spawner.position, Quaternion.identity);
+                itemObj.transform.parent = transform;
                 _roomController.SetItemWasSpawned();
                 Destroy(spawner.gameObject);
             }

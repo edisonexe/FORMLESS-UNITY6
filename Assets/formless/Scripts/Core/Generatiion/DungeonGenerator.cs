@@ -52,11 +52,48 @@ public class DungeonGenerator : MonoBehaviour
 
     private void Start()
     {
+        StartGenerating();
+    }
+    
+    public void ResetDungeon()
+    {
+        GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name.StartsWith("Room"))
+            {
+                Destroy(obj);
+            }
+        }
+
+        _generatedRooms.Clear();
+
+        KeysSpawned = 0;
+        MaxCountKeys = 0;
+        HeartsSpawned = 0;
+        MaxCountHearts = 0;
+        MaxCountKeyRequiredDoors = 0;
+        LastRoom = null;
+        PenultimateRoom = null;
+
+        StopAllCoroutines();
+    }
+
+    public void StartGenerating()
+    {
         GameplayManager.Instance.SetDungeonGenerator(this);
         SpawnMainRoom();
         StartCoroutine(CheckDungeonGenerationCompleteness());
     }
-    
+
+    public void LoadNewDungeon()
+    {
+        Debug.Log("Загрузка нового подземелья...");
+        
+        ResetDungeon();
+        StartGenerating();
+    }
+
     public void RegisterKey()
     {
         KeysSpawned++;
