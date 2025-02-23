@@ -9,7 +9,7 @@ using System.Linq;
 public class DungeonGenerator : MonoBehaviour
 {
     public static DungeonGenerator Instance { get; private set; }
-    
+
     [Header("Rooms Data")]
     [SerializeField] private GameObject[] _topRooms;
     [SerializeField] private GameObject[] _bottomRooms;
@@ -29,6 +29,7 @@ public class DungeonGenerator : MonoBehaviour
     public int MaxCountKeys { get; private set; }
     public int HeartsSpawned { get; private set; }
     public int MaxCountHearts { get; private set; }
+    public int MaxCountKeyRequiredDoors { get; private set; }
     public GameObject[] TopRooms => _topRooms;
     public GameObject[] BottomRooms => _bottomRooms;
     public GameObject[] LeftRooms => _leftRooms;
@@ -69,6 +70,7 @@ public class DungeonGenerator : MonoBehaviour
     public void RegisterRoom(GameObject room)
     {
         _generatedRooms.Add(room);
+
         _timeSinceLastRoom = 0;
     }
 
@@ -92,6 +94,12 @@ public class DungeonGenerator : MonoBehaviour
     {
         MaxCountHearts = _generatedRooms.Count / 3;
         Debug.Log("Макс. кол-во сердец " + MaxCountHearts);
+    }
+
+    private void SetMaxCountKeyRequiredDoors()
+    {
+        MaxCountKeyRequiredDoors = _generatedRooms.Count / 3;
+        Debug.Log("Макс. кол-во KRдверей = " + MaxCountKeyRequiredDoors);
     }
 
     private void SetLastRoom()
@@ -126,18 +134,21 @@ public class DungeonGenerator : MonoBehaviour
 
             _timeSinceLastRoom += _checkDelay;
 
-            if (_timeSinceLastRoom > 3f)
+            if (_timeSinceLastRoom > 1.5f)
             {
                 Debug.Log("* [DUNGEON_GENERATOR] Генерация подземелья завершена!");
                 GameplayManager.Instance.SetRoomsList(_generatedRooms);
                 SetMaxCountHearts();
                 SetMaxCountKeys();
+                SetMaxCountKeyRequiredDoors();
                 SetLastRoom();
                 SetPenultimateRoom();
 
                 OnDungeonGenerationCompleted?.Invoke();
 
                 AssignKeyRequiredDoors();
+                SpawnKeyInAccessibleRooms();
+                SpawnHearstInRooms();
                 yield break;
             }
         }
@@ -145,14 +156,10 @@ public class DungeonGenerator : MonoBehaviour
 
     private void AssignKeyRequiredDoors()
     {
-        //Debug.Log("Вызов AssignKR");
-
         List<Door> allDoors = new List<Door>();
 
-        // Проходим по всем комнатам
         foreach (GameObject room in _generatedRooms)
         {
-            // Получаем компонент DoorsController
             DoorsController doorsController = room.GetComponent<DoorsController>();
         
             // Если компонента нет, выводим предупреждение
@@ -163,42 +170,128 @@ public class DungeonGenerator : MonoBehaviour
             }
 
             // Если у комнаты нет дверей, выводим сообщение и продолжаем
-            if (doorsController.doors == null || doorsController.doors.Length == 0)
+            if (doorsController.Doors == null || doorsController.Doors.Length == 0)
             {
                 //Debug.LogWarning($"Комната {room.name} не имеет дверей!");
                 continue;
             }
 
-            //Debug.Log($"Комната {room.name} имеет {doorsController.doors.Length} дверей.");
-
-            allDoors.AddRange(doorsController.doors
+            allDoors.AddRange(doorsController.Doors
                 .Where(d => d != null && d.gameObject != null) // Проверяем, что объект не null
                 .Select(d => d.GetComponent<Door>())
-                .Where(d => d != null && d.doorType != DoorType.Boss)); // Убираем null-объекты и двери Boss
-
-
+                .Where(d => d != null && d.DoorType != DoorType.Boss)); // Убираем null-объекты и двери Boss
         }
 
-        // Выводим количество дверей
-        //Debug.Log($"Общее количество дверей: {allDoors.Count}");
-        //Debug.Log("Общее кол-во ключей" + KeysSpawned + " Кол-во дверей " +  allDoors.Count);
-        if (KeysSpawned == 0 || allDoors.Count == 0) return;
-        //Debug.Log("Общее кол-во ключей" + KeysSpawned + " Кол-во дверей " +  allDoors.Count);
+        if (allDoors.Count == 0) return;
 
-        // Перемешиваем двери случайным образом
         System.Random rng = new System.Random();
         allDoors = allDoors.OrderBy(d => rng.Next()).ToList();
 
-        // Для каждой двери назначаем, что она требует ключа
-        for (int i = 0; i < KeysSpawned && i < allDoors.Count; i++)
+        for (int i = 0; i < MaxCountKeyRequiredDoors && i < allDoors.Count; i++)
         {
             allDoors[i].SetKeyRequired();
-            //Debug.Log("Дверь" + allDoors[i] + "стала KeyRequired!");
         }
     }
 
     private void SpawnMainRoom()
     {
-        Instantiate(_mainRoomPrefab, transform.position, Quaternion.identity);
+        GameObject mainRoom = Instantiate(_mainRoomPrefab, transform.position, Quaternion.identity);
+    }
+
+    private void SpawnHearstInRooms()
+    {
+        foreach (GameObject room in _generatedRooms)
+        {
+            if (room == null || !room.activeInHierarchy) continue;
+            RoomController roomController = room.GetComponent<RoomController>();
+            if (roomController == null) continue;
+            bool itemSpawned = roomController.ItemWasSpawned;
+            if (!itemSpawned)
+            {
+                int rnd = UnityEngine.Random.Range(1, 3);
+                ItemSpawner itemSpawner = room.GetComponent<ItemSpawner>();
+                if (itemSpawner == null) continue;
+                if (rnd == 1) itemSpawner.SpawnHeart();
+            }
+        }
+    }
+
+    private void SpawnKeyInAccessibleRooms()
+    {
+        int keyCount = 0;
+
+        // Списки для комнат с дверями типа Opened, Regular и KeyRequired
+        List<GameObject> regularRooms = new List<GameObject>();
+        List<GameObject> keyRequiredRooms = new List<GameObject>();
+
+        // Проходим по всем сгенерированным комнатам
+        foreach (GameObject room in _generatedRooms)
+        {
+            // Проверяем, что объект активен и существует
+            if (room == null || !room.activeInHierarchy) continue;
+
+            // Получаем компонент с предметами (ключами)
+            ItemSpawner itemSpawner = room.GetComponent<ItemSpawner>();
+            if (itemSpawner == null) continue;
+
+            // Получаем все двери в комнате
+            DoorsController doorsController = room.GetComponent<DoorsController>();
+            if (doorsController == null) continue;
+
+            bool hasKeyRequiredDoor = false;
+            bool hasRegularDoor = false;
+
+            // Проверяем все двери в комнате
+            foreach (GameObject doorObj in doorsController.Doors)
+            {
+                if (doorObj == null || !doorObj.activeInHierarchy) continue;
+
+                Door door = doorObj.GetComponent<Door>();
+                if (door == null) continue;
+
+                // Если дверь типа KeyRequired, добавляем в keyRequiredRooms
+                if (door.DoorType == DoorType.KeyRequired)
+                {
+                    hasKeyRequiredDoor = true;
+                }
+                // Если дверь типа Regular или Opened, добавляем в regularRooms
+                else if (door.DoorType == DoorType.Regular || door.DoorType == DoorType.Opened)
+                {
+                    hasRegularDoor = true;
+                }
+            }
+
+            // Добавляем комнату в соответствующие списки
+            if (hasRegularDoor)
+            {
+                regularRooms.Add(room); // Даже если есть KeyRequired, регулярная дверь всё равно добавит в regularRooms
+            }
+            if (hasKeyRequiredDoor)
+            {
+                keyRequiredRooms.Add(room);
+            }
+        }
+
+        // Спавним ключи сначала в комнатах с дверями типа Opened или Regular
+        foreach (GameObject room in regularRooms)
+        {
+            if (room == null || !room.activeInHierarchy) continue;
+
+            ItemSpawner itemSpawner = room.GetComponent<ItemSpawner>();
+            itemSpawner?.SpawnKey();
+            keyCount++;
+            if (keyCount >= MaxCountKeyRequiredDoors) return; // Останавливаем, когда достигнут лимит ключей
+        }
+
+        // Спавним оставшиеся ключи в комнатах с дверями типа KeyRequired
+        foreach (GameObject room in keyRequiredRooms)
+        {
+            if (room == null || !room.activeInHierarchy) continue;
+
+            ItemSpawner itemSpawner = room.GetComponent<ItemSpawner>();
+            itemSpawner?.SpawnKey();
+            keyCount++;
+            if (keyCount >= MaxCountKeyRequiredDoors) return; // Останавливаем, когда достигнут лимит ключей
+        }
     }
 }

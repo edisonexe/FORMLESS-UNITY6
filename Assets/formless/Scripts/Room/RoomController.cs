@@ -16,6 +16,8 @@ namespace Formless.Room
         private bool _isEnemiesSpawned;
         private bool _itemWasSpawned = false;
 
+        public bool ItemWasSpawned => _itemWasSpawned;
+
         private void Awake()
         {
             _roomStateChecker = GetComponent<RoomStateChecker>();
@@ -43,6 +45,11 @@ namespace Formless.Room
         private void OnDestroy()
         {
             DungeonGenerator.OnDungeonGenerationCompleted -= HandleRoomAfterDungeonGen;
+        }
+
+        public void SetItemWasSpawned()
+        {
+            _itemWasSpawned = true;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -75,7 +82,8 @@ namespace Formless.Room
             }
             else
             {
-                SpawnItemInRoom();
+                TrySpawnBossKeyInPenultimateRoom();
+                //SpawnItemInRoom();
             }
         }
 
@@ -93,24 +101,24 @@ namespace Formless.Room
             {
                 //Debug.Log("Спавн ключа босса в предпоследней комнате!");
                 _itemSpawner.SpawnKeyForPenultimateRoom();
-                _itemWasSpawned = true;
+                //_itemWasSpawned = true;
             }
         }
 
-        private void TrySpawnKeyOrHeartInRoom()
-        {
-            if (!_itemWasSpawned)
-            {
-                _itemWasSpawned = true;
-                _itemSpawner.Spawn();
-            }
-        }
+        //private void TrySpawnHeartInRoom()
+        //{
+        //    if (!_itemWasSpawned)
+        //    {
+        //        _itemWasSpawned = true;
+        //        _itemSpawner.Spawn();
+        //    }
+        //}
 
-        private void SpawnItemInRoom()
-        {
-            TrySpawnBossKeyInPenultimateRoom();
-            TrySpawnKeyOrHeartInRoom();
-        }
+        //private void SpawnItemInRoom()
+        //{
+        //    TrySpawnBossKeyInPenultimateRoom();
+        //    TrySpawnHeartInRoom(); //тут был спавн ключа
+        //}
 
         // ДОДЕЛАТЬ УДАЛЕНИЕ СПАУНЕРОВ ИЗ BOSS_ROOM
         void RemoveObjectsWithTagInRoom(GameObject room, string tagToRemove)
