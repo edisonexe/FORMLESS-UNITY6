@@ -1167,7 +1167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 8019039930616655844, guid: 47dba53409afca44dbea04e04b57bf29, type: 3}
-  doorType: 2
+  _doorType: 2
   direction: 2
 --- !u!114 &1615113705146740824
 MonoBehaviour:

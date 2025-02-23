@@ -17,15 +17,16 @@ namespace Formless.Room
         [SerializeField] private GameObject wallPrefab;
         private BoxCollider2D _boxCollider2D;
         private BoxCollider2D _interactionCollider;
-        public DoorType doorType;
+        public DoorType _doorType;
         [SerializeField] public Direction direction;
         private bool _isProcessed = false;
         private bool _isReplaced = false;
         private bool _isOpened = false;
         private bool _isBossDoorSet = false;
         private Door _linkedDoor;
-        private DungeonGenerator _dungerGenerator;
 
+        public DoorType DoorType => _doorType;
+        public Door LinkedDoor => _linkedDoor;
 
         private void Awake()
         {
@@ -59,7 +60,7 @@ namespace Formless.Room
             _isOpened = true;
             _boxCollider2D.enabled = false;
             _interactionCollider.enabled = false;
-            DestroyLockAndActivateMover(lockName, doorType);
+            DestroyLockAndActivateMover(lockName, _doorType);
 
             if (_linkedDoor != null)
             {
@@ -72,31 +73,25 @@ namespace Formless.Room
             _isOpened = true;
             _boxCollider2D.enabled = false;
             _interactionCollider.enabled = false;
-            DestroyLockAndActivateMover(lockName, doorType);
+            DestroyLockAndActivateMover(lockName, _doorType);
         }
 
         public void SetAsBossDoor()
         {
             if (_isBossDoorSet) return;
             _isBossDoorSet = true;
-            doorType = DoorType.Boss;
+            _doorType = DoorType.Boss;
+            if (_linkedDoor != null) _linkedDoor._doorType = DoorType.Boss;
             ReplaceDoor(DoorType.Boss);
-
-            if (_linkedDoor != null)
-            {
-                _linkedDoor.SetAsBossDoor();
-            }
+            if (_linkedDoor != null) _linkedDoor.ReplaceDoor(DoorType.Boss);
         }
 
         public void SetKeyRequired()
         {
-            doorType = DoorType.KeyRequired;
+            _doorType = DoorType.KeyRequired;
+            if (_linkedDoor != null) _linkedDoor._doorType = DoorType.KeyRequired;
             ReplaceDoor(DoorType.KeyRequired);
-            if (_linkedDoor != null)
-            {
-                _linkedDoor.doorType = DoorType.KeyRequired;
-                _linkedDoor.ReplaceDoor(DoorType.KeyRequired);
-            }
+            if (_linkedDoor != null) _linkedDoor.ReplaceDoor(DoorType.KeyRequired);
         }
 
         public void CheckIfDoorTouchesLastRoom()
@@ -162,36 +157,36 @@ namespace Formless.Room
         {
             if (_linkedDoor == null) return;
 
-            DoorType previousDoorType = doorType;
-            DoorType prevLinkedDoorType = _linkedDoor.doorType;
+            DoorType previousDoorType = _doorType;
+            DoorType prevLinkedDoorType = _linkedDoor._doorType;
 
             // Если текущая дверь уже открыта, не синхронизировать её тип с KeyRequired или Boss
-            if (this.doorType == DoorType.Opened || _linkedDoor.doorType == DoorType.Opened)
+            if (this._doorType == DoorType.Opened || _linkedDoor._doorType == DoorType.Opened)
             {
-                doorType = DoorType.Opened;
-                _linkedDoor.doorType = DoorType.Opened;
+                _doorType = DoorType.Opened;
+                _linkedDoor._doorType = DoorType.Opened;
             }
 
-            if (this.doorType == DoorType.KeyRequired)
+            if (this._doorType == DoorType.KeyRequired)
             {
-                _linkedDoor.doorType = DoorType.KeyRequired;
+                _linkedDoor._doorType = DoorType.KeyRequired;
             }
-            else if (this.doorType == DoorType.Boss)
+            else if (this._doorType == DoorType.Boss)
             {
-                _linkedDoor.doorType = DoorType.Boss;
+                _linkedDoor._doorType = DoorType.Boss;
             }
 
             //Debug.Log($"Направление двери: {direction}");
 
 
-            if (doorType != previousDoorType)
+            if (_doorType != previousDoorType)
             {
-                ReplaceDoor(doorType);
+                ReplaceDoor(_doorType);
             }
 
-            if (_linkedDoor.doorType != prevLinkedDoorType)
+            if (_linkedDoor._doorType != prevLinkedDoorType)
             {
-                _linkedDoor.ReplaceDoor(_linkedDoor.doorType);
+                _linkedDoor.ReplaceDoor(_linkedDoor._doorType);
             }
 
             //ReplaceDoorIfNecessary(previousDoorType, doorType);
@@ -206,7 +201,7 @@ namespace Formless.Room
             Transform room = gameObject.transform.parent;
             if (room.CompareTag("RoomMain")) return;
 
-            if (!_isReplaced)
+            if (!_isReplaced && wallPrefab != null)
             {
                 DisableDoorBoxCollider();
                 Instantiate(wallPrefab, transform.position, Quaternion.identity, transform.parent);
@@ -217,18 +212,18 @@ namespace Formless.Room
 
         public void TryUnlockDoor()
         {
-            if (GameplayManager.Instance.HasBossKey && doorType == DoorType.Boss)
+            if (GameplayManager.Instance.HasBossKey && _doorType == DoorType.Boss)
             {
                 OpenDoor("BossLock");
                 Player.Player.Instance.UseBossKey();
-                DestroyLockAndActivateMover(LockConstants.BOSS_LOCK, doorType);
+                DestroyLockAndActivateMover(LockConstants.BOSS_LOCK, _doorType);
                 Debug.Log("Дверь босса открыта");
             }
-            else if (GameplayManager.Instance.HasKey() && doorType == DoorType.KeyRequired)
+            else if (GameplayManager.Instance.HasKey() && _doorType == DoorType.KeyRequired)
             {
                 OpenDoor("Lock");
                 Player.Player.Instance.UseKey();
-                DestroyLockAndActivateMover(LockConstants.LOCK, doorType);
+                DestroyLockAndActivateMover(LockConstants.LOCK, _doorType);
                 Debug.Log("Обычная дверь открыта");
             }
             else

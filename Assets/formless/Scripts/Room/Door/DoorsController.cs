@@ -6,7 +6,8 @@ namespace Formless.Room
 {
     public class DoorsController : MonoBehaviour
     {
-        [SerializeField] public GameObject[] doors;
+        [SerializeField] private GameObject[] doors;
+        public GameObject[] Doors => doors;
 
         private void Start()
         {
@@ -44,14 +45,10 @@ namespace Formless.Room
         {
             foreach (GameObject door in doors)
             {
-                // Проверка на null перед обращением
-                if (door == null)
-                {
-                    continue; // Пропускаем этот объект, если он был уничтожен
-                }
+                if (door == null) continue;
 
                 Door doorComponent = door.GetComponent<Door>();
-                if (doorComponent != null && doorComponent.doorType == DoorType.Regular)
+                if (doorComponent != null && doorComponent.DoorType == DoorType.Regular)
                 {
                     doorComponent.OpenDoor(LockConstants.REGULAR_LOCK);
                 }
