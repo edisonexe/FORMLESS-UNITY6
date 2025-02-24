@@ -160,11 +160,6 @@ namespace Formless.Core.Managers
             _keys += 1;
         }
 
-        public void SetLastKilledEnemy(Enemy.Enemy enemy)
-        {
-            LastKilledEnemyData = new EnemyData(enemy);
-        }
-
         public void PrintStats()
         {
             Debug.LogFormat("Время забега: {0}", Stats.PlayTime);

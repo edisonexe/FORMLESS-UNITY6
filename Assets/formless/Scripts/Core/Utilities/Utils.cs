@@ -33,7 +33,9 @@ namespace Formless.Core.Utilties
 
             material.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-            Object.Destroy(targetObject);
+            targetObject.SetActive(false);
+
+            //Object.Destroy(targetObject);
         }
     }
 }

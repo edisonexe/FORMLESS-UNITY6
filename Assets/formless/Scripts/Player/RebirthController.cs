@@ -1,168 +1,167 @@
+using System.Collections;
+using System.Collections.Generic;
+using Formless.Player;
 using UnityEngine;
-using Formless.Core.Managers;
 
-namespace Formless.Player
+namespace Formless.Player.Rebirth
 {
     public class RebirthController : MonoBehaviour
     {
-        [SerializeField] private float reincarnationCooldown = 40f;
-        private float _lastReincarnationTime;
-        private SpriteRenderer _spriteRenderer;
-        private Animator _animator;
-        private BoxCollider2D _boxCollider;
-        private CapsuleCollider2D _capsuleCollider;
-        private RuntimeAnimatorController _defaultAnimator;
-        private Player _player;
+        private GameObject _lastKilledEnemy;
+        private Animator _playerAnimator;
+        private PolygonCollider2D _playerBasicAttackCollider;
+        private PolygonCollider2D _playerStrongAttackCollider;
+        private CapsuleCollider2D _playerCapsuleCollider;
+        private BoxCollider2D _playerBoxCollider;
         private PlayerInputHandler _inputHandler;
 
-        private void Awake()
+        // Оригинальные параметры игрока
+        private RuntimeAnimatorController _originalAnimator;
+        private Vector2[] _originalBasicAttackPoints;
+        private Vector2[] _originalStrongAttackPoints;
+        private Vector2 _originalCapsuleSize;
+        private Vector2 _originalCapsuleOffset;
+        private CapsuleDirection2D _originalCapsuleDirection;
+        private Vector2 _originalBoxSize;
+        private Vector2 _originalBoxOffset;
+
+        private void Start()
         {
-            _player = GetComponent<Player>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _animator = GetComponent<Animator>();
-            _boxCollider = GetComponent<BoxCollider2D>();
-            _capsuleCollider = GetComponent<CapsuleCollider2D>();
-            _inputHandler = new PlayerInputHandler();
+            // Инициализация компонентов игрока
+            _playerAnimator = GetComponent<Animator>();
+            _playerBasicAttackCollider = transform.Find("BasicAttack")?.GetComponent<PolygonCollider2D>();
+            _playerStrongAttackCollider = transform.Find("StrongAttack")?.GetComponent<PolygonCollider2D>();
+            _playerCapsuleCollider = GetComponent<CapsuleCollider2D>();
+            _playerBoxCollider = GetComponent<BoxCollider2D>();
 
-            // Сохраняем аниматор игрока, чтобы можно было вернуть обратно
-            if (_animator != null)
-                _defaultAnimator = _animator.runtimeAnimatorController;
+            // Сохраняем оригинальные параметры
+            _originalAnimator = _playerAnimator.runtimeAnimatorController;
+        
+            if (_playerBasicAttackCollider != null)
+                _originalBasicAttackPoints = _playerBasicAttackCollider.points;
 
-            // Сразу доступно перерождение при старте игры
-            _lastReincarnationTime = Time.time - reincarnationCooldown;
+            if (_playerStrongAttackCollider != null)
+                _originalStrongAttackPoints = _playerStrongAttackCollider.points;
+
+            if (_playerCapsuleCollider != null)
+            {
+                _originalCapsuleSize = _playerCapsuleCollider.size;
+                _originalCapsuleOffset = _playerCapsuleCollider.offset;
+                _originalCapsuleDirection = _playerCapsuleCollider.direction;
+            }
+
+            if (_playerBoxCollider != null)
+            {
+                _originalBoxSize = _playerBoxCollider.size;
+                _originalBoxOffset = _playerBoxCollider.offset;
+            }
         }
 
         private void Update()
         {
-            // Проверяем нажатие кнопки перерождения (R) и время перерождения
-            if (_inputHandler.IsRebirthPressed() && Time.time >= _lastReincarnationTime + reincarnationCooldown)
+            if (_inputHandler.IsRebirthPressed() && _lastKilledEnemy != null && UIManager.Instance.CanRebirth())
             {
-                TryReincarnate();
+                Debug.Log("Нажата R");
+                Rebirth();
+                UIManager.Instance.StartRebirthCooldown();
             }
         }
 
-       private void TryReincarnate()
-       {
-            // Получаем данные о последнем убитом враге
-            EnemyData lastEnemy = GameplayManager.Instance.LastKilledEnemyData;
-            if (lastEnemy == null)
-            {
-                Debug.Log("Нет убитых врагов для перерождения.");
-                return;
-            }
-
-            _lastReincarnationTime = Time.time; // сбрасываем таймер после перерождения
-
-            // Обновляем спрайт
-            if (lastEnemy.enemySprite != null)
-            {
-                _spriteRenderer.sprite = lastEnemy.enemySprite;
-                Debug.Log($"Спрайт игрока обновлен: {lastEnemy.enemySprite.name}");
-            }
-            else
-            {
-                Debug.LogWarning("Спрайт для перерождения не найден!");
-            }
-
-            // Загружаем аниматор по имени из данных врага
-            if (!string.IsNullOrEmpty(lastEnemy.animatorControllerName))
-            {
-                string path = "Animators/Enemies/" + lastEnemy.animatorControllerName + "/" + lastEnemy.animatorControllerName; // Путь к аниматору в папке Resources
-                RuntimeAnimatorController animatorController = Resources.Load<RuntimeAnimatorController>(path);
-                if (animatorController != null)
-                {
-                    _animator.runtimeAnimatorController = animatorController;
-                    Debug.Log($"Анимация игрока обновлена: {path}");
-                }
-                else
-                {
-                    Debug.LogError($"Не удалось загрузить аниматор по пути {path}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Аниматор для перерождения не найден!");
-            }
-
-            // Обновляем коллайдеры
-            UpdateCollider(_boxCollider, lastEnemy.boxColliderSize, lastEnemy.boxColliderOffset);
-            UpdateCollider(_capsuleCollider, lastEnemy);
-
-            // Копируем коллайдеры атак
-            CopyAttackCollider("BasicAttack", lastEnemy);
-            CopyAttackCollider("StrongAttack", lastEnemy);
-
-            Debug.Log($"Игрок переродился в {lastEnemy.enemyType}");
-       }
-
-        private void UpdateCollider(BoxCollider2D collider, Vector2 size, Vector2 offset)
+        public void OnEnemyKilled(GameObject killedEnemy)
         {
-            if (collider != null)
+            _lastKilledEnemy = killedEnemy;
+            Debug.Log("Установлен п.убитый враг " + _lastKilledEnemy.name);
+        }
+
+        public void SetInputHandler(PlayerInputHandler inputHandler)
+        {
+            _inputHandler = inputHandler;
+        }
+
+        private void Rebirth()
+        {
+            if (_lastKilledEnemy == null) return;
+
+            Debug.Log("ПЕРЕРОЖДЕНИЕ!");
+
+            Animator enemyAnimator = _lastKilledEnemy.GetComponent<Animator>();
+            PolygonCollider2D enemyBasicAttackCollider = _lastKilledEnemy.transform.Find("BasicAttack")?.GetComponent<PolygonCollider2D>();
+            PolygonCollider2D enemyStrongAttackCollider = _lastKilledEnemy.transform.Find("StrongAttack")?.GetComponent<PolygonCollider2D>();
+            CapsuleCollider2D enemyCapsuleCollider = _lastKilledEnemy.GetComponent<CapsuleCollider2D>();
+            BoxCollider2D enemyBoxCollider = _lastKilledEnemy.GetComponent<BoxCollider2D>();
+
+            // Анимация
+            _playerAnimator.runtimeAnimatorController = enemyAnimator.runtimeAnimatorController;
+
+            // Копируем коллайдеры
+            CopyPolygonCollider(enemyBasicAttackCollider, _playerBasicAttackCollider);
+            CopyPolygonCollider(enemyStrongAttackCollider, _playerStrongAttackCollider);
+            CopyCapsuleCollider(enemyCapsuleCollider, _playerCapsuleCollider);
+            CopyBoxCollider(enemyBoxCollider, _playerBoxCollider);
+
+            StartCoroutine(RestoreAfterDelay(2f));
+        }
+
+        public void RestoreOriginalState()
+        {
+            Debug.Log("ВОЗВРАТ К ОРИГИНАЛЬНОМУ СОСТОЯНИЮ!");
+
+            _playerAnimator.runtimeAnimatorController = _originalAnimator;
+
+            if (_playerBasicAttackCollider != null && _originalBasicAttackPoints != null)
+                _playerBasicAttackCollider.points = _originalBasicAttackPoints;
+
+            if (_playerStrongAttackCollider != null && _originalStrongAttackPoints != null)
+                _playerStrongAttackCollider.points = _originalStrongAttackPoints;
+
+            if (_playerCapsuleCollider != null)
             {
-                collider.size = size;
-                collider.offset = offset;
-                Debug.Log($"BoxCollider2D обновлен: размер {collider.size}, смещение {collider.offset}");
+                _playerCapsuleCollider.size = _originalCapsuleSize;
+                _playerCapsuleCollider.offset = _originalCapsuleOffset;
+                _playerCapsuleCollider.direction = _originalCapsuleDirection;
+            }
+
+            if (_playerBoxCollider != null)
+            {
+                _playerBoxCollider.size = _originalBoxSize;
+                _playerBoxCollider.offset = _originalBoxOffset;
             }
         }
 
-        private void UpdateCollider(CapsuleCollider2D collider, EnemyData lastEnemy)
+        private void CopyPolygonCollider(PolygonCollider2D source, PolygonCollider2D target)
         {
-            if (collider != null)
+            if (source == null || target == null) return;
+
+            target.pathCount = source.pathCount;
+            for (int i = 0; i < source.pathCount; i++)
             {
-                collider.size = new Vector2(lastEnemy.capsuleColliderSizeX, lastEnemy.capsuleColliderSizeY);
-                collider.offset = new Vector2(lastEnemy.capsuleColliderOffsetX, lastEnemy.capsuleColliderOffsetY);
-                collider.direction = (CapsuleDirection2D)lastEnemy.capsuleColliderDirection;
-                Debug.Log($"CapsuleCollider2D обновлен: размер {collider.size}, смещение {collider.offset}, направление {collider.direction}");
+                target.SetPath(i, source.GetPath(i));
             }
         }
 
-
-        private void CopyAttackCollider(string attackName, EnemyData lastEnemy)
+        private void CopyCapsuleCollider(CapsuleCollider2D source, CapsuleCollider2D target)
         {
-            // Поиск коллайдера для атаки у врага
-            GameObject attackObject = GameObject.Find(attackName);
-            if (attackObject != null)
-            {
-                PolygonCollider2D attackCollider = attackObject.GetComponent<PolygonCollider2D>();
-                if (attackCollider != null)
-                {
-                    // Поиск у игрока коллайдера атаки с таким же именем
-                    GameObject playerAttackObject = GameObject.Find($"Player/{attackName}");
-                    if (playerAttackObject != null)
-                    {
-                        PolygonCollider2D playerAttackCollider = playerAttackObject.GetComponent<PolygonCollider2D>();
-                        if (playerAttackCollider != null)
-                        {
-                            // Копируем параметры из данных врага, если они есть
-                            if (lastEnemy != null)
-                            {
-                                if (lastEnemy.basicAttackCollider != null)
-                                {
-                                    for (int i = 0; i < lastEnemy.basicAttackCollider.pathCount; i++)
-                                    {
-                                        playerAttackCollider.SetPath(i, lastEnemy.basicAttackCollider.paths[i]);
-                                    }
-                                    Debug.Log($"Копирование коллайдера атаки для {attackName} выполнено.");
-                                }
-                                else
-                                {
-                                    Debug.LogWarning($"Коллайдер атаки {attackName} не найден у врага!");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            if (source == null || target == null) return;
+
+            target.size = source.size;
+            target.offset = source.offset;
+            target.direction = source.direction;
         }
 
-        public void ResetToDefault()
+        private void CopyBoxCollider(BoxCollider2D source, BoxCollider2D target)
         {
-            // Возвращаем оригинальный аниматор и спрайт
-            if (_defaultAnimator != null)
-                _animator.runtimeAnimatorController = _defaultAnimator;
+            if (source == null || target == null) return;
 
-            // Можно добавить возврат оригинального спрайта, если нужно
-            Debug.Log("Оригинальный аниматор и спрайт восстановлены.");
+            target.size = source.size;
+            target.offset = source.offset;
         }
+
+        private IEnumerator RestoreAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            RestoreOriginalState();
+        }
+
     }
+
 }

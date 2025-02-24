@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Formless.Player.Rebirth;
 
 public class UIManager : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _bossKey;
     private bool _hasBossKey;
 
+    [SerializeField] private Image _cooldownImage;
+    private RebirthCooldown _rebirthCooldown;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -44,8 +48,25 @@ public class UIManager : MonoBehaviour
     {
         _maxCountHearts = _hearts.Length;
         _maxCountKeys = _keys.Length;
-
+        _rebirthCooldown = new RebirthCooldown(_cooldownImage, 5f);
     }
+
+
+    private void Update()
+    {
+        _rebirthCooldown.UpdateCooldown(Time.deltaTime);
+    }
+
+    public void StartRebirthCooldown()
+    {
+        _rebirthCooldown.StartCooldown();
+    }
+
+    public bool CanRebirth()
+    {
+        return _rebirthCooldown.IsCooldownOver();
+    }
+
 
     public void UpdateHeartsUI()
     {

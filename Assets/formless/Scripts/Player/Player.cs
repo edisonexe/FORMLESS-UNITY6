@@ -3,6 +3,7 @@ using Formless.Core;
 using Formless.Player.States;
 using Formless.Core.Utilties;
 using Formless.Core.Managers;
+using Formless.Player.Rebirth;
 
 namespace Formless.Player
 {
@@ -18,6 +19,7 @@ namespace Formless.Player
         private Material _material;
 
         private PlayerInputHandler _inputHandler;
+        private RebirthController _rebirthController;
 
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _maxHealth;
@@ -31,6 +33,8 @@ namespace Formless.Player
         private int _keysCount;
         private bool _hasBossKey;
 
+        public RebirthController RebirthController => _rebirthController;
+
         protected override void Awake()
         {
             base.Awake();
@@ -40,6 +44,8 @@ namespace Formless.Player
 
             _inputHandler = new PlayerInputHandler();
             _inputHandler.Enable();
+
+            _rebirthController = GetComponent<RebirthController>();
 
             _animator = GetComponent<Animator>();
             boxCollider2D = GetComponent<BoxCollider2D>();
@@ -63,6 +69,11 @@ namespace Formless.Player
 
             UIManager.Instance.SetHealthCount(Health);
             UIManager.Instance.SetKeysCount(_keysCount);
+        
+            if (_rebirthController != null)
+            {
+                _rebirthController.SetInputHandler(_inputHandler);
+            }    
         }
 
         private void FixedUpdate()
