@@ -7,6 +7,9 @@ namespace Formless.Player.Rebirth
 {
     public class RebirthController : MonoBehaviour
     {
+        private RebirthTimer _rebirthDuration;
+
+
         private GameObject _lastKilledEnemy;
         private Animator _playerAnimator;
         private PolygonCollider2D _playerBasicAttackCollider;
@@ -55,6 +58,8 @@ namespace Formless.Player.Rebirth
                 _originalBoxSize = _playerBoxCollider.size;
                 _originalBoxOffset = _playerBoxCollider.offset;
             }
+
+            _rebirthDuration = UIManager.Instance.RebirthDuration;
         }
 
         private void Update()
@@ -64,6 +69,10 @@ namespace Formless.Player.Rebirth
                 Debug.Log("Нажата R");
                 Rebirth();
                 UIManager.Instance.StartRebirthCooldown();
+            }
+            if (_rebirthDuration.IsCooldownOver())
+            {
+                RestoreOriginalState();
             }
         }
 
@@ -99,7 +108,9 @@ namespace Formless.Player.Rebirth
             CopyCapsuleCollider(enemyCapsuleCollider, _playerCapsuleCollider);
             CopyBoxCollider(enemyBoxCollider, _playerBoxCollider);
 
-            StartCoroutine(RestoreAfterDelay(2f));
+            UIManager.Instance.StartRebirthDuration();
+
+            //StartCoroutine(RestoreAfterDelay(2f));
         }
 
         public void RestoreOriginalState()

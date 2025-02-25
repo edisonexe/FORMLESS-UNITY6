@@ -30,8 +30,11 @@ public class UIManager : MonoBehaviour
     private bool _hasBossKey;
 
     [SerializeField] private Image _cooldownImage;
-    private RebirthCooldown _rebirthCooldown;
+    private RebirthTimer _rebirthCooldown;
 
+    [SerializeField] private Image _durationImage;
+    private RebirthTimer _rebirthDuration;
+    public RebirthTimer RebirthDuration => _rebirthDuration;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,18 +51,25 @@ public class UIManager : MonoBehaviour
     {
         _maxCountHearts = _hearts.Length;
         _maxCountKeys = _keys.Length;
-        _rebirthCooldown = new RebirthCooldown(_cooldownImage, 5f);
+        _rebirthCooldown = new RebirthTimer(_cooldownImage, 5f);
+        _rebirthDuration = new RebirthTimer(_durationImage, 25f);
     }
 
 
     private void Update()
     {
-        _rebirthCooldown.UpdateCooldown(Time.deltaTime);
+        _rebirthCooldown.UpdateTimer(Time.deltaTime);
+        _rebirthDuration.UpdateTimerReverseFill(Time.deltaTime);
     }
 
     public void StartRebirthCooldown()
     {
         _rebirthCooldown.StartCooldown();
+    }
+
+    public void StartRebirthDuration()
+    {
+        _rebirthDuration.StartCooldownReverseFill();
     }
 
     public bool CanRebirth()
