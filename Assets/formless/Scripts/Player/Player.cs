@@ -40,7 +40,7 @@ namespace Formless.Player
             base.Awake();
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             _inputHandler = new PlayerInputHandler();
             _inputHandler.Enable();
