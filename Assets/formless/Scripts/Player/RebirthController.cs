@@ -109,8 +109,6 @@ namespace Formless.Player.Rebirth
             CopyBoxCollider(enemyBoxCollider, _playerBoxCollider);
 
             UIManager.Instance.StartRebirthDuration();
-
-            //StartCoroutine(RestoreAfterDelay(2f));
         }
 
         public void RestoreOriginalState()
@@ -166,13 +164,6 @@ namespace Formless.Player.Rebirth
             target.size = source.size;
             target.offset = source.offset;
         }
-
-        private IEnumerator RestoreAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            RestoreOriginalState();
-        }
-
     }
 
 }
