@@ -70,9 +70,6 @@ namespace Formless.Core.Managers
             _rooms = rooms;
         }
 
-
-
-
         public void LoadNextDungeon()
         {
             StartCoroutine(DungeonTransition());
@@ -80,40 +77,15 @@ namespace Formless.Core.Managers
 
         private IEnumerator DungeonTransition()
         {
-            // 1. Затемняем экран
             yield return StartCoroutine(FadeToBlack());
 
-            // 2. Удаляем старые комнаты
-            //GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None); // Получаем все объекты в сцене
-            //foreach (GameObject obj in allObjects)
-            //{
-            //    if (obj.name.StartsWith("Room"))
-            //    {
-            //        Destroy(obj);
-            //    }
-            //}
-
-            // 3. Очищаем список комнат
             _rooms.Clear();
 
-            yield return new WaitForSeconds(2f);
-
-            //GameObject mainRoomPrefab = DungeonGenerator.Instance.MainRoomPrefab;
-            //// 4. Спавним новую комнату в центре
-            //GameObject newRoom = Instantiate(mainRoomPrefab, Vector3.zero, Quaternion.identity);
-            //newRoom.name = "RoomMain";
-            //_rooms.Add(newRoom);
-
+            DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
             DungeonGenerator.Instance.LoadNewDungeon();
 
-            // 5. Перемещаем игрока в центр
             Player.Player.Instance.transform.position = Vector3.zero;
-
-            // 6. Перемещаем камеру в центр
             Camera.main.transform.position = new Vector3(0, 0.5f, -10);
-
-            // 7. Убираем затемнение
-            yield return StartCoroutine(FadeToClear());
         }
 
 
@@ -139,6 +111,11 @@ namespace Formless.Core.Managers
             _fadeScreen.color = new Color(0, 0, 0, 0);
         }
 
+        private void HandleWaitDungeonFullGeneration()
+        {
+            StartCoroutine(FadeToClear());
+            DungeonGenerator.OnDungeonFullGenerated -= HandleWaitDungeonFullGeneration;
+        }
         public void EnemyKilled()
         {
             Stats.EnemyKilled();

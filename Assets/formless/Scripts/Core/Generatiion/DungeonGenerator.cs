@@ -19,6 +19,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private GameObject _mainRoomPrefab;
 
     public static Action OnDungeonGenerationCompleted;
+    public static Action OnDungeonFullGenerated;
     private List<GameObject> _generatedRooms = new List<GameObject>();
     private float _checkDelay = 1.5f;
     private float _timeSinceLastRoom = 0;
@@ -60,7 +61,7 @@ public class DungeonGenerator : MonoBehaviour
         GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach (GameObject obj in allObjects)
         {
-            if (obj.name.StartsWith("Room"))
+            if (obj.CompareTag("Room") || obj.CompareTag("RoomMain"))
             {
                 Destroy(obj);
             }
@@ -186,6 +187,7 @@ public class DungeonGenerator : MonoBehaviour
                 AssignKeyRequiredDoors();
                 SpawnKeyInAccessibleRooms();
                 SpawnHearstInRooms();
+                OnDungeonFullGenerated?.Invoke();
                 yield break;
             }
         }
