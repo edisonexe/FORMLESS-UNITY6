@@ -160,10 +160,10 @@ namespace Formless.Player.Rebirth
 
         public void RestoreOriginalState()
         {
-            Debug.Log("ÂÎÇÂĞÀÒ Ê ÎĞÈÃÈÍÀËÜÍÎÌÓ ÑÎÑÒÎßÍÈŞ!");
-
+            //Debug.Log("ÂÎÇÂĞÀÒ Ê ÎĞÈÃÈÍÀËÜÍÎÌÓ ÑÎÑÒÎßÍÈŞ!");
+            SaveAnimatorParameters();
             _playerAnimator.runtimeAnimatorController = _originalAnimator;
-
+            RestoreAnimatorParameters();
             if (_playerBasicAttackCollider != null && _originalBasicAttackPoints != null)
                 _playerBasicAttackCollider.points = _originalBasicAttackPoints;
 
