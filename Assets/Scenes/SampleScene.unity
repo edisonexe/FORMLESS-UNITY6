@@ -1420,7 +1420,7 @@ MonoBehaviour:
   boxCollider2D: {fileID: 0}
   capsuleCollider2D: {fileID: 0}
   _moveSpeed: 5
-  _maxHealth: 3
+  _maxHealth: 10
   damageBasicAttack: 0.5
   damageStrongAttack: 100
   basicAttackCollider: {fileID: 0}

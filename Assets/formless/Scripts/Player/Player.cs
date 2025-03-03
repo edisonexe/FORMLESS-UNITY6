@@ -148,7 +148,6 @@ namespace Formless.Player
         {
             if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
             {
-                Debug.Log("Столкновение с врагом");
                 if (_isBasicAttack)
                 {
                     enemy.TakeDamage(transform, damageBasicAttack);

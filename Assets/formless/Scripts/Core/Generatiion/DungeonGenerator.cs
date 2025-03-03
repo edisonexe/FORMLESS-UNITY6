@@ -125,19 +125,19 @@ public class DungeonGenerator : MonoBehaviour
     private void SetMaxCountKeys()
     {
         MaxCountKeys = _generatedRooms.Count / 2;
-        Debug.Log("Макс. кол-во ключей " + MaxCountKeys);
+        //Debug.Log("Макс. кол-во ключей " + MaxCountKeys);
     }
 
     private void SetMaxCountHearts()
     {
         MaxCountHearts = _generatedRooms.Count / 3;
-        Debug.Log("Макс. кол-во сердец " + MaxCountHearts);
+        //Debug.Log("Макс. кол-во сердец " + MaxCountHearts);
     }
 
     private void SetMaxCountKeyRequiredDoors()
     {
         MaxCountKeyRequiredDoors = _generatedRooms.Count / 3;
-        Debug.Log("Макс. кол-во KRдверей = " + MaxCountKeyRequiredDoors);
+        //Debug.Log("Макс. кол-во KRдверей = " + MaxCountKeyRequiredDoors);
     }
 
     private void SetLastRoom()

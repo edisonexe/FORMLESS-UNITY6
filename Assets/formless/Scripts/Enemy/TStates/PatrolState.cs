@@ -44,14 +44,12 @@ namespace Formless.Enemy.States
 
             if (!entity.navMeshAgent.pathPending && entity.navMeshAgent.remainingDistance <= entity.navMeshAgent.stoppingDistance)
             {
-                // Используем ChangerState для перехода в состояние Idle
                 ChangerState.ChangeToIdleState(entity, stateMachine, animator);
             }
 
             if (entity.CanSeePlayer())
             {
-                // Используем ChangerState для перехода в состояние Chasing
-                ChangerState.ChangeToAttackState(entity, stateMachine, animator);  // Пример для атаки
+                ChangerState.ChangeToChasingState(entity, stateMachine, animator);
             }
         }
 

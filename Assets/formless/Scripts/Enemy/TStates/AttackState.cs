@@ -8,7 +8,7 @@ namespace Formless.Enemy.States
     {
         protected T entity;
         protected Animator animator;
-        protected float attackRange = 1.0f;
+        protected float attackRange = 1.8f;
         protected float attackCooldown = 1.5f;
         protected float timeSinceLastAttack;
 

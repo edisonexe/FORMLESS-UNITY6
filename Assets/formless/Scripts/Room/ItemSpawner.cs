@@ -15,7 +15,7 @@ namespace Formless.Room
 
         public void SpawnKey()
         {
-            Debug.Log("Спавн ключа");
+            //Debug.Log("Спавн ключа");
 
             SpawnItemWithPrefab(PrefabManager.Instance.KeyPrefab);
             DungeonGenerator.Instance.RegisterKey();
@@ -23,7 +23,7 @@ namespace Formless.Room
 
         public void SpawnHeart()
         {
-            Debug.Log("Спавн сердечка");
+            //Debug.Log("Спавн сердечка");
 
             SpawnItemWithPrefab(PrefabManager.Instance.HeartPrefab);
             DungeonGenerator.Instance.RegisterHeart();
@@ -31,7 +31,7 @@ namespace Formless.Room
 
         public void SpawnKeyForPenultimateRoom()
         {
-            Debug.Log("Спавн ключа для комнаты босса");
+            //Debug.Log("Спавн ключа для комнаты босса");
 
             SpawnItemWithPrefab(PrefabManager.Instance.BossKeyPrefab);
         }

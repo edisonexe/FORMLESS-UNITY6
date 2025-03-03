@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Formless.Player;
 using UnityEngine;
 
 namespace Formless.Player.Rebirth
@@ -9,6 +6,7 @@ namespace Formless.Player.Rebirth
     {
         private RebirthTimer _rebirthDuration;
 
+        private bool _isOriginalState = true;
 
         private GameObject _lastKilledEnemy;
         private Animator _playerAnimator;
@@ -70,7 +68,7 @@ namespace Formless.Player.Rebirth
                 Rebirth();
                 UIManager.Instance.StartRebirthCooldown();
             }
-            if (_rebirthDuration.IsCooldownOver())
+            if (_rebirthDuration.IsCooldownOver() && !_isOriginalState)
             {
                 RestoreOriginalState();
             }
@@ -91,8 +89,6 @@ namespace Formless.Player.Rebirth
         {
             if (_lastKilledEnemy == null) return;
 
-            Debug.Log("оепепнфдемхе!");
-
             Animator enemyAnimator = _lastKilledEnemy.GetComponent<Animator>();
             PolygonCollider2D enemyBasicAttackCollider = _lastKilledEnemy.transform.Find("BasicAttack")?.GetComponent<PolygonCollider2D>();
             PolygonCollider2D enemyStrongAttackCollider = _lastKilledEnemy.transform.Find("StrongAttack")?.GetComponent<PolygonCollider2D>();
@@ -109,6 +105,7 @@ namespace Formless.Player.Rebirth
             CopyBoxCollider(enemyBoxCollider, _playerBoxCollider);
 
             UIManager.Instance.StartRebirthDuration();
+            _isOriginalState = false;
         }
 
         public void RestoreOriginalState()
@@ -135,6 +132,8 @@ namespace Formless.Player.Rebirth
                 _playerBoxCollider.size = _originalBoxSize;
                 _playerBoxCollider.offset = _originalBoxOffset;
             }
+
+            _isOriginalState = true;
         }
 
         private void CopyPolygonCollider(PolygonCollider2D source, PolygonCollider2D target)
