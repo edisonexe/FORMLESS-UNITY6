@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
         _maxCountHearts = _hearts.Length;
         _maxCountKeys = _keys.Length;
         _rebirthCooldown = new RebirthTimer(_cooldownImage, 5f);
-        _rebirthDuration = new RebirthTimer(_durationImage, 25f);
+        _rebirthDuration = new RebirthTimer(_durationImage, 5f);
     }
 
 

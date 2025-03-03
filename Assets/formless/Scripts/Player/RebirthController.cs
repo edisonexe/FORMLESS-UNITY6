@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Formless.Player.Rebirth
@@ -25,6 +26,7 @@ namespace Formless.Player.Rebirth
         private CapsuleDirection2D _originalCapsuleDirection;
         private Vector2 _originalBoxSize;
         private Vector2 _originalBoxOffset;
+        private Dictionary<string, float> _animatorParams = new Dictionary<string, float>();
 
         private void Start()
         {
@@ -77,7 +79,7 @@ namespace Formless.Player.Rebirth
         public void OnEnemyKilled(GameObject killedEnemy)
         {
             _lastKilledEnemy = killedEnemy;
-            Debug.Log("Установлен п.убитый враг " + _lastKilledEnemy.name);
+            //Debug.Log("Установлен п.убитый враг " + _lastKilledEnemy.name);
         }
 
         public void SetInputHandler(PlayerInputHandler inputHandler)
@@ -85,10 +87,57 @@ namespace Formless.Player.Rebirth
             _inputHandler = inputHandler;
         }
 
+        private void SaveAnimatorParameters()
+        {
+            _animatorParams.Clear();
+            foreach (var param in _playerAnimator.parameters)
+            {
+                if (param.type == AnimatorControllerParameterType.Bool)
+                {
+                    _animatorParams[param.name] = _playerAnimator.GetBool(param.name) ? 1f : 0f;
+                }
+                else if (param.type == AnimatorControllerParameterType.Float)
+                {
+                    _animatorParams[param.name] = _playerAnimator.GetFloat(param.name);
+                }
+                else if (param.type == AnimatorControllerParameterType.Int)
+                {
+                    _animatorParams[param.name] = _playerAnimator.GetInteger(param.name);
+                }
+            }
+        }
+
+        private void RestoreAnimatorParameters()
+        {
+            foreach (var param in _animatorParams)
+            {
+                if (AnimatorHasParameter(_playerAnimator, param.Key))
+                {
+                    if (param.Value == 1f || param.Value == 0f)
+                        _playerAnimator.SetBool(param.Key, param.Value == 1f);
+                    else if (param.Value % 1 == 0)
+                        _playerAnimator.SetInteger(param.Key, (int)param.Value);
+                    else
+                        _playerAnimator.SetFloat(param.Key, param.Value);
+                }
+            }
+        }
+
+        private bool AnimatorHasParameter(Animator animator, string paramName)
+        {
+            foreach (var param in animator.parameters)
+            {
+                if (param.name == paramName)
+                    return true;
+            }
+            return false;
+        }
+
+
         private void Rebirth()
         {
             if (_lastKilledEnemy == null) return;
-
+            SaveAnimatorParameters();
             Animator enemyAnimator = _lastKilledEnemy.GetComponent<Animator>();
             PolygonCollider2D enemyBasicAttackCollider = _lastKilledEnemy.transform.Find("BasicAttack")?.GetComponent<PolygonCollider2D>();
             PolygonCollider2D enemyStrongAttackCollider = _lastKilledEnemy.transform.Find("StrongAttack")?.GetComponent<PolygonCollider2D>();
@@ -97,6 +146,7 @@ namespace Formless.Player.Rebirth
 
             // Анимация
             _playerAnimator.runtimeAnimatorController = enemyAnimator.runtimeAnimatorController;
+            RestoreAnimatorParameters();
 
             // Копируем коллайдеры
             CopyPolygonCollider(enemyBasicAttackCollider, _playerBasicAttackCollider);
