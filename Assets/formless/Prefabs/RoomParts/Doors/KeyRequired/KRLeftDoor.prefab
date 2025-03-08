@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraChangePosition: {x: -20, y: 0, z: 0}
-  _playerChangePosition: {x: -7, y: 0, z: 0}
+  _playerChangePosition: {x: -8, y: 0, z: 0}
 --- !u!1 &6931412106572955231
 GameObject:
   m_ObjectHideFlags: 0

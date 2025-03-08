@@ -7,5 +7,17 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ArmoredOrc
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 73a995f2b2712864d90b92120c2afda2, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 55cf4897391ce6e40b85be6f97d483da, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d4fbaba27c9c73b4d854a357860c46a6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d4613a054c89a9c44b9e674560266930, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9749515d1c0f28f4bb0688eec61c0536, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 89f8f8b6d8220ac42bce981ee7293179, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 48c5d37492d57aa4cabe00f061682d41, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 598c26cb1dbbc834089717c91669cdec, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4e3a02bf2e78b0141b3c173ec57fbb6c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a406414a2bad61c46b2cd73d35de98a2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d89840cf3d40b634aa163737c37d219c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 21577f493ec234e489332bc3dbec3a25, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cffe037215d6ae2489b7f58df4f4ff7e, type: 2}

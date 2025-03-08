@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArmoredOrc
   m_EditorClassIdentifier: 
   enemyName: Armored Orc
-  maxHealth: 3
+  maxHealth: 50
   damageBasicAttack: 0.5
   damageStrongAttack: 1.5
   patrolDistanceMin: 5

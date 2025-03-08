@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Skeleton
   m_EditorClassIdentifier: 
   enemyName: Skeleton
-  maxHealth: 2
+  maxHealth: 25
   damageBasicAttack: 0.5
   damageStrongAttack: 1
   patrolDistanceMin: 5
