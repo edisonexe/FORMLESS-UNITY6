@@ -16,7 +16,7 @@ namespace Formless.UI
             _textMesh = GetComponent<TextMeshPro>();
             _meshRenderer = GetComponent<MeshRenderer>();
 
-            _textMesh.text = damage.ToString();
+            _textMesh.text = "-" + damage.ToString();
             _meshRenderer.sortingOrder = 10;
 
             Destroy(gameObject, _lifeTime);
