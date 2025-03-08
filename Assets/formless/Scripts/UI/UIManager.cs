@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+
     [Header("Health and hearts")]
     private float _currentHealth;
     private float _maxCountHearts;
@@ -39,7 +40,7 @@ public class UIManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // ”ничтожаем дубликат
+            Destroy(gameObject);
             return;
         }
 
@@ -54,8 +55,6 @@ public class UIManager : MonoBehaviour
         _rebirthCooldown = new RebirthTimer(_cooldownImage, 5f);
         _rebirthDuration = new RebirthTimer(_durationImage, 5f);
     }
-
-
     private void Update()
     {
         _rebirthCooldown.UpdateTimer(Time.deltaTime);
@@ -76,7 +75,6 @@ public class UIManager : MonoBehaviour
     {
         return _rebirthCooldown.IsCooldownOver();
     }
-
 
     public void UpdateHeartsUI()
     {

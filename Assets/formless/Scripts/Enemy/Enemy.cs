@@ -4,6 +4,8 @@ using Formless.Enemy.States;
 using Formless.Core;
 using UnityEngine.AI;
 using Formless.Core.Utilties;
+using Formless.UI;
+using Formless.Core.Managers;
 using System;
 namespace Formless.Enemy
 {
@@ -161,7 +163,15 @@ namespace Formless.Enemy
         public override void TakeDamage(Transform damageSourcePosition, float damage)
         {
             base.TakeDamage(damageSourcePosition, damage);
+            ShowDamageText(damage);
             StateMachine.ChangeState(GetHurtState());
+        }
+
+        private void ShowDamageText(float damage)
+        {
+            GameObject damageText = Instantiate(PrefabManager.Instance.DamageTextPrefab, transform.position + Vector3.up / 2f, Quaternion.identity);
+            damageText.transform.SetParent(transform);
+            damageText.GetComponent<DamageText>().Initialize(damage);
         }
 
         public virtual void StartFadeAndDestroy()

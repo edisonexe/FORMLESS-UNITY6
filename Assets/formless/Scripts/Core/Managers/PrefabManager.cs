@@ -19,6 +19,20 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _bossKeyPrefab;
         [SerializeField] private GameObject _bossLockPrefab;
 
+        [SerializeField] private GameObject _damageTextPrefab;
+
+        public GameObject HeartPrefab => _heartPrefab;
+        public GameObject KeyPrefab => _keyPrefab;
+        public GameObject[] EnemyPrefabs => _enemyPrefabs;
+        public GameObject BossPrefab => _bossPrefab;
+        public GameObject TeleportPrefab => _teleportPrefab;
+        public GameObject LockDestroyEffect => _lockDestroyEffect;
+        public GameObject BossLockDestroyEffect => _bossLockDestroyEffect;
+        public GameObject BossKeyPrefab => _bossKeyPrefab;
+        public GameObject BossLockPrefab => _bossLockPrefab;
+        public GameObject DamageTextPrefab => _damageTextPrefab;
+
+
         [Header("Door Styles")]
         [SerializeField] private List<DoorStyle> _doorStyles; // ScriptableObject
         private Dictionary<string, DoorStyle> _doorStyleMap;
@@ -40,16 +54,6 @@ namespace Formless.Core.Managers
         {
             InitializeDoorStyles();
         }
-
-        public GameObject HeartPrefab => _heartPrefab;
-        public GameObject KeyPrefab => _keyPrefab;
-        public GameObject[] EnemyPrefabs => _enemyPrefabs;
-        public GameObject BossPrefab => _bossPrefab;
-        public GameObject TeleportPrefab => _teleportPrefab;
-        public GameObject LockDestroyEffect => _lockDestroyEffect;
-        public GameObject BossLockDestroyEffect => _bossLockDestroyEffect;
-        public GameObject BossKeyPrefab => _bossKeyPrefab;
-        public GameObject BossLockPrefab => _bossLockPrefab;
 
         private void InitializeDoorStyles()
         {
