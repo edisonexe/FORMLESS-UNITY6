@@ -43,6 +43,9 @@ public class PlayerAttackState : PlayerState
         if (moveInput.x != 0)
         {
             player.ChangePlayerFacingDirection(moveInput);
+        }
+        if (moveInput != Vector2.zero)
+        {
             player.Move(moveInput);
         }
 

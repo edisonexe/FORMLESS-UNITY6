@@ -7,6 +7,7 @@ using Formless.Core.Utilties;
 using Formless.UI;
 using Formless.Core.Managers;
 using System;
+using Formless.Player.States;
 
 namespace Formless.Enemy
 {
@@ -141,6 +142,8 @@ namespace Formless.Enemy
         {
             strongAttackCollider.enabled = false;
         }
+
+        public void OnAttackAnimationFinished() { }
 
         public virtual void OnTriggerEnter2D(Collider2D collision)
         {

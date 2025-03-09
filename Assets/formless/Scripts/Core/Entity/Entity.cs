@@ -27,7 +27,7 @@ namespace Formless.Core
         public virtual void TakeDamage(Transform damageSource, float damage)
         {
             Health -= damage;
-            Debug.Log($"{name} получил урон. Текущее здоровье: {Health}");
+            //Debug.Log($"{name} получил урон. Текущее здоровье: {Health}");
 
             ApplyKnockBack(damageSource);
         }

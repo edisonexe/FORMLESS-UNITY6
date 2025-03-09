@@ -19,6 +19,7 @@ namespace Formless.Player.States
 
         public override void Enter()
         {
+            //Debug.Log("Enter [MOVING]");
             _animator.SetBool(AnimationConstants.IS_MOVING, true);
         }
 
@@ -52,6 +53,11 @@ namespace Formless.Player.States
         public override void FixedUpdate()
         {
             player.Move(_moveInput);
+        }
+
+        public override void Exit()
+        {
+            //Debug.Log("Exit [MOVING]");
         }
     }
 }

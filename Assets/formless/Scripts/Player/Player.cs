@@ -103,16 +103,6 @@ namespace Formless.Player
             Destroy(gameObject, 1.5f);
         }
 
-        public void BasicAttack()
-        {
-            Debug.Log("Базовая атака");
-        }
-
-        public void StrongAttack()
-        {
-            Debug.Log("Сильная атака");
-        }
-
         public override void TakeDamage(Transform damageSourcePosition, float damage)
         {
             base.TakeDamage(damageSourcePosition, damage);
@@ -125,7 +115,7 @@ namespace Formless.Player
         public void BasicAttackColliderEnable()
         {
             basicAttackCollider.enabled = true;
-            _isBasicAttack = true;
+            //_isBasicAttack = true;
         }
 
         public void BasicAttackColliderDisable()
@@ -136,7 +126,7 @@ namespace Formless.Player
         public void StrongAttackColliderEnable()
         {
             strongAttackCollider.enabled = true;
-            _isStrongAttack = true;
+            //_isStrongAttack = true;
         }
 
         public void StrongAttackColliderDisable()
