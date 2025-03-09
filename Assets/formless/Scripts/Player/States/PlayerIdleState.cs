@@ -24,6 +24,10 @@ namespace Formless.Player.States
 
         public override void Update()
         {
+            if (stateMachine.CurrentState is PlayerAttackState)
+            {
+                return;
+            }
 
             if (_inputHandler.GetMoveInput() != Vector2.zero)
             {

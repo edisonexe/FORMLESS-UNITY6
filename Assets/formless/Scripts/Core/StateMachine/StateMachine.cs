@@ -6,8 +6,12 @@ namespace Formless.SM
     {
         private State currentState;
 
+        public State CurrentState => currentState;
+
         public void ChangeState(State newState)
         {
+            //Debug.Log($"Смена состояния: {currentState?.GetType().Name} -> {newState.GetType().Name}");
+
             currentState?.Exit();
             currentState = newState;
             currentState.Enter();

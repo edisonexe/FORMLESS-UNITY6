@@ -146,18 +146,33 @@ namespace Formless.Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
+            //Debug.Log($"Коллизия с {collision.name}. Текущее состояние: {StateMachine.CurrentState?.GetType().Name}");
+            if (StateMachine.CurrentState is PlayerAttackState attackState)
             {
-                if (_isBasicAttack)
+                if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
                 {
-                    enemy.TakeDamage(transform, damageBasicAttack);
-                    _isBasicAttack = false;
+                    if (attackState.IsBasicAttack && !enemy.IsHitThisAttack)
+                    {
+                        enemy.TakeDamage(transform, damageBasicAttack);
+                    }
+                    else if (attackState.IsStrongAttack && !enemy.IsHitThisAttack)
+                    {
+                        enemy.TakeDamage(transform, damageStrongAttack);
+                    }
                 }
-                else if (_isStrongAttack) 
-                {
-                    enemy.TakeDamage(transform,damageStrongAttack);
-                    _isStrongAttack = false;
-                }
+            }
+        }
+
+        public void OnAttackAnimationFinished()
+        {
+            foreach (var enemy in FindObjectsByType<Enemy.Enemy>(FindObjectsSortMode.None))
+            {
+                enemy.ResetIsHitThisAttack();
+            }
+
+            if (StateMachine.CurrentState is PlayerAttackState)
+            {
+                StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, _inputHandler, _animator));
             }
         }
 

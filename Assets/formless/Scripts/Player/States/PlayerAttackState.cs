@@ -8,6 +8,11 @@ public class PlayerAttackState : PlayerState
 {
     private PlayerInputHandler _inputHandler;
     private Animator _animator;
+    private bool _isBasicAttack;
+    private bool _isStrongAttack;
+
+    public bool IsBasicAttack => _isBasicAttack;
+    public bool IsStrongAttack => _isStrongAttack;
 
     public PlayerAttackState(Player player, StateMachine stateMachine, PlayerInputHandler inputHandler, Animator animator) 
         : base(player, stateMachine)
@@ -23,29 +28,30 @@ public class PlayerAttackState : PlayerState
         if (_inputHandler.IsBasicAttackPressed())
         {
             _animator.SetTrigger(AnimationConstants.BASIC_ATTACK);
-            //player.BasicAttack();
+            _isBasicAttack = true;
         }
         else if (_inputHandler.IsStrongAttackPressed())
         {
             _animator.SetTrigger(AnimationConstants.STRONG_ATTACK);
-            //player.StrongAttack();
+            _isStrongAttack = true;
         }
     }
 
     public override void Update()
+    {
+        Vector2 moveInput = _inputHandler.GetMoveInput();
+        if (moveInput.x != 0)
         {
-            if (_inputHandler.GetMoveInput() != Vector2.zero)
-            {
-                stateMachine.ChangeState(new PlayerMovingState(player, stateMachine, _inputHandler, _animator));
-            }
-            else
-            {
-                stateMachine.ChangeState(new PlayerIdleState(player, stateMachine, _inputHandler, _animator));
-            }
+            player.ChangePlayerFacingDirection(moveInput);
+            player.Move(moveInput);
         }
-    
+
+    }
+
     public override void Exit()
     {
+        _isBasicAttack = false;
+        _isStrongAttack = false;
         //Debug.Log("Exit [ATTACK]");
     }
 }
