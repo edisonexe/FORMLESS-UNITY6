@@ -7,7 +7,6 @@ using Formless.Core.Utilties;
 using Formless.UI;
 using Formless.Core.Managers;
 using System;
-using Formless.Player.States;
 
 namespace Formless.Enemy
 {
@@ -41,9 +40,6 @@ namespace Formless.Enemy
         public float damageStrongAttack;
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
-
-        private bool _isHitThisAttack = false;
-        public bool IsHitThisAttack => _isHitThisAttack;
 
         protected override void Awake()
         {
@@ -171,15 +167,8 @@ namespace Formless.Enemy
         {
             base.TakeDamage(damageSourcePosition, damage);
 
-            _isHitThisAttack = true;
-
             ShowDamageText(damage);
             StateMachine.ChangeState(GetHurtState());
-        }
-
-        public void ResetIsHitThisAttack()
-        {
-            _isHitThisAttack = false;
         }
 
         private void ShowDamageText(float damage)

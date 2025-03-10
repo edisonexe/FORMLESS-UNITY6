@@ -4,6 +4,7 @@ using Formless.Player.States;
 using Formless.Core.Utilties;
 using Formless.Core.Managers;
 using Formless.Player.Rebirth;
+using System.Collections.Generic;
 
 namespace Formless.Player
 {
@@ -23,8 +24,6 @@ namespace Formless.Player
 
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _maxHealth;
-        private bool _isBasicAttack;
-        private bool _isStrongAttack;
         [SerializeField] public float damageBasicAttack;
         [SerializeField] public float damageStrongAttack;
         public PolygonCollider2D basicAttackCollider;
@@ -32,6 +31,8 @@ namespace Formless.Player
 
         private int _keysCount;
         private bool _hasBossKey;
+
+        private HashSet<Enemy.Enemy> _damagedEnemies = new HashSet<Enemy.Enemy>();
 
         public RebirthController RebirthController => _rebirthController;
 
@@ -115,7 +116,6 @@ namespace Formless.Player
         public void BasicAttackColliderEnable()
         {
             basicAttackCollider.enabled = true;
-            //_isBasicAttack = true;
         }
 
         public void BasicAttackColliderDisable()
@@ -126,7 +126,6 @@ namespace Formless.Player
         public void StrongAttackColliderEnable()
         {
             strongAttackCollider.enabled = true;
-            //_isStrongAttack = true;
         }
 
         public void StrongAttackColliderDisable()
@@ -136,18 +135,23 @@ namespace Formless.Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            //Debug.Log($"Коллизия с {collision.name}. Текущее состояние: {StateMachine.CurrentState?.GetType().Name}");
             if (StateMachine.CurrentState is PlayerAttackState attackState)
             {
                 if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
                 {
-                    if (attackState.IsBasicAttack && !enemy.IsHitThisAttack)
+                    if (!_damagedEnemies.Contains(enemy))
                     {
-                        enemy.TakeDamage(transform, damageBasicAttack);
-                    }
-                    else if (attackState.IsStrongAttack && !enemy.IsHitThisAttack)
-                    {
-                        enemy.TakeDamage(transform, damageStrongAttack);
+
+                        if (attackState.IsBasicAttack)
+                        {
+                            enemy.TakeDamage(transform, damageBasicAttack);
+                        }
+                        else if (attackState.IsStrongAttack)
+                        {
+                            enemy.TakeDamage(transform, damageStrongAttack);
+                        }
+
+                        _damagedEnemies.Add(enemy);
                     }
                 }
             }
@@ -155,10 +159,7 @@ namespace Formless.Player
 
         public void OnAttackAnimationFinished()
         {
-            foreach (var enemy in FindObjectsByType<Enemy.Enemy>(FindObjectsSortMode.None))
-            {
-                enemy.ResetIsHitThisAttack();
-            }
+            _damagedEnemies.Clear();
 
             if (StateMachine.CurrentState is PlayerAttackState)
             {
