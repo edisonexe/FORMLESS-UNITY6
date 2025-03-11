@@ -197,7 +197,7 @@ namespace Formless.Room
 
         private void ReplaceDoorWithWall()
         {
-            Debug.Log("Колизия двери со стеной, замена на стену");
+            //Debug.Log("Колизия двери со стеной, замена на стену");
             Transform room = gameObject.transform.parent;
             if (room.CompareTag("RoomMain")) return;
 
@@ -217,18 +217,18 @@ namespace Formless.Room
                 OpenDoor("BossLock");
                 Player.Player.Instance.UseBossKey();
                 DestroyLockAndActivateMover(LockConstants.BOSS_LOCK, _doorType);
-                Debug.Log("Дверь босса открыта");
+                //Debug.Log("Дверь босса открыта");
             }
             else if (GameplayManager.Instance.HasKey() && _doorType == DoorType.KeyRequired)
             {
                 OpenDoor("Lock");
                 Player.Player.Instance.UseKey();
                 DestroyLockAndActivateMover(LockConstants.LOCK, _doorType);
-                Debug.Log("Обычная дверь открыта");
+                //Debug.Log("Обычная дверь открыта");
             }
             else
             {
-                Debug.Log("У игрока нет ключей");
+                //Debug.Log("У игрока нет ключей");
             }
         }
 

@@ -31,10 +31,12 @@ namespace Formless.Player
 
         private int _keysCount;
         private bool _hasBossKey;
+        private int _bombsCount;
 
         private HashSet<Enemy.Enemy> _damagedEnemies = new HashSet<Enemy.Enemy>();
 
         public RebirthController RebirthController => _rebirthController;
+        public int BombCount => _bombsCount;
 
         protected override void Awake()
         {
@@ -110,6 +112,13 @@ namespace Formless.Player
 
             UIManager.Instance.SetHealthCount(Health);
 
+            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
+        }
+
+        public override void TakeDamage(float damage)
+        {
+            base.TakeDamage(damage);
+            UIManager.Instance.SetHealthCount(Health);
             StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
         }
 
@@ -219,6 +228,22 @@ namespace Formless.Player
         public bool IsInteractionPressed()
         {
             return _inputHandler.IsInteractionPressed();
+        }
+
+        public bool IsUseBombPressed()
+        {
+            return _inputHandler.IsUseBombPressed();
+        }
+
+        public void UseBomb()
+        {
+            _bombsCount--;
+        }
+
+        public void PickupBomb()
+        {
+            _bombsCount++;
+            Debug.Log($"Количество бомб = {_bombsCount}");
         }
     }
 }

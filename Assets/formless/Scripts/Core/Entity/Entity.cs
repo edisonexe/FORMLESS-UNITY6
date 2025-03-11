@@ -32,6 +32,11 @@ namespace Formless.Core
             ApplyKnockBack(damageSource);
         }
 
+        public virtual void TakeDamage(float damage)
+        {
+            Health -= damage;
+        }
+
         protected virtual void ApplyKnockBack(Transform damageSource)
         {
             if (_rb == null) return;

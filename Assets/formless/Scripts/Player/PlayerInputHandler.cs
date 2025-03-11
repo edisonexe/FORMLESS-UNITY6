@@ -51,5 +51,10 @@ namespace Formless.Player
         {
             return inputActions.Player.Rebirth.triggered;
         }
+
+        public bool IsUseBombPressed()
+        {
+            return inputActions.Player.UseBomb.triggered;
+        }
     }
 }

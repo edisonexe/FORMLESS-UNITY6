@@ -20,7 +20,8 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _bossLockPrefab;
 
         [SerializeField] private GameObject _damageTextPrefab;
-
+        [SerializeField] private GameObject _bombPrefabWith;
+        [SerializeField] private GameObject _bombPrefabWithout;
         public GameObject HeartPrefab => _heartPrefab;
         public GameObject KeyPrefab => _keyPrefab;
         public GameObject[] EnemyPrefabs => _enemyPrefabs;
@@ -31,7 +32,8 @@ namespace Formless.Core.Managers
         public GameObject BossKeyPrefab => _bossKeyPrefab;
         public GameObject BossLockPrefab => _bossLockPrefab;
         public GameObject DamageTextPrefab => _damageTextPrefab;
-
+        public GameObject BombPrefabWith => _bombPrefabWith;
+        public GameObject BombPrefabWithout => _bombPrefabWithout;
 
         [Header("Door Styles")]
         [SerializeField] private List<DoorStyle> _doorStyles; // ScriptableObject
