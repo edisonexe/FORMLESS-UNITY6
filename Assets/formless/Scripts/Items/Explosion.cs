@@ -14,7 +14,10 @@ namespace Formless.Items
         {
             _collider = GetComponent<CircleCollider2D>();
             _animator = GetComponent<Animator>();
+        }
 
+        private void Start()
+        {
             _collider.enabled = false;
         }
 

@@ -4,15 +4,44 @@ namespace Formless.Items
 {
     public class Bomb : MonoBehaviour
     {
-        private CircleCollider2D _circleCollider;
-        private float _fuseTime;
+        private Animator _animator;
         [SerializeField] private AnimationClip _clipBomb;
         [SerializeField] private GameObject _explosionObj;
+        private const string ACTIVATE_BOMB = "ActivateBomb";
+
+        private Vector2 _targetPosition;
+
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
 
         private void Start()
         {
-            _fuseTime = _clipBomb.length;
-            Invoke(nameof(Fuse), _fuseTime);
+            _targetPosition = (Vector2)transform.position + new Vector2(0f, -0.5f);
+        }
+
+        private void Update()
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _targetPosition, 2f * Time.deltaTime);
+        }
+
+        public void ActivateBombPrepare()
+        {
+            _animator.SetTrigger(ACTIVATE_BOMB);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                var collectible = gameObject.GetComponent<Collectible>();
+                if (collectible != null && collectible.isCollected) return;
+
+                collectible.isCollected = true;
+                Player.Player.Instance.PickupBomb();
+                Destroy(gameObject);
+            }
         }
 
         private void Fuse()
@@ -30,6 +59,11 @@ namespace Formless.Items
             }
 
             Destroy(gameObject);
+        }
+
+        public void EndPrepareAnimation()
+        {
+            Fuse();
         }
     }
 }
