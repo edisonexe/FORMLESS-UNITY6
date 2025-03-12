@@ -1584,7 +1584,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mytileset_67
+      name: chest1_1
       rect:
         serializedVersion: 2
         x: 16
@@ -1606,7 +1606,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mytileset_68
+      name: chest1_2
       rect:
         serializedVersion: 2
         x: 32
@@ -1628,7 +1628,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mytileset_69
+      name: chest2_1
       rect:
         serializedVersion: 2
         x: 48
@@ -1650,7 +1650,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mytileset_70
+      name: chest2_2
       rect:
         serializedVersion: 2
         x: 64
@@ -2719,6 +2719,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      chest1_1: -827867410
+      chest1_2: 1950268609
+      chest2_1: -2129546917
+      chest2_2: -188032009
       mytileset_10: 908904694
       mytileset_100: 1836123610
       mytileset_101: -1773448434
@@ -2825,11 +2829,7 @@ TextureImporter:
       mytileset_64: -1986266100
       mytileset_65: -2103945158
       mytileset_66: -1271678824
-      mytileset_67: -827867410
-      mytileset_68: 1950268609
-      mytileset_69: -2129546917
       mytileset_7: 868387162
-      mytileset_70: -188032009
       mytileset_71: 426501184
       mytileset_72: -1359846350
       mytileset_73: -104990031
