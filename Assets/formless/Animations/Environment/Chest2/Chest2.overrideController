@@ -7,5 +7,9 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Chest2
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 3f6a730e83b8aa74d9da489fcd8f1254, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: b3ea1fb2ba3137645808ab4c7b598573, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7f2c261dd7a3fd14ea7c1e3ceae71593, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0ce0c3947d9003e49a8422674a4bc610, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 24453002a459bc9439d851f07c1041d6, type: 2}
