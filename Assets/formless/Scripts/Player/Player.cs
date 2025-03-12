@@ -5,6 +5,7 @@ using Formless.Core.Utilties;
 using Formless.Core.Managers;
 using Formless.Player.Rebirth;
 using System.Collections.Generic;
+using Formless.Items;
 
 namespace Formless.Player
 {
@@ -21,6 +22,7 @@ namespace Formless.Player
 
         private PlayerInputHandler _inputHandler;
         private RebirthController _rebirthController;
+        private SphereSystem _sphereSystem;
 
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _maxHealth;
@@ -49,6 +51,7 @@ namespace Formless.Player
             _inputHandler.Enable();
 
             _rebirthController = GetComponent<RebirthController>();
+            _sphereSystem = GetComponent<SphereSystem>();
 
             _animator = GetComponent<Animator>();
             boxCollider2D = GetComponent<BoxCollider2D>();
@@ -76,7 +79,15 @@ namespace Formless.Player
             if (_rebirthController != null)
             {
                 _rebirthController.SetInputHandler(_inputHandler);
-            }    
+            }
+            
+            // Потом переделать
+            _sphereSystem.AddOrb();
+            _sphereSystem.AddOrb();
+            _sphereSystem.AddOrb();
+            _sphereSystem.AddOrb();
+
+
         }
 
         private void FixedUpdate()
