@@ -31,10 +31,10 @@ namespace Formless.Room.Traps
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
-            {
-                enemy.TakeDamage(transform, _trapDamage);
-            }
+            //if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
+            //{
+            //    enemy.TakeDamage(transform, _trapDamage);
+            //}
             if (collision.transform.TryGetComponent(out Player.Player player))
             {
                 player.TakeDamage(_trapDamage);
