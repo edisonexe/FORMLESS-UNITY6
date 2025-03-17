@@ -33,7 +33,7 @@ namespace Formless.Room.Traps
         {
             if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
             {
-                enemy.TakeDamage(_trapDamage);
+                enemy.TakeDamage(transform, _trapDamage);
             }
             if (collision.transform.TryGetComponent(out Player.Player player))
             {

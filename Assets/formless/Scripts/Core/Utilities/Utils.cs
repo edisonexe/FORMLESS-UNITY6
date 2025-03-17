@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal; 
 
 namespace Formless.Core.Utilties
 {
@@ -36,6 +37,28 @@ namespace Formless.Core.Utilties
             targetObject.SetActive(false);
 
             //Object.Destroy(targetObject);
+        }
+
+        public static IEnumerator FadeLight(Light2D lightSource, float fadeDuration)
+        {
+            if (lightSource == null)
+            {
+                //Debug.LogError("FadeLight: Light source is null!");
+                yield break;
+            }
+
+            float startIntensity = lightSource.intensity;
+            float elapsedTime = 0f;
+            while (elapsedTime < fadeDuration)
+            {
+                lightSource.intensity = Mathf.Lerp(startIntensity, 0f, elapsedTime / fadeDuration);
+                //Debug.Log($"FadeLight: intensity = {lightSource.intensity}");
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            lightSource.intensity = 0f;
         }
     }
 }

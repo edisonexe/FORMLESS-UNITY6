@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4905659558134129293}
   - component: {fileID: 8495132741401262735}
   - component: {fileID: 8956377527988794662}
+  - component: {fileID: 6232224298349030418}
   m_Layer: 0
   m_Name: Pillar1
   m_TagString: Untagged
@@ -151,3 +152,67 @@ MonoBehaviour:
   m_Center: {x: 0.0010797977, y: -0.33476537, z: 0}
   m_Area: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &6232224298349030418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926148607904247680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 1
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.36270425, y: -0.7114512, z: 0}
+  - {x: -0.3652853, y: 0.028259873, z: 0}
+  - {x: -0.24774104, y: 0.03265071, z: 0}
+  - {x: -0.24151847, y: 0.97187525, z: 0}
+  - {x: -0.17839992, y: 0.97287905, z: 0}
+  - {x: -0.17907989, y: 1.036118, z: 0}
+  - {x: -0.11924082, y: 1.037478, z: 0}
+  - {x: -0.11690888, y: 1.0993242, z: 0}
+  - {x: 0.13372469, y: 1.1003641, z: 0}
+  - {x: 0.13235521, y: 1.037478, z: 0}
+  - {x: 0.19559425, y: 1.037478, z: 0}
+  - {x: 0.19559425, y: 0.974239, z: 0}
+  - {x: 0.26027507, y: 0.97195345, z: 0}
+  - {x: 0.25480634, y: 0.031570673, z: 0}
+  - {x: 0.3781199, y: 0.031386018, z: 0}
+  - {x: 0.37991846, y: -0.7092197, z: 0}
+  m_ShapePathHash: 1666704161
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 0}
+  m_ShadowShape2DProvider:
+    rid: -2
+  m_ShadowCastingSource: 1
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0.0073165596, y: 0.19445646, z: 0}
+      m_Extent: {x: 0.37260187, y: 0.90590763, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.05
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0.05
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 1
+  m_PreviousShadowShape2DSource: {fileID: 8495132741401262735}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

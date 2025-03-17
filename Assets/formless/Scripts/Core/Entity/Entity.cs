@@ -35,12 +35,13 @@ namespace Formless.Core
         public virtual void TakeDamage(float damage)
         {
             Health -= damage;
+            Debug.Log($"{name} получил урон. Текущее здоровье: {Health}");
         }
 
         protected virtual void ApplyKnockBack(Transform damageSource)
         {
             if (_rb == null) return;
-
+            if (damageSource == null) return;
             Vector2 direction = (transform.position - damageSource.position).normalized;
             StartCoroutine(KnockBackCoroutine(direction));
         }

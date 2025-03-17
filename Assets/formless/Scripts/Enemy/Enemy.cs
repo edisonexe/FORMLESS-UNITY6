@@ -7,6 +7,8 @@ using Formless.Core.Utilties;
 using Formless.UI;
 using Formless.Core.Managers;
 using System;
+using Formless.Player.States;
+using UnityEngine.Rendering.Universal; 
 
 namespace Formless.Enemy
 {
@@ -22,6 +24,7 @@ namespace Formless.Enemy
         protected SpriteRenderer spriteRenderer;
         protected Animator animator;
 
+        private Light2D lightSource;
         public event Action<Enemy> OnDie;
 
         public Vector2 startPosition;
@@ -79,6 +82,7 @@ namespace Formless.Enemy
             _material = spriteRenderer.material;
 
             StateMachine.ChangeState(new EnemyIdleState(this, StateMachine, animator));
+            lightSource = transform.Find("Light 2D")?.GetComponent<Light2D>();
         }
 
         private void FixedUpdate()
@@ -166,10 +170,20 @@ namespace Formless.Enemy
         public override void TakeDamage(Transform damageSourcePosition, float damage)
         {
             base.TakeDamage(damageSourcePosition, damage);
+            basicAttackCollider.enabled = false;
+            strongAttackCollider.enabled = false;
 
             ShowDamageText(damage);
             StateMachine.ChangeState(GetHurtState());
         }
+
+        //public override void TakeDamage(float damage)
+        //{
+        //    base.TakeDamage(damage);
+
+        //    ShowDamageText(damage);
+        //    StateMachine.ChangeState(GetHurtState());
+        //}
 
         private void ShowDamageText(float damage)
         {
@@ -182,6 +196,7 @@ namespace Formless.Enemy
         {
             OnDie?.Invoke(this);
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
+            StartCoroutine(Utils.FadeLight(lightSource, 3f));
         }
     }
 }

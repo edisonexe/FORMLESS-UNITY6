@@ -8,7 +8,7 @@ namespace Formless.Items
     {
         [SerializeField] private float orbitRadius = 2f;
         [SerializeField] private float orbitSpeed = 100f;
-        [SerializeField] private int orbitResolution = 100; // Количество точек на орбите
+        [SerializeField] private int orbitResolution = 100;
 
         private List<GameObject> orbs = new List<GameObject>();
         private LineRenderer lineRenderer;
@@ -40,8 +40,8 @@ namespace Formless.Items
         {
             GameObject newOrb = Instantiate(PrefabManager.Instance.SpherePrefab, transform.position, Quaternion.identity);
             orbs.Add(newOrb);
-
-            float cooldown = CalculateDamageCooldown();
+            float cooldown = 0.5f;
+            //float cooldown = CalculateDamageCooldown();
             newOrb.GetComponent<Sphere>().SetDamageCooldown(cooldown);
         }
 
