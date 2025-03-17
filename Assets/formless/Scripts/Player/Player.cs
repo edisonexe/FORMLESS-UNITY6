@@ -80,12 +80,12 @@ namespace Formless.Player
             {
                 _rebirthController.SetInputHandler(_inputHandler);
             }
-            
+
             // Потом переделать
             _sphereSystem.AddOrb();
             _sphereSystem.AddOrb();
-            _sphereSystem.AddOrb();
-            _sphereSystem.AddOrb();
+            //_sphereSystem.AddOrb();
+            //_sphereSystem.AddOrb();
 
 
         }

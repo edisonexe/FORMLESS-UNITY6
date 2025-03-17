@@ -79,6 +79,7 @@ namespace Formless.Room
             {
                 RemoveObjectsWithTagInRoom(gameObject, "EnemySpawner");
                 RemoveObjectsWithTagInRoom(gameObject, "ItemSpawner");
+                RemoveEnvironmentObjectsFromParent();
             }
             else
             {
@@ -103,7 +104,7 @@ namespace Formless.Room
         }
 
         // ƒŒƒ≈À¿“‹ ”ƒ¿À≈Õ»≈ —œ¿”Õ≈–Œ¬ »« BOSS_ROOM
-        void RemoveObjectsWithTagInRoom(GameObject room, string tagToRemove)
+        public void RemoveObjectsWithTagInRoom(GameObject room, string tagToRemove)
         {
             GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(tagToRemove);
     
@@ -112,6 +113,23 @@ namespace Formless.Room
                 if (obj.transform.IsChildOf(room.transform))
                 {
                     Destroy(obj);
+                }
+            }
+        }
+
+        public void RemoveEnvironmentObjectsFromParent()
+        {
+            if (transform.parent == null) return;
+
+            Transform parent = transform.parent;
+
+            foreach (Transform child in parent)
+            {
+                if (child.name.Contains("Environment") || child.CompareTag("Environment"))
+                {
+                    Destroy(child.gameObject);
+                    Debug.Log("Env Û‰‡Î∏Ì");
+                    break;
                 }
             }
         }
