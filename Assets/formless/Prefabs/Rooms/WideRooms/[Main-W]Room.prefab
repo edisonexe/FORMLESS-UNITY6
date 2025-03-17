@@ -392,7 +392,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: 1511eba49988b02428d7a8ba22ba2663, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: bfa91e6c33751b144b9cbeca36aa19a2, type: 2}
 --- !u!114 &2811222963161256038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2712,7 +2712,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0121, y: -0.1376, z: 0}
-  m_LocalScale: {x: 10.3957615, y: 6.256313, z: 10}
+  m_LocalScale: {x: 14.369374, y: 6.2871084, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5689429305793018752}
