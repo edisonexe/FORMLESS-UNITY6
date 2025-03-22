@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Orc
   maxHealth: 30
-  damageBasicAttack: 0.5
-  damageStrongAttack: 1
+  damageBasicAttack: 10
+  damageStrongAttack: 15
   patrolDistanceMin: 5
   patrolDistanceMax: 6
   moveSpeed: 1.5

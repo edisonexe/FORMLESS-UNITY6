@@ -24,10 +24,10 @@ namespace Formless.Player
         private RebirthController _rebirthController;
         private SphereSystem _sphereSystem;
 
-        [SerializeField] private float _moveSpeed = 5f;
+        [SerializeField] private float _movingSpeed = 2.5f;
         [SerializeField] private float _maxHealth;
-        [SerializeField] public float damageBasicAttack;
-        [SerializeField] public float damageStrongAttack;
+        [SerializeField] private float _damageBasicAttack = 10f;
+        [SerializeField] private float _damageStrongAttack = 15f;
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
@@ -39,6 +39,9 @@ namespace Formless.Player
 
         public RebirthController RebirthController => _rebirthController;
         public int BombCount => _bombsCount;
+        public float MovingSpeed => _movingSpeed;
+        public float DamageBasicAttack => _damageBasicAttack;
+        public float DamageStrongAttack => _damageStrongAttack;
 
         protected override void Awake()
         {
@@ -97,7 +100,7 @@ namespace Formless.Player
 
         public void Move(Vector2 moveInput)
         {
-            _rb.MovePosition(_rb.position + moveInput * (_moveSpeed * Time.fixedDeltaTime));
+            _rb.MovePosition(_rb.position + moveInput * (_movingSpeed * Time.fixedDeltaTime));
         }
 
         public void ChangePlayerFacingDirection(Vector2 moveInput)
@@ -111,10 +114,22 @@ namespace Formless.Player
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
-
-        public void DestroyObject()
+        
+        public void SetMovingSpeed(float speed)
         {
-            Destroy(gameObject, 1.5f);
+            _movingSpeed = speed;
+            Debug.Log($"Ќынешн€€ скорость игрока: {_movingSpeed} ");
+        }
+
+        public void SetBasicAttackDamage(float damage)
+        {
+            _damageBasicAttack = damage;
+            Debug.Log($"Ќынешний урон обыч. атаки игрока: {_damageBasicAttack} ");
+        }
+
+        public void SetStrongAttackDamage(float damage)
+        {
+            Debug.Log($"Ќынешний урон сильн. атаки игрока: {_damageStrongAttack} ");
         }
 
         public override void TakeDamage(Transform damageSourcePosition, float damage)
@@ -151,30 +166,6 @@ namespace Formless.Player
         public void StrongAttackColliderDisable()
         {
             strongAttackCollider.enabled = false;
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (StateMachine.CurrentState is PlayerAttackState attackState)
-            {
-                if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
-                {
-                    if (!_damagedEnemies.Contains(enemy))
-                    {
-
-                        if (attackState.IsBasicAttack)
-                        {
-                            enemy.TakeDamage(transform, damageBasicAttack);
-                        }
-                        else if (attackState.IsStrongAttack)
-                        {
-                            enemy.TakeDamage(transform, damageStrongAttack);
-                        }
-
-                        _damagedEnemies.Add(enemy);
-                    }
-                }
-            }
         }
 
         public void OnAttackAnimationFinished()
@@ -255,6 +246,30 @@ namespace Formless.Player
         {
             _bombsCount++;
             Debug.Log($" оличество бомб = {_bombsCount}");
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (StateMachine.CurrentState is PlayerAttackState attackState)
+            {
+                if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
+                {
+                    if (!_damagedEnemies.Contains(enemy))
+                    {
+
+                        if (attackState.IsBasicAttack)
+                        {
+                            enemy.TakeDamage(transform, _damageBasicAttack);
+                        }
+                        else if (attackState.IsStrongAttack)
+                        {
+                            enemy.TakeDamage(transform, _damageStrongAttack);
+                        }
+
+                        _damagedEnemies.Add(enemy);
+                    }
+                }
+            }
         }
     }
 }

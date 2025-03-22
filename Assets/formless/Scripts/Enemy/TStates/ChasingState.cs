@@ -46,7 +46,7 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
     public override void Exit()
     {
         //Debug.Log($"{typeof(T).Name} exit [CHASING]");
-        entity.navMeshAgent.speed = entity.movingSpeed;
+        entity.navMeshAgent.speed = entity.MovingSpeed;
     }
 
     private Vector3 GetChaseTargetPosition()

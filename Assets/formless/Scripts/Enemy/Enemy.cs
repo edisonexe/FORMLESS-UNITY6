@@ -31,7 +31,7 @@ namespace Formless.Enemy
 
         public float patrolDistanceMax;
         public float patrolDistanceMin;
-        public float movingSpeed;
+        protected float movingSpeed;
         public float chasingSpeed;
         public float detectionRange;
         public float attackRange = 1f;
@@ -43,6 +43,8 @@ namespace Formless.Enemy
         public float damageStrongAttack;
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
+
+        public float MovingSpeed => movingSpeed;
 
         protected override void Awake()
         {
@@ -89,6 +91,9 @@ namespace Formless.Enemy
         {
             StateMachine.FixedUpdate();
         }
+
+        public float BasicAttackDamage => damageBasicAttack;
+        public float StrongAttackDamage => damageStrongAttack;
 
         public virtual bool CanSeePlayer()
         {

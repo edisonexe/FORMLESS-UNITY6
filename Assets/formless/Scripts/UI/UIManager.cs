@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
         _maxCountHearts = _hearts.Length;
         _maxCountKeys = _keys.Length;
         _rebirthCooldown = new RebirthTimer(_cooldownImage, 5f);
-        _rebirthDuration = new RebirthTimer(_durationImage, 5f);
+        _rebirthDuration = new RebirthTimer(_durationImage, 15f);
     }
     private void Update()
     {
@@ -80,11 +80,13 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < _maxCountHearts; i++)
         {
-            if (i < _currentHealth - 0.5f) // Полное сердце
+            int heartHP = i * 10; // Каждое сердце отвечает за 10 HP
+
+            if (_currentHealth >= heartHP + 10) // Полное сердце
             {
                 _hearts[i].sprite = _fullHeart;
             }
-            else if (i < _currentHealth) // Половина сердца
+            else if (_currentHealth >= heartHP + 5) // Половина сердца
             {
                 _hearts[i].sprite = _halfHeart;
             }
@@ -94,6 +96,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
 
     public void UpdateKeysUI()
     {
@@ -152,7 +155,7 @@ public class UIManager : MonoBehaviour
 
     public void PickupHeart()
     {
-        _currentHealth += 1;
+        _currentHealth += 10;
         UpdateHeartsUI();
     }
 

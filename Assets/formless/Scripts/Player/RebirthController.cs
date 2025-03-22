@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Formless.Player.Rebirth
 {
@@ -18,6 +19,9 @@ namespace Formless.Player.Rebirth
         private PlayerInputHandler _inputHandler;
 
         // Оригинальные параметры игрока
+        private float _originalBasicAttackDamage;
+        private float _originalStrongAttackDamage;
+        private float _originalMovingSpeed;
         private RuntimeAnimatorController _originalAnimator;
         private Vector2[] _originalBasicAttackPoints;
         private Vector2[] _originalStrongAttackPoints;
@@ -58,6 +62,10 @@ namespace Formless.Player.Rebirth
                 _originalBoxSize = _playerBoxCollider.size;
                 _originalBoxOffset = _playerBoxCollider.offset;
             }
+
+            _originalMovingSpeed = Player.Instance.MovingSpeed;
+            _originalBasicAttackDamage = Player.Instance.DamageBasicAttack;
+            _originalStrongAttackDamage = Player.Instance.DamageStrongAttack;
 
             _rebirthDuration = UIManager.Instance.RebirthDuration;
         }
@@ -139,6 +147,15 @@ namespace Formless.Player.Rebirth
             if (_lastKilledEnemy == null) return;
             SaveAnimatorParameters();
             Animator enemyAnimator = _lastKilledEnemy.GetComponent<Animator>();
+
+            Enemy.Enemy enemy = _lastKilledEnemy.GetComponent<Enemy.Enemy>();
+            if (enemy != null)
+            {
+                Player.Instance.SetMovingSpeed(enemy.MovingSpeed + 1.0f);
+                Player.Instance.SetBasicAttackDamage(enemy.BasicAttackDamage);
+                Player.Instance.SetStrongAttackDamage(enemy.StrongAttackDamage);
+            }
+
             PolygonCollider2D enemyBasicAttackCollider = _lastKilledEnemy.transform.Find("BasicAttack")?.GetComponent<PolygonCollider2D>();
             PolygonCollider2D enemyStrongAttackCollider = _lastKilledEnemy.transform.Find("StrongAttack")?.GetComponent<PolygonCollider2D>();
             CapsuleCollider2D enemyCapsuleCollider = _lastKilledEnemy.GetComponent<CapsuleCollider2D>();
@@ -182,6 +199,10 @@ namespace Formless.Player.Rebirth
                 _playerBoxCollider.size = _originalBoxSize;
                 _playerBoxCollider.offset = _originalBoxOffset;
             }
+
+            Player.Instance.SetMovingSpeed(_originalMovingSpeed);
+            Player.Instance.SetBasicAttackDamage(_originalBasicAttackDamage);
+            Player.Instance.SetStrongAttackDamage(_originalStrongAttackDamage);
 
             _isOriginalState = true;
         }
