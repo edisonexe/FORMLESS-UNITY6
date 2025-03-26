@@ -4,6 +4,7 @@ using Formless.Boss;
 using UnityEngine;
 using UnityEngine.UI;
 using Formless.Room;
+using UnityEngine.SceneManagement;
 
 namespace Formless.Core.Managers
 {
@@ -46,6 +47,10 @@ namespace Formless.Core.Managers
 
         private void Start()
         {
+            //if (DungeonGenerator.Instance != null)
+            //{
+            //    DungeonGenerator.Instance.StartGenerating();
+            //}
             Stats.StartTrackingTime();
             _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
         }
@@ -75,19 +80,32 @@ namespace Formless.Core.Managers
             StartCoroutine(DungeonTransition());
         }
 
+        //private IEnumerator DungeonTransition()
+        //{
+        //    yield return StartCoroutine(FadeToBlack());
+
+        //    _rooms.Clear();
+
+        //    DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
+        //    DungeonGenerator.Instance.LoadNewDungeon();
+
+        //    Player.Player.Instance.transform.position = Vector3.zero;
+        //    Camera.main.transform.position = new Vector3(0, 0.5f, -10);
+        //}
+
         private IEnumerator DungeonTransition()
         {
-            yield return StartCoroutine(FadeToBlack());
+            // Загружаем сцену-заглушку
+            //SceneManager.LoadScene("Loading");
+
+            // Ждём один кадр, чтобы сцена успела загрузиться
+            yield return null;
 
             _rooms.Clear();
 
             DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
             DungeonGenerator.Instance.LoadNewDungeon();
-
-            Player.Player.Instance.transform.position = Vector3.zero;
-            Camera.main.transform.position = new Vector3(0, 0.5f, -10);
         }
-
 
         private IEnumerator FadeToBlack()
         {
@@ -111,11 +129,23 @@ namespace Formless.Core.Managers
             _fadeScreen.color = new Color(0, 0, 0, 0);
         }
 
+        //private void HandleWaitDungeonFullGeneration()
+        //{
+        //    StartCoroutine(FadeToClear());
+        //    DungeonGenerator.OnDungeonFullGenerated -= HandleWaitDungeonFullGeneration;
+        //}
+
         private void HandleWaitDungeonFullGeneration()
         {
-            StartCoroutine(FadeToClear());
             DungeonGenerator.OnDungeonFullGenerated -= HandleWaitDungeonFullGeneration;
+    
+            //SceneManager.LoadScene("Game");
+
+            Player.Player.Instance.transform.position = Vector3.zero;
+            Camera.main.transform.position = new Vector3(0, 0.5f, -10);
         }
+
+
         public void EnemyKilled()
         {
             Stats.EnemyKilled();

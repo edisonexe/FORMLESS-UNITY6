@@ -24,6 +24,8 @@ public class DungeonGenerator : MonoBehaviour
     private float _checkDelay = 1.5f;
     private float _timeSinceLastRoom = 0;
 
+    public static bool dungeonFullGenerated = false;
+
     public GameObject LastRoom { get; private set; }
     public GameObject PenultimateRoom { get; private set; }
     public int KeysSpawned { get; private set; }
@@ -53,7 +55,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private void Start()
     {
-        StartGenerating();
+        //StartGenerating();
     }
     
     public void ResetDungeon()
@@ -188,6 +190,8 @@ public class DungeonGenerator : MonoBehaviour
                 SpawnKeyInAccessibleRooms();
                 SpawnHearstInRooms();
                 OnDungeonFullGenerated?.Invoke();
+                Debug.Log("Dungeon full generated, setting dungeonFullGenerated to true.");
+                dungeonFullGenerated = true;
                 yield break;
             }
         }
