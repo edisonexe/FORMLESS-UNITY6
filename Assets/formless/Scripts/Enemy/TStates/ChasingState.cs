@@ -24,6 +24,41 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
         entity.navMeshAgent.speed = entity.chasingSpeed;
     }
 
+    //public override void Update()
+    //{
+    //    if (entity.CanSeePlayer())
+    //    {
+    //        entity.LookAtPlayer();
+    //        Vector3 targetPos = GetChaseTargetPosition();
+    //        entity.navMeshAgent.SetDestination(targetPos);
+
+    //        float distanceToPlayer = Vector2.Distance(entity.transform.position, Player.Instance.transform.position);
+
+    //        if (entity.rangeAttacking)
+    //        {
+    //            // Для врагов дальнего боя
+    //            if (distanceToPlayer <= entity.attackRange)
+    //            {
+    //                ChangerState.ChangeToRangedAttackState(entity, stateMachine, animator);
+    //            }
+    //        }
+    //        else
+    //        {
+    //            // Для врагов ближнего боя
+    //            if (distanceToPlayer <= entity.attackRange)
+    //            {
+    //                ChangerState.ChangeToAttackState(entity, stateMachine, animator);
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        // Если игрок вне зоны видимости, переходим в состояние покоя
+    //        ChangerState.ChangeToIdleState(entity, stateMachine, animator);
+    //    }
+    //}
+
+
     public override void Update()
     {
         if (entity.CanSeePlayer())
@@ -32,10 +67,17 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
             Vector3 targetPos = GetChaseTargetPosition();
             entity.navMeshAgent.SetDestination(targetPos);
 
-            if (Vector2.Distance(entity.transform.position, Player.Instance.transform.position) <= entity.attackRange)
+            float distanceToPlayer = Vector3.Distance(entity.transform.position, Player.Instance.transform.position);
+
+            if (distanceToPlayer <= (entity.rangeAttacking ? entity.rangeAttackRange : entity.attackRange))
             {
                 ChangerState.ChangeToAttackState(entity, stateMachine, animator);
             }
+
+            //if (Vector2.Distance(entity.transform.position, Player.Instance.transform.position) <= entity.attackRange)
+            //{
+            //    ChangerState.ChangeToAttackState(entity, stateMachine, animator);
+            //}
         }
         else
         {
