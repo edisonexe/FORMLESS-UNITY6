@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7977251897686853143}
   - component: {fileID: 1958265056812548914}
   - component: {fileID: 2317503885083278982}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KRTopDoor
   m_TagString: Door
   m_Icon: {fileID: 0}

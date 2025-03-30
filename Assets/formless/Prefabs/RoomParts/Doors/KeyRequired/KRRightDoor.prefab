@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 8146908219937997458}
   - component: {fileID: -1064163287651866113}
   - component: {fileID: 1615113705146740824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KRRightDoor
   m_TagString: Door
   m_Icon: {fileID: 0}

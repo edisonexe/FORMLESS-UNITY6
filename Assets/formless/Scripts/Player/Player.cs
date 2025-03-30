@@ -20,7 +20,7 @@ namespace Formless.Player
         private SpriteRenderer _spriteRenderer;
         private Material _material;
 
-        private PlayerInputHandler _inputHandler;
+        public PlayerInputHandler inputHandler;
         private RebirthController _rebirthController;
         private SphereSystem _sphereSystem;
 
@@ -50,8 +50,8 @@ namespace Formless.Player
             Instance = this;
             //DontDestroyOnLoad(gameObject);
 
-            _inputHandler = new PlayerInputHandler();
-            _inputHandler.Enable();
+            inputHandler = new PlayerInputHandler();
+            //inputHandler.Enable();
 
             _rebirthController = GetComponent<RebirthController>();
             _sphereSystem = GetComponent<SphereSystem>();
@@ -70,7 +70,7 @@ namespace Formless.Player
 
         private void Start()
         {
-            StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, _inputHandler, _animator));
+            StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, inputHandler, _animator));
             Health = _maxHealth;
             basicAttackCollider.enabled = false;
             strongAttackCollider.enabled = false;
@@ -81,12 +81,12 @@ namespace Formless.Player
         
             if (_rebirthController != null)
             {
-                _rebirthController.SetInputHandler(_inputHandler);
+                _rebirthController.SetInputHandler(inputHandler);
             }
 
             // Потом переделать
-            _sphereSystem.AddOrb();
-            _sphereSystem.AddOrb();
+            //_sphereSystem.AddOrb();
+            //_sphereSystem.AddOrb();
             //_sphereSystem.AddOrb();
             //_sphereSystem.AddOrb();
 
@@ -138,14 +138,14 @@ namespace Formless.Player
 
             UIManager.Instance.SetHealthCount(Health);
 
-            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
+            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, inputHandler, _animator));
         }
 
         public override void TakeDamage(float damage)
         {
             base.TakeDamage(damage);
             UIManager.Instance.SetHealthCount(Health);
-            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, _inputHandler, _animator));
+            StateMachine.ChangeState(new PlayerHurtState(this, StateMachine, inputHandler, _animator));
         }
 
         public void BasicAttackColliderEnable()
@@ -174,7 +174,7 @@ namespace Formless.Player
 
             if (StateMachine.CurrentState is PlayerAttackState)
             {
-                StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, _inputHandler, _animator));
+                StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, inputHandler, _animator));
             }
         }
 
@@ -229,12 +229,12 @@ namespace Formless.Player
 
         public bool IsInteractionPressed()
         {
-            return _inputHandler.IsInteractionPressed();
+            return inputHandler.IsInteractionPressed();
         }
 
         public bool IsUseBombPressed()
         {
-            return _inputHandler.IsUseBombPressed();
+            return inputHandler.IsUseBombPressed();
         }
 
         public void UseBomb()

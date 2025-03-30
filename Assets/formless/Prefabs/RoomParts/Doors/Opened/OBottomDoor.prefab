@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3972474580426704051}
   - component: {fileID: 5959572781558466242}
   - component: {fileID: 355516674164813357}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OBottomDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -421,5 +421,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 0}
-  doorType: 0
+  _doorType: 0
   direction: 3

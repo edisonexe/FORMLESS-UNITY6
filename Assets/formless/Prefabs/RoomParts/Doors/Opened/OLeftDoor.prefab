@@ -600,7 +600,7 @@ GameObject:
   - component: {fileID: 307044498365792633}
   - component: {fileID: 7626781334836249896}
   - component: {fileID: 7309728045426252095}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OLeftDoor
   m_TagString: Door
   m_Icon: {fileID: 0}

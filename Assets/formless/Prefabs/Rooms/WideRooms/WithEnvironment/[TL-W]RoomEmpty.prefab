@@ -324,6 +324,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1908775094495909872}
     m_Modifications:
+    - target: {fileID: 1157636360522368735, guid: d61bf33eb7e74d14f9d72d09c3552f66, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1990432615175975335, guid: d61bf33eb7e74d14f9d72d09c3552f66, type: 3}
       propertyPath: m_Name
       value: '[TL-W]Room'
@@ -367,6 +371,14 @@ PrefabInstance:
     - target: {fileID: 5689429305793018752, guid: d61bf33eb7e74d14f9d72d09c3552f66, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6795173607241358481, guid: d61bf33eb7e74d14f9d72d09c3552f66, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7052125359076783548, guid: d61bf33eb7e74d14f9d72d09c3552f66, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

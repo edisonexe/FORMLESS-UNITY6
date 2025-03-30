@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Formless.Player;
 public class SceneLoader : MonoBehaviour
 {
     public GameObject loadingCanvas;
@@ -65,6 +65,7 @@ public class SceneLoader : MonoBehaviour
         loadingCanvas.SetActive(false);
 
         // Сбрасываем прогресс (если понадобится повторная загрузка)
+        Player.Instance.inputHandler.Enable();
         isGenerationComplete = false;
         progress = 0f;
     }

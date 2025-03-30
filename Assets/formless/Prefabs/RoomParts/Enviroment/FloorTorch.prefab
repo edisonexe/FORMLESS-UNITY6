@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 6086717649338319596}
   - component: {fileID: 6853827249988033861}
   - component: {fileID: 8495757255407068203}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FloorTorch
   m_TagString: Untagged
   m_Icon: {fileID: 0}

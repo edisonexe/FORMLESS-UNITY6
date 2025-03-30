@@ -276,6 +276,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3308454457894728188}
     m_Modifications:
+    - target: {fileID: 1157636360522368735, guid: 4c0b5decf16cbad439937bd24ea10c18, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1560510677373790728, guid: 4c0b5decf16cbad439937bd24ea10c18, type: 3}
       propertyPath: m_NavMeshData
       value: 
@@ -347,6 +351,14 @@ PrefabInstance:
     - target: {fileID: 5689429305793018752, guid: 4c0b5decf16cbad439937bd24ea10c18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6795173607241358481, guid: 4c0b5decf16cbad439937bd24ea10c18, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7052125359076783548, guid: 4c0b5decf16cbad439937bd24ea10c18, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8036506270951159242, guid: 4c0b5decf16cbad439937bd24ea10c18, type: 3}
       propertyPath: m_LocalPosition.x

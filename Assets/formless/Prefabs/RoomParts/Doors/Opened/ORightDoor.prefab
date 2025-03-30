@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 1288781278538884741}
   - component: {fileID: 2868276646635894022}
   - component: {fileID: 2880859646328118891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORightDoor
   m_TagString: Door
   m_Icon: {fileID: 0}

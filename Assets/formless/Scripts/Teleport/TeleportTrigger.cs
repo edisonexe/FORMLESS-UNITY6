@@ -1,6 +1,6 @@
 using UnityEngine;
 using Formless.Core.Managers;
-
+using Formless.Player;
 namespace Formless.UI
 {
     public class TeleportTrigger : MonoBehaviour
@@ -58,6 +58,7 @@ namespace Formless.UI
         private void ActivatePortal()
         {
             Debug.Log("Перемещение через портал...");
+            Player.Player.Instance.inputHandler.Disable();
             GameplayManager.Instance.LoadNextDungeon();
         }
     }

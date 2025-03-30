@@ -10,7 +10,7 @@ namespace Formless.Player
         public PlayerInputHandler()
         {
             inputActions = new PlayerInputAction();
-            inputActions.Enable();
+            //inputActions.Enable();
         }
 
         public void Enable()

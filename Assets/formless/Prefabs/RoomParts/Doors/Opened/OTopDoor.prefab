@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6177341644918190957}
   - component: {fileID: 7326066905453546890}
   - component: {fileID: 1167180991425218735}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OTopDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 0}
-  doorType: 0
+  _doorType: 0
   direction: 0
 --- !u!1 &5561956886559588730
 GameObject:

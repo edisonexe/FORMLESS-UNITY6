@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 243689575300813335}
   - component: {fileID: 1136976087833398784}
   - component: {fileID: 1651329790652282364}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KRLeftDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
