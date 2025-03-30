@@ -31,24 +31,53 @@ namespace Formless.Enemy.States
         {
             timeSinceLastAttack += Time.deltaTime;
 
-            if (timeSinceLastAttack >= attackCooldown)
+            if (Player.Player.Instance != null && Player.Player.Instance.gameObject.activeInHierarchy)
             {
-                if (Player.Player.Instance != null) 
-                {
-                    if (Vector2.Distance(entity.transform.position, Player.Player.Instance.transform.position) > attackRange)
-                    {
-                        ChangerState.ChangeToChasingState(entity, stateMachine, animator);
-                    }
-                    else
-                    {
-                        entity.LookAtPlayer();
-                        PerformAttack();
+                float distanceToPlayer = Vector2.Distance(entity.transform.position, Player.Player.Instance.transform.position);
 
+                if (distanceToPlayer > (entity.rangeAttacking ? entity.rangeAttackRange : attackRange))
+                {
+                    ChangerState.ChangeToChasingState(entity, stateMachine, animator);
+                }
+                else
+                {
+                    entity.LookAtPlayer();
+
+                    if (timeSinceLastAttack >= attackCooldown)
+                    {
+                        PerformAttack();
                         timeSinceLastAttack = 0f;
                     }
                 }
             }
+            else
+            {
+                ChangerState.ChangeToIdleState(entity, stateMachine, animator);
+            }
         }
+
+        //public override void Update()
+        //{
+        //    timeSinceLastAttack += Time.deltaTime;
+
+        //    if (Player.Player.Instance != null) 
+        //    {
+        //        if (Vector2.Distance(entity.transform.position, Player.Player.Instance.transform.position) > attackRange)
+        //        {
+        //            ChangerState.ChangeToChasingState(entity, stateMachine, animator);
+        //        }
+        //        else
+        //        {
+        //            entity.LookAtPlayer();
+
+        //            if (timeSinceLastAttack >= attackCooldown)
+        //            {
+        //                PerformAttack();
+        //                timeSinceLastAttack = 0f;
+        //            }
+        //        }  
+        //    }
+        //}
 
         public override void Exit()
         {

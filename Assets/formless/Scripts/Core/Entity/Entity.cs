@@ -9,7 +9,6 @@ namespace Formless.Core
         public float Health { get; protected set; }
         public StateMachine StateMachine { get; private set; }
         protected Rigidbody2D _rb;
-        
         [SerializeField] private float knockBackForce = 5f; // Сила откидывания
         [SerializeField] private float knockBackDuration = 0.2f; // Длительность откидывания
 

@@ -7,8 +7,8 @@ using Formless.Core.Utilties;
 using Formless.UI;
 using Formless.Core.Managers;
 using System;
-using Formless.Player.States;
 using UnityEngine.Rendering.Universal; 
+using Formless.Enemy.Projectile;
 
 namespace Formless.Enemy
 {
@@ -34,7 +34,6 @@ namespace Formless.Enemy
         protected float movingSpeed;
         public float chasingSpeed;
         public float detectionRange;
-        public float attackRange = 1f;
         public float patrolTimerMax = 4.5f;
 
         protected bool _isBasicAttack;
@@ -43,6 +42,13 @@ namespace Formless.Enemy
         public float damageStrongAttack;
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
+
+        public float attackRange = 1.8f;
+        public float rangeAttackRange = 6f;
+        public bool rangeAttacking = false;
+        public GameObject projectilePrefab;
+        public Transform projectileSpawnPoint;
+        public float projectileSpeed = 5f;
 
         public float MovingSpeed => movingSpeed;
 
@@ -97,7 +103,7 @@ namespace Formless.Enemy
 
         public virtual bool CanSeePlayer()
         {
-            if (Player.Player.Instance == null) return false;
+            if (Player.Player.Instance == null || !Player.Player.Instance.gameObject.activeInHierarchy) return false;
             return Vector2.Distance(transform.position, Player.Player.Instance.transform.position) <= detectionRange;
         }
 
@@ -203,5 +209,59 @@ namespace Formless.Enemy
             StartCoroutine(Utils.FadeOutAndDestroy(gameObject, _material));
             StartCoroutine(Utils.FadeLight(lightSource, 3f));
         }
+
+        public void SpawnProjectile()
+        {
+            if (projectilePrefab != null && projectileSpawnPoint != null)
+            {
+                // Определяем направление к игроку
+                Vector2 direction = (Player.Player.Instance.transform.position - projectileSpawnPoint.position).normalized;
+
+                // Создаем снаряд в точке спавна
+                GameObject projectile = Instantiate(
+                    projectilePrefab,
+                    projectileSpawnPoint.position, // Позиция спавна снаряда
+                    Quaternion.identity
+                );
+
+                // Разворачиваем снаряд в направлении цели
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Вычисляем угол
+                projectile.transform.rotation = Quaternion.Euler(0, 0, angle); // Применяем поворот
+
+                // Настройка снаряда
+                EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
+                if (projectileScript != null)
+                {
+                    projectileScript.Initialize(damageBasicAttack); // Передаем урон
+                    projectileScript.SetDirection(direction, projectileSpeed); // Задаем направление и скорость
+                }
+            }
+        }
+
+        //public void SpawnProjectile()
+        //{
+        //    if (projectilePrefab != null && projectileSpawnPoint != null)
+        //    {
+        //        Vector2 direction = (Player.Player.Instance.transform.position - projectileSpawnPoint.position).normalized;
+
+        //        GameObject projectile = Instantiate(
+        //            projectilePrefab,
+        //            projectileSpawnPoint.position,
+        //            Quaternion.identity
+        //        );
+
+        //        // Настройка снаряда
+        //        EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
+        //        if (projectileScript != null)
+        //        {
+        //            projectileScript.Initialize(damageBasicAttack); // Передаем урон
+        //            projectileScript.SetDirection(direction, projectileSpeed); // Задаем направление и скорость
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Projectile prefab or spawn point is not assigned in the Enemy component.");
+        //    }
+        //}
     }
 }

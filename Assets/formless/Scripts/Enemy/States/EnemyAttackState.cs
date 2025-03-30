@@ -13,14 +13,21 @@ namespace Formless.Enemy.States
 
         protected override void PerformAttack()
         {
-            float attackChance = Random.Range(0f, 100f);
-            if (attackChance <= 65f)
+            if (entity.rangeAttacking)
             {
                 animator.SetTrigger(AnimationConstants.BASIC_ATTACK);
             }
             else
             {
-                animator.SetTrigger(AnimationConstants.STRONG_ATTACK);
+                float attackChance = Random.Range(0f, 100f);
+                if (attackChance <= 65f)
+                {
+                    animator.SetTrigger(AnimationConstants.BASIC_ATTACK);
+                }
+                else
+                {
+                    animator.SetTrigger(AnimationConstants.STRONG_ATTACK);
+                }
             }
         }
     }
