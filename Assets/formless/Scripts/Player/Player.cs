@@ -6,6 +6,7 @@ using Formless.Core.Managers;
 using Formless.Player.Rebirth;
 using System.Collections.Generic;
 using Formless.Items;
+using Formless.UI;
 
 namespace Formless.Player
 {
@@ -185,7 +186,7 @@ namespace Formless.Player
 
         public void AddHealth()
         {
-            Health += 1;
+            Health += 10;
 
             GameplayManager.Instance.HeartCollected();
 

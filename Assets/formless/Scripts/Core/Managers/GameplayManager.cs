@@ -4,7 +4,7 @@ using Formless.Boss;
 using UnityEngine;
 using UnityEngine.UI;
 using Formless.Room;
-using UnityEngine.SceneManagement;
+using Formless.UI;
 
 namespace Formless.Core.Managers
 {
@@ -15,6 +15,8 @@ namespace Formless.Core.Managers
         public RoomController CurrentRoom { get; private set; }
         public GameStats Stats { get; private set; } = new GameStats();
         public EnemyData LastKilledEnemyData { get; private set; }
+
+        public EndPanel EndPanel;
         public bool HasBossKey { get; private set; } = false;
 
         private DungeonGenerator _dungeonGenerator;
@@ -29,6 +31,8 @@ namespace Formless.Core.Managers
         private BossSpawner _bossSpawner;
 
         private int _keys = 0;
+        private bool _isTimerStarted = false;
+
         public GameObject LastRoom => _rooms.Count > 0 ? _rooms[_rooms.Count - 1] : null;
         public GameObject PenultimateRoom => _rooms.Count > 1 ? _rooms[_rooms.Count - 2] : null;
 
@@ -37,7 +41,7 @@ namespace Formless.Core.Managers
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -45,19 +49,28 @@ namespace Formless.Core.Managers
             }
         }
 
+
         private void Start()
         {
-            //if (DungeonGenerator.Instance != null)
-            //{
-            //    DungeonGenerator.Instance.StartGenerating();
-            //}
-            Stats.StartTrackingTime();
+            InitializeEndPanel();
             _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
+            DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
         }
 
         private void Update()
         {
             Stats.UpdateTime(Time.deltaTime);
+        }
+
+         private void InitializeEndPanel()
+        {
+            EndPanel = UIManager.Instance.endPanel.GetComponent<EndPanel>();
+            if (EndPanel == null)
+            {
+                Debug.LogError("EndPanel component is missing on the assigned object in UIManager!");
+                return;
+            }
+            EndPanel.Initialize(Stats);
         }
 
         public void SetDungeonGenerator(DungeonGenerator generator)
@@ -80,30 +93,14 @@ namespace Formless.Core.Managers
             StartCoroutine(DungeonTransition());
         }
 
-        //private IEnumerator DungeonTransition()
-        //{
-        //    yield return StartCoroutine(FadeToBlack());
-
-        //    _rooms.Clear();
-
-        //    DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
-        //    DungeonGenerator.Instance.LoadNewDungeon();
-
-        //    Player.Player.Instance.transform.position = Vector3.zero;
-        //    Camera.main.transform.position = new Vector3(0, 0.5f, -10);
-        //}
-
         private IEnumerator DungeonTransition()
         {
-            // Загружаем сцену-заглушку
-            //SceneManager.LoadScene("Loading");
-
             // Ждём один кадр, чтобы сцена успела загрузиться
             yield return null;
 
             _rooms.Clear();
 
-            DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
+            //DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
             DungeonGenerator.Instance.LoadNewDungeon();
         }
 
@@ -129,17 +126,15 @@ namespace Formless.Core.Managers
             _fadeScreen.color = new Color(0, 0, 0, 0);
         }
 
-        //private void HandleWaitDungeonFullGeneration()
-        //{
-        //    StartCoroutine(FadeToClear());
-        //    DungeonGenerator.OnDungeonFullGenerated -= HandleWaitDungeonFullGeneration;
-        //}
-
         private void HandleWaitDungeonFullGeneration()
         {
             DungeonGenerator.OnDungeonFullGenerated -= HandleWaitDungeonFullGeneration;
     
-            //SceneManager.LoadScene("Game");
+            if (!_isTimerStarted)
+            {
+                Stats.StartTrackingTime();
+                _isTimerStarted = true; // Устанавливаем флаг
+            }
 
             Player.Player.Instance.transform.position = Vector3.zero;
             Camera.main.transform.position = new Vector3(0, 0.5f, -10);
@@ -165,15 +160,6 @@ namespace Formless.Core.Managers
         {
             Stats.KeyCollected();
             _keys += 1;
-        }
-
-        public void PrintStats()
-        {
-            Debug.LogFormat("Время забега: {0}", Stats.PlayTime);
-            Debug.LogFormat("Количество убитых врагов: {0}", Stats.EnemiesKilled);
-            Debug.LogFormat("Количество защиенных комнат: {0}", Stats.ClearedRooms);
-            Debug.LogFormat("Количество поднятых сердец: {0}", Stats.HeartsCollected);
-            Debug.LogFormat("Количество поднятых ключей: {0}", Stats.KeysCollected);
         }
 
         public void PickupBossKey()

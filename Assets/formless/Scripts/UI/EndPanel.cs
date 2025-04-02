@@ -1,0 +1,110 @@
+using UnityEditor.Build.Content;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Formless.Core.Managers;
+namespace Formless.UI
+{
+    public class EndPanel : MonoBehaviour
+    {
+        [SerializeField] private GameObject _panel;
+        [SerializeField] private Text enemiesKilledText;
+        [SerializeField] private Text clearedRoomsText;
+        [SerializeField] private Text heartsCollectedText;
+        [SerializeField] private Text keysCollectedText;
+        [SerializeField] private Text playTimeText;
+        [SerializeField] private Text titleDefeat;
+        [SerializeField] private Text titleVictory;
+
+        private GameStats _gameStats;
+
+        public void Initialize(GameStats gameStats)
+        {
+            _gameStats = gameStats;
+
+            if (_gameStats == null)
+            {
+                Debug.LogError("GameStats cannot be null!");
+            }
+            else
+            {
+                Debug.Log("GameStats successfully initialized.");
+            }
+        }
+
+
+        private void EnablePanel()
+        {
+            if (_panel == null)
+            {
+                Debug.LogError("_panel is not assigned!");
+                return;
+            }
+            _panel.SetActive(true);
+        }
+
+        private void DisablePanel()
+        {
+            _panel.SetActive(false);
+        }
+
+        public void SetupPanel(GameResult result)
+        {
+            if (_gameStats == null)
+            {
+                Debug.LogError("GameStats is null! Make sure Initialize is called before SetupPanel.");
+                return;
+            }
+
+            EnablePanel();
+
+            if (titleDefeat == null || titleVictory == null)
+            {
+                Debug.LogError("Title UI elements are not assigned!");
+                return;
+            }
+
+            titleDefeat.gameObject.SetActive(result == GameResult.Defeat);
+            titleVictory.gameObject.SetActive(result == GameResult.Victory);
+
+            UpdateUI();
+            UpdatePlayTime(_gameStats.PlayTime);
+        }
+
+
+        private void UpdateUI()
+        {
+            if (_gameStats == null) return;
+
+            enemiesKilledText.text = $"Enemies Killed: {_gameStats.EnemiesKilled}";
+            clearedRoomsText.text = $"Cleared Rooms: {_gameStats.ClearedRooms}";
+            heartsCollectedText.text = $"Hearts Collected: {_gameStats.HeartsCollected}";
+            keysCollectedText.text = $"Keys Collected: {_gameStats.KeysCollected}";
+        }
+
+        private void UpdatePlayTime(float time)
+        {
+            playTimeText.text = $"Play Time: {FormatTime(time)}";
+        }
+
+        private string FormatTime(float time)
+        {
+            int minutes = Mathf.FloorToInt(time / 60);
+            int seconds = Mathf.FloorToInt(time % 60);
+            return $"{minutes:D2}:{seconds:D2}";
+        }
+
+        public void BackToMenu()
+        {
+            SceneManager.LoadScene("Menu");
+            DisablePanel();
+        }
+    }
+
+    public enum GameResult
+    {
+        Defeat,
+        Victory
+    }
+}
+
