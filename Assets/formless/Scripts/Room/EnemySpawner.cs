@@ -10,8 +10,14 @@ namespace Formless.Room
         public event Action<List<Enemy.Enemy>> OnEnemiesSpawned;
         
         [SerializeField] private Transform[] _enemySpawners;
-        
+        [SerializeField] private EnemySpawnData[] _enemySpawnData;
+
         private List<Enemy.Enemy> _spawnedEnemies = new List<Enemy.Enemy>();
+
+        private void Start()
+        {
+            _enemySpawnData = PrefabManager.Instance.EnemyPrefabs;
+        }
 
         public void Spawn()
         {
@@ -21,7 +27,7 @@ namespace Formless.Room
             {
                 if (spawner == null) continue;
 
-                GameObject enemyType = PrefabManager.Instance.EnemyPrefabs[UnityEngine.Random.Range(0, PrefabManager.Instance.EnemyPrefabs.Length)];
+                GameObject enemyType = GetRandomEnemyByProbability();
                 GameObject enemyObj = Instantiate(enemyType, spawner.position, Quaternion.identity);
                 enemyObj.transform.parent = transform;
 
@@ -33,6 +39,39 @@ namespace Formless.Room
             }
             
             OnEnemiesSpawned?.Invoke(_spawnedEnemies);
+        }
+
+        private GameObject GetRandomEnemyByProbability()
+        {
+            float totalWeight = 0f;
+
+            foreach (var enemyData in _enemySpawnData)
+            {
+                if (enemyData.enemyPrefab == null)
+                {
+                    //Debug.LogWarning("Enemy prefab is null in EnemySpawnDataList!");
+                    continue;
+                }
+                totalWeight += enemyData.spawnProbability;
+            }
+
+
+            float randomValue = UnityEngine.Random.Range(0f, totalWeight);
+            //Debug.Log($"Сгенерированное случайное число: {randomValue}");
+
+            foreach (var enemyData in _enemySpawnData)
+            {
+                if (randomValue < enemyData.spawnProbability)
+                {
+                    //Debug.Log($"Выбран враг: {enemyData.enemyPrefab.name}");
+                    return enemyData.enemyPrefab;
+                }
+
+                randomValue -= enemyData.spawnProbability;
+            }
+
+            //Debug.LogError("Failed to select an enemy by probability. Returning null.");
+            return null;
         }
     }
 }

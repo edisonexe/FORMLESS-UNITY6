@@ -944,10 +944,14 @@ MonoBehaviour:
   _heartPrefab: {fileID: 5667504204905305515, guid: 94cb28368cee6c144bccb992b6908a99, type: 3}
   _keyPrefab: {fileID: 549578092099853335, guid: 1b14ed75b9ab30b4bbeb59aad11cd39e, type: 3}
   _enemyPrefabs:
-  - {fileID: 2641933263017868341, guid: cf7f333f0cc349843a525128b8506845, type: 3}
-  - {fileID: 8261746822765226196, guid: c86b56122eb766f4eb3b981268a125cf, type: 3}
-  - {fileID: 2807596849781600780, guid: 664b246b2f001884c91286479a378fda, type: 3}
-  - {fileID: 5807823838451685533, guid: 49eb82e1b22ac984ab87149ceca3f0e3, type: 3}
+  - enemyPrefab: {fileID: 2641933263017868341, guid: cf7f333f0cc349843a525128b8506845, type: 3}
+    spawnProbability: 0.3
+  - enemyPrefab: {fileID: 8261746822765226196, guid: c86b56122eb766f4eb3b981268a125cf, type: 3}
+    spawnProbability: 0.3
+  - enemyPrefab: {fileID: 2807596849781600780, guid: 664b246b2f001884c91286479a378fda, type: 3}
+    spawnProbability: 0.2
+  - enemyPrefab: {fileID: 5807823838451685533, guid: 49eb82e1b22ac984ab87149ceca3f0e3, type: 3}
+    spawnProbability: 0.1
   _bossPrefab: {fileID: 3465621915036097783, guid: 17a4769531cadee41a1fbc57e36ba060, type: 3}
   _teleportPrefab: {fileID: 2248309027355465974, guid: 5b866572652559440bfab98803a7f67c, type: 3}
   _lockDestroyEffect: {fileID: 5807460328194367236, guid: f76b8cc0961a2a744974c09095725f9e, type: 3}
@@ -2633,7 +2637,7 @@ MonoBehaviour:
     rid: 1647466793986162759
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 1731515871}
+    m_Mesh: {fileID: 1656049089}
     m_LocalBounds:
       m_Center: {x: 0, y: 0, z: 0}
       m_Extent: {x: 0, y: 0, z: 0}
@@ -2770,7 +2774,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652916689}
   m_CullTransparentMesh: 1
---- !u!43 &1731515871
+--- !u!43 &1656049089
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

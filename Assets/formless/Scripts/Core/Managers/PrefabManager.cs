@@ -11,7 +11,7 @@ namespace Formless.Core.Managers
         [Header("Prefabs")]
         [SerializeField] private GameObject _heartPrefab;
         [SerializeField] private GameObject _keyPrefab;
-        [SerializeField] private GameObject[] _enemyPrefabs;
+        [SerializeField] private EnemySpawnData[] _enemyPrefabs;
         [SerializeField] private GameObject _bossPrefab;
         [SerializeField] private GameObject _teleportPrefab;
         [SerializeField] private GameObject _lockDestroyEffect;
@@ -26,7 +26,7 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _spherePrefab;
         public GameObject HeartPrefab => _heartPrefab;
         public GameObject KeyPrefab => _keyPrefab;
-        public GameObject[] EnemyPrefabs => _enemyPrefabs;
+        public EnemySpawnData[] EnemyPrefabs => _enemyPrefabs;
         public GameObject BossPrefab => _bossPrefab;
         public GameObject TeleportPrefab => _teleportPrefab;
         public GameObject LockDestroyEffect => _lockDestroyEffect;
@@ -59,6 +59,19 @@ namespace Formless.Core.Managers
         private void Start()
         {
             InitializeDoorStyles();
+
+            //Debug.Log("Список доступных врагов для спавна:");
+            //foreach (var enemyData in _enemyPrefabs)
+            //{
+            //    if (enemyData.enemyPrefab == null)
+            //    {
+            //        Debug.LogWarning("Enemy prefab is null in EnemySpawnDataList!");
+            //        continue;
+            //    }
+
+            //    Debug.Log($"- Префаб: {enemyData.enemyPrefab.name}, Вероятность: {enemyData.spawnProbability}");
+            //}
+
         }
 
         private void InitializeDoorStyles()
