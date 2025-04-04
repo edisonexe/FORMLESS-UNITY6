@@ -55,5 +55,10 @@ namespace Formless.Player
         {
             return inputActions.Player.UseBomb.triggered;
         }
+
+        public bool IsMenuPressed()
+        {
+            return inputActions.Player.Menu.triggered;
+        }
     }
 }

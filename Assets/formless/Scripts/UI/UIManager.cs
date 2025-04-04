@@ -35,12 +35,14 @@ namespace Formless.UI
         [SerializeField] private Image _cooldownImage;
         private RebirthTimer _rebirthCooldown;
 
-        [SerializeField] private Image _durationImage;
-        private RebirthTimer _rebirthDuration;
+        //[SerializeField] private Image _durationImage;
+        //private RebirthTimer _rebirthDuration;
 
         public GameObject endPanel;
 
-        public RebirthTimer RebirthDuration => _rebirthDuration;
+        //public RebirthTimer RebirthDuration => _rebirthDuration;
+        public RebirthTimer RebirthCooldown => _rebirthCooldown;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -51,19 +53,19 @@ namespace Formless.UI
 
             Instance = this;
             //DontDestroyOnLoad(gameObject);
+            _rebirthCooldown = new RebirthTimer(_cooldownImage, 30f);
         }
 
         private void Start()
         {
             _maxCountHearts = _hearts.Length;
             _maxCountKeys = _keys.Length;
-            _rebirthCooldown = new RebirthTimer(_cooldownImage, 5f);
-            _rebirthDuration = new RebirthTimer(_durationImage, 15f);
+            //_rebirthDuration = new RebirthTimer(_durationImage, 15f);
         }
         private void Update()
         {
             _rebirthCooldown.UpdateTimer(Time.deltaTime);
-            _rebirthDuration.UpdateTimerReverseFill(Time.deltaTime);
+            //_rebirthDuration.UpdateTimerReverseFill(Time.deltaTime);
         }
 
         public void StartRebirthCooldown()
@@ -71,10 +73,10 @@ namespace Formless.UI
             _rebirthCooldown.StartCooldown();
         }
 
-        public void StartRebirthDuration()
-        {
-            _rebirthDuration.StartCooldownReverseFill();
-        }
+        //public void StartRebirthDuration()
+        //{
+        //    _rebirthDuration.StartCooldownReverseFill();
+        //}
 
         public bool CanRebirth()
         {

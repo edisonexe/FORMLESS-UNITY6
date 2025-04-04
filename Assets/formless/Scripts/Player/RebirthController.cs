@@ -6,7 +6,7 @@ namespace Formless.Player.Rebirth
 {
     public class RebirthController : MonoBehaviour
     {
-        private RebirthTimer _rebirthDuration;
+        //private RebirthTimer _rebirthDuration;
 
         private bool _isOriginalState = true;
 
@@ -31,6 +31,7 @@ namespace Formless.Player.Rebirth
         private Vector2 _originalBoxSize;
         private Vector2 _originalBoxOffset;
         private Dictionary<string, float> _animatorParams = new Dictionary<string, float>();
+        private RebirthTimer _rebirthCooldown;
 
         private void Start()
         {
@@ -67,21 +68,46 @@ namespace Formless.Player.Rebirth
             _originalBasicAttackDamage = Player.Instance.DamageBasicAttack;
             _originalStrongAttackDamage = Player.Instance.DamageStrongAttack;
 
-            _rebirthDuration = UIManager.Instance.RebirthDuration;
+            _rebirthCooldown = UIManager.Instance.RebirthCooldown;
+
+            //_rebirthDuration = UIManager.Instance.RebirthDuration;
         }
 
         private void Update()
         {
+            // Проверяем, что _inputHandler назначен
+            if (_inputHandler == null)
+            {
+                Debug.LogError("_inputHandler is not assigned!");
+                return;
+            }
+
+            // Проверяем, что UIManager.Instance существует
+            if (UIManager.Instance == null)
+            {
+                Debug.LogError("UIManager.Instance is not initialized!");
+                return;
+            }
+
+            // Проверяем, что _rebirthDuration назначен
+            if (_rebirthCooldown == null)
+            {
+                Debug.LogError("_rebirthCooldown is not assigned!");
+                return;
+            }
+
+
+
             if (_inputHandler.IsRebirthPressed() && _lastKilledEnemy != null && UIManager.Instance.CanRebirth())
             {
                 Debug.Log("Нажата R");
                 Rebirth();
-                UIManager.Instance.StartRebirthCooldown();
+                //UIManager.Instance.StartRebirthCooldown();
             }
-            if (_rebirthDuration.IsCooldownOver() && !_isOriginalState)
-            {
-                RestoreOriginalState();
-            }
+            //if (_rebirthDuration.IsCooldownOver() && !_isOriginalState)
+            //{
+            //    RestoreOriginalState();
+            //}
         }
 
         public void OnEnemyKilled(GameObject killedEnemy)
@@ -145,8 +171,16 @@ namespace Formless.Player.Rebirth
         private void Rebirth()
         {
             if (_lastKilledEnemy == null) return;
-            SaveAnimatorParameters();
+
             Animator enemyAnimator = _lastKilledEnemy.GetComponent<Animator>();
+
+            if (_playerAnimator.runtimeAnimatorController == enemyAnimator.runtimeAnimatorController)
+            {
+                Debug.Log("Аниматор уже установлен. Перерождение отменено.");
+                return;
+            }
+
+            SaveAnimatorParameters();
 
             Enemy.Enemy enemy = _lastKilledEnemy.GetComponent<Enemy.Enemy>();
             if (enemy != null)
@@ -171,7 +205,7 @@ namespace Formless.Player.Rebirth
             CopyCapsuleCollider(enemyCapsuleCollider, _playerCapsuleCollider);
             CopyBoxCollider(enemyBoxCollider, _playerBoxCollider);
 
-            UIManager.Instance.StartRebirthDuration();
+            UIManager.Instance.StartRebirthCooldown();
             _isOriginalState = false;
         }
 

@@ -79,7 +79,8 @@ namespace Formless.Player
 
             UIManager.Instance.SetHealthCount(Health);
             UIManager.Instance.SetKeysCount(_keysCount);
-        
+            
+
             if (_rebirthController != null)
             {
                 _rebirthController.SetInputHandler(inputHandler);
@@ -97,6 +98,14 @@ namespace Formless.Player
         private void FixedUpdate()
         {
             StateMachine.FixedUpdate();
+        }
+
+        public void RCSetInputHandler()
+        {
+            if (_rebirthController != null)
+            {
+                _rebirthController.SetInputHandler(inputHandler);
+            }
         }
 
         public void Move(Vector2 moveInput)

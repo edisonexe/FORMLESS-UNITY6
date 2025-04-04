@@ -1,8 +1,7 @@
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Formless.Core.Managers;
+
 namespace Formless.UI
 {
     public class EndPanel : MonoBehaviour
@@ -50,26 +49,31 @@ namespace Formless.UI
 
         public void SetupPanel(GameResult result)
         {
+            Debug.Log("[END_PANEL] SetupPanel called");
+
             if (_gameStats == null)
             {
-                Debug.LogError("GameStats is null! Make sure Initialize is called before SetupPanel.");
+                Debug.LogError("[END_PANEL] GameStats is null! Make sure Initialize is called before SetupPanel.");
                 return;
             }
 
             EnablePanel();
+            Debug.Log("[END_PANEL] Panel enabled");
 
             if (titleDefeat == null || titleVictory == null)
             {
-                Debug.LogError("Title UI elements are not assigned!");
+                Debug.LogError("[END_PANEL] Title UI elements are not assigned!");
                 return;
             }
 
             titleDefeat.gameObject.SetActive(result == GameResult.Defeat);
             titleVictory.gameObject.SetActive(result == GameResult.Victory);
+            Debug.Log($"[END_PANEL] Result: {result}");
 
             UpdateUI();
             UpdatePlayTime(_gameStats.PlayTime);
         }
+
 
 
         private void UpdateUI()

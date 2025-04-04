@@ -17,7 +17,7 @@ namespace Formless.Player.States
 
         public override void Enter()
         {
-            //Debug.Log("Enter [DIE]");
+            Debug.Log("Enter [DIE]");
             _animator.SetBool(AnimationConstants.IS_DIE, true);
 
             player.boxCollider2D.enabled = false;
@@ -25,7 +25,20 @@ namespace Formless.Player.States
             player.strongAttackCollider.enabled = false;
             player.capsuleCollider2D.enabled = false;
 
-             GameplayManager.Instance.EndPanel.SetupPanel(GameResult.Defeat);
+
+            if (UIManager.Instance == null)
+            {
+                Debug.LogError("[PLAYER_DEATH] UIManager.Instance is NULL!");
+                return;
+            }
+    
+            if (UIManager.Instance.endPanel == null)
+            {
+                Debug.LogError("[PLAYER_DEATH] UIManager.Instance.EndPanel is NULL!");
+                return;
+            }
+
+            GameplayManager.Instance.EndPanel.SetupPanel(GameResult.Defeat);
 
             player.StartFadeAndDestroy();
         }

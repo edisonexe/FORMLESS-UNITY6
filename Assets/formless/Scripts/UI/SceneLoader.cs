@@ -46,13 +46,11 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
 
-        // Ждём, пока завершится генерация
         while (!isGenerationComplete)
         {
             yield return null;
         }
 
-        // Быстрая загрузка с 80% до 100%
         while (progress < 1f)
         {
             progress += Time.deltaTime * (fakeLoadSpeed * 2); // Ускоряем в 2 раза
@@ -61,11 +59,10 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
 
-        // Скрываем загрузочный экран
         loadingCanvas.SetActive(false);
 
-        // Сбрасываем прогресс (если понадобится повторная загрузка)
         Player.Instance.inputHandler.Enable();
+        //Player.Instance.RCSetInputHandler();
         isGenerationComplete = false;
         progress = 0f;
     }
