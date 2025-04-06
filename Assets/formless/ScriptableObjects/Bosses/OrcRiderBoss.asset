@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 782c604d11e348a4f921f2d4de71bdd0, type: 3}
-  m_Name: EliteOrcBoss
+  m_Name: OrcRiderBoss
   m_EditorClassIdentifier: 
-  bossName: Elite Orc
-  maxHealth: 100
-  damageBasicAttack: 0
-  damageStrongAttack: 0
-  damageSpecialAttack: 1
+  bossName: OrcRider
+  maxHealth: 130
+  damageBasicAttack: 10
+  damageStrongAttack: 15
+  damageSpecialAttack: 20
   patrolDistanceMin: 6
   patrolDistanceMax: 6
-  moveSpeed: 1.2
-  detectionRange: 5
-  chasingSpeedMultiplier: 1.2
+  moveSpeed: 1.4
+  detectionRange: 6
+  chasingSpeedMultiplier: 1.1

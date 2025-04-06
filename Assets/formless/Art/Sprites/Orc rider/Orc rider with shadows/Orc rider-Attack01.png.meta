@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 07646b4058bf5e44d832feffb11f133a
+guid: 0c77d9ec276882c409002a226802a12a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,133 +110,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Slime-Idle_0
+      name: Orc rider-Attack01_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 100
         height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0ba22c048fc5ef290800000000000000
-      internalID: -7854738478779454800
+      spriteID: 0d5a9e72fcea28f408df56395c4c6e18
+      internalID: 490230002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime-Idle_1
+      name: Orc rider-Attack01_1
       rect:
         serializedVersion: 2
         x: 100
         y: 0
         width: 100
         height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4f1462f9acf1c5e60800000000000000
-      internalID: 7952265997143392756
+      spriteID: fed4622407fdaa24890ad08efa6a6403
+      internalID: 514590924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime-Idle_2
+      name: Orc rider-Attack01_2
       rect:
         serializedVersion: 2
         x: 200
         y: 0
         width: 100
         height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e833f4d845252ad50800000000000000
-      internalID: 6747045714855932814
+      spriteID: 7d6c42c3b7712a24c9c1b1c584ef7a95
+      internalID: 514048916
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime-Idle_3
+      name: Orc rider-Attack01_3
       rect:
         serializedVersion: 2
         x: 300
         y: 0
         width: 100
         height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3bfe5055a8c09bec0800000000000000
-      internalID: -3550793042933452877
+      spriteID: 131fe370eca4d924bb52fdf77ec1c3be
+      internalID: -1775617445
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime-Idle_4
+      name: Orc rider-Attack01_4
       rect:
         serializedVersion: 2
         x: 400
         y: 0
         width: 100
         height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f4f5da87b583d65a0800000000000000
-      internalID: -6526498319472173233
+      spriteID: c70ab668a07db8c4da1c57c9bc80a94d
+      internalID: -762233716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime-Idle_5
+      name: Orc rider-Attack01_5
       rect:
         serializedVersion: 2
         x: 500
         y: 0
         width: 100
         height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 16b8c66dc82255eb0800000000000000
-      internalID: -4731837845194634399
+      spriteID: b9b0c801d0a2f314d8792b37251bd0f2
+      internalID: 1093708969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Orc rider-Attack01_6
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c91cb32337b97944a3ba6821237c515
+      internalID: -1647179235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Orc rider-Attack01_7
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b64ce688b55ac0429e6c6c7322af19d
+      internalID: -1033453937
       vertices: []
       indices: 
       edges: []
@@ -255,12 +299,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Slime-Idle_0: -7854738478779454800
-      Slime-Idle_1: 7952265997143392756
-      Slime-Idle_2: 6747045714855932814
-      Slime-Idle_3: -3550793042933452877
-      Slime-Idle_4: -6526498319472173233
-      Slime-Idle_5: -4731837845194634399
+      Orc rider-Attack01_0: 490230002
+      Orc rider-Attack01_1: 514590924
+      Orc rider-Attack01_2: 514048916
+      Orc rider-Attack01_3: -1775617445
+      Orc rider-Attack01_4: -762233716
+      Orc rider-Attack01_5: 1093708969
+      Orc rider-Attack01_6: -1647179235
+      Orc rider-Attack01_7: -1033453937
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
