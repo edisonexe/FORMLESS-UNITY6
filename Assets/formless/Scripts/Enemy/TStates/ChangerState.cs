@@ -77,5 +77,13 @@ namespace Formless.Enemy.States
                 stateMachine.ChangeState(new EnemyDeathState(enemy, stateMachine, animator));
             }
         }
+
+        public static void ChangeToSpecialAttackState(Enemy enemy, StateMachine stateMachine, Animator animator)
+        {
+            if (enemy is Boss.Boss boss)
+            {
+                stateMachine.ChangeState(new BossSpecialAttackState(boss, stateMachine, animator));
+            }
+        }
     }
 }

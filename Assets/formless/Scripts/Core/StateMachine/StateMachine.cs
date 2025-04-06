@@ -10,7 +10,7 @@ namespace Formless.SM
 
         public void ChangeState(State newState)
         {
-            Debug.Log($"Смена состояния: {currentState?.GetType().Name} -> {newState.GetType().Name}");
+            //Debug.Log($"Смена состояния: {currentState?.GetType().Name} -> {newState.GetType().Name}");
 
             currentState?.Exit();
             currentState = newState;

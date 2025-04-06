@@ -73,6 +73,7 @@ namespace Formless.Enemy
         private void Start()
         {
             Health = _enemySO.maxHealth;
+            MaxHealth = _enemySO.maxHealth;
             movingSpeed = _enemySO.moveSpeed;
             navMeshAgent.speed = movingSpeed;
             chasingSpeed = movingSpeed * _enemySO.chasingSpeedMultiplier;

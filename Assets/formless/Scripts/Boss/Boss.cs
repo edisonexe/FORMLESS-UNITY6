@@ -29,6 +29,7 @@ namespace Formless.Boss
         private void Start()
         {
             Health = _bossSO.maxHealth;
+            MaxHealth = Health;
             movingSpeed = _bossSO.moveSpeed;
             navMeshAgent.speed = movingSpeed;
             chasingSpeed = movingSpeed * _bossSO.chasingSpeedMultiplier;
@@ -133,5 +134,16 @@ namespace Formless.Boss
         {
             return base.GetRandomPatrolPosition();
         }
+
+        public bool CanUseSpecialAttack
+        {
+            get
+            {
+                return Health <= MaxHealth * 0.3f;
+            }
+        }
+
+
+
     }
 }

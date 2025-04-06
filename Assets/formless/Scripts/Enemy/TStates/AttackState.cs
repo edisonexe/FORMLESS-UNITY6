@@ -56,29 +56,6 @@ namespace Formless.Enemy.States
             }
         }
 
-        //public override void Update()
-        //{
-        //    timeSinceLastAttack += Time.deltaTime;
-
-        //    if (Player.Player.Instance != null) 
-        //    {
-        //        if (Vector2.Distance(entity.transform.position, Player.Player.Instance.transform.position) > attackRange)
-        //        {
-        //            ChangerState.ChangeToChasingState(entity, stateMachine, animator);
-        //        }
-        //        else
-        //        {
-        //            entity.LookAtPlayer();
-
-        //            if (timeSinceLastAttack >= attackCooldown)
-        //            {
-        //                PerformAttack();
-        //                timeSinceLastAttack = 0f;
-        //            }
-        //        }  
-        //    }
-        //}
-
         public override void Exit()
         {
             //Debug.Log($"{typeof(T).Name} exit [ATTACK]");
