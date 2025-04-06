@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 1908775094495909872}
   m_Layer: 0
   m_Name: '[TL-W]RoomEmpty'
-  m_TagString: Untagged
+  m_TagString: RoomObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
