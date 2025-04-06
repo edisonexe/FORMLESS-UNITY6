@@ -19,6 +19,7 @@ TagManager:
   - ItemSpawner
   - Enemy
   - Environment
+  - RoomObj
   layers:
   - Default
   - TransparentFX

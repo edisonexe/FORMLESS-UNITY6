@@ -1,7 +1,6 @@
 using UnityEngine;
 using Formless.SM;
 using Formless.Core.Animations;
-
 namespace Formless.Enemy.States
 {
     public abstract class IdleState<T> : EnemyState where T: Enemy
@@ -27,6 +26,12 @@ namespace Formless.Enemy.States
 
         public override void Update()
         {
+            if (entity is Boss.Boss boss && boss.CanUseSpecialAttack)
+            {
+                stateMachine.ChangeState(new BossSpecialAttackState(boss, stateMachine, animator));
+                return;
+            }
+
             idleTimer -= Time.deltaTime;
             
             if (entity.CanSeePlayer())

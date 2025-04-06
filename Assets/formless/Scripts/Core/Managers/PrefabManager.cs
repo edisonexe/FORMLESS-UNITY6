@@ -12,7 +12,7 @@ namespace Formless.Core.Managers
         [SerializeField] private GameObject _heartPrefab;
         [SerializeField] private GameObject _keyPrefab;
         [SerializeField] private EnemySpawnData[] _enemyPrefabs;
-        [SerializeField] private GameObject _bossPrefab;
+        [SerializeField] private GameObject[] _bossPrefabs;
         [SerializeField] private GameObject _teleportPrefab;
         [SerializeField] private GameObject _lockDestroyEffect;
         [SerializeField] private GameObject _bossLockDestroyEffect;
@@ -27,7 +27,7 @@ namespace Formless.Core.Managers
         public GameObject HeartPrefab => _heartPrefab;
         public GameObject KeyPrefab => _keyPrefab;
         public EnemySpawnData[] EnemyPrefabs => _enemyPrefabs;
-        public GameObject BossPrefab => _bossPrefab;
+        public GameObject[] BossPrefabs => _bossPrefabs;
         public GameObject TeleportPrefab => _teleportPrefab;
         public GameObject LockDestroyEffect => _lockDestroyEffect;
         public GameObject BossLockDestroyEffect => _bossLockDestroyEffect;

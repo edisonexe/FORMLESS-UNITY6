@@ -4,6 +4,7 @@ using Formless.Enemy;
 using Formless.Player;
 using UnityEngine;
 using Formless.SM;
+using Formless.Boss;
 
 public abstract class ChasingState<T> : EnemyState where T : Enemy
 {
@@ -61,6 +62,12 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
 
     public override void Update()
     {
+        if (entity is Boss boss && boss.CanUseSpecialAttack)
+        {
+            stateMachine.ChangeState(new BossSpecialAttackState(boss, stateMachine, animator));
+            return;
+        }
+
         if (entity.CanSeePlayer())
         {
             entity.LookAtPlayer();

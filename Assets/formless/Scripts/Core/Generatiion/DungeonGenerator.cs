@@ -20,12 +20,18 @@ public class DungeonGenerator : MonoBehaviour
 
     public static Action OnDungeonGenerationCompleted;
     public static Action OnDungeonFullGenerated;
+    private bool _roomsDestoyed = false;
     private List<GameObject> _generatedRooms = new List<GameObject>();
     private float _checkDelay = 1.5f;
     private float _timeSinceLastRoom = 0;
 
     public static bool dungeonFullGenerated = false;
 
+    private int _countDungeons = 0;
+    private int _dungeonsToVictory = 0;
+
+    public int CountDungeons => _countDungeons;
+    public int DungeonsToVictory => _dungeonsToVictory;
     public GameObject LastRoom { get; private set; }
     public GameObject PenultimateRoom { get; private set; }
     public int KeysSpawned { get; private set; }
@@ -56,6 +62,8 @@ public class DungeonGenerator : MonoBehaviour
     private void Start()
     {
         //StartGenerating();
+        _dungeonsToVictory = UnityEngine.Random.Range(3, 5);
+        Debug.Log($"Данжей всего будет - {_dungeonsToVictory}");
     }
     
     public void ResetDungeon()
@@ -63,8 +71,9 @@ public class DungeonGenerator : MonoBehaviour
         GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach (GameObject obj in allObjects)
         {
-            if (obj.CompareTag("Room") || obj.CompareTag("RoomMain"))
+            if (obj.CompareTag("RoomObj"))
             {
+                Debug.Log($"Удалён объект {obj.name}");
                 Destroy(obj);
             }
         }
@@ -80,10 +89,13 @@ public class DungeonGenerator : MonoBehaviour
         PenultimateRoom = null;
 
         StopAllCoroutines();
+        _roomsDestoyed = true;
     }
 
     public void StartGenerating()
     {
+        _countDungeons += 1;
+        Debug.Log($"Номер данжа - {_countDungeons}");
         GameplayManager.Instance.SetDungeonGenerator(this);
         SpawnMainRoom();
         StartCoroutine(CheckDungeonGenerationCompleteness());
@@ -94,7 +106,11 @@ public class DungeonGenerator : MonoBehaviour
         Debug.Log("Загрузка нового подземелья...");
         
         ResetDungeon();
-        StartGenerating();
+        if (_roomsDestoyed)
+        {
+            StartGenerating();
+            _roomsDestoyed = false;
+        }
     }
 
     public void RegisterKey()

@@ -16,7 +16,7 @@ namespace Formless.Core.Managers
         public GameStats Stats { get; private set; } = new GameStats();
         public EnemyData LastKilledEnemyData { get; private set; }
 
-        public EndPanel EndPanel;
+        public EndPanel endPanel;
         public bool HasBossKey { get; private set; } = false;
 
         private DungeonGenerator _dungeonGenerator;
@@ -24,9 +24,9 @@ namespace Formless.Core.Managers
         [SerializeField] private Image _fadeScreen;
         private List<GameObject> _rooms;
 
-        [Header("Boss Data")]
-        [SerializeField] private GameObject bossPrefab;
-        [SerializeField] private GameObject teleportPrefab;
+        //[Header("Boss Data")]
+        //[SerializeField] private GameObject[] bossPrefabs;
+        //[SerializeField] private GameObject teleportPrefab;
 
         private BossSpawner _bossSpawner;
 
@@ -53,7 +53,7 @@ namespace Formless.Core.Managers
         private void Start()
         {
             InitializeEndPanel();
-            _bossSpawner = new BossSpawner(bossPrefab, teleportPrefab);
+            //_bossSpawner = new BossSpawner(bossPrefabs, teleportPrefab);
             DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
         }
 
@@ -64,13 +64,13 @@ namespace Formless.Core.Managers
 
          private void InitializeEndPanel()
         {
-            EndPanel = UIManager.Instance.endPanel.GetComponent<EndPanel>();
-            if (EndPanel == null)
+            endPanel = UIManager.Instance.endPanel.GetComponent<EndPanel>();
+            if (endPanel == null)
             {
                 Debug.LogError("EndPanel component is missing on the assigned object in UIManager!");
                 return;
             }
-            EndPanel.Initialize(Stats);
+            endPanel.Initialize(Stats);
         }
 
         public void SetDungeonGenerator(DungeonGenerator generator)
@@ -95,12 +95,14 @@ namespace Formless.Core.Managers
 
         private IEnumerator DungeonTransition()
         {
+            yield return StartCoroutine(FadeToBlack());
+
             // ∆дЄм один кадр, чтобы сцена успела загрузитьс€
-            yield return null;
+            //yield return null;
 
             _rooms.Clear();
 
-            //DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
+            DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
             DungeonGenerator.Instance.LoadNewDungeon();
         }
 
@@ -126,6 +128,11 @@ namespace Formless.Core.Managers
             _fadeScreen.color = new Color(0, 0, 0, 0);
         }
 
+        public void FadeToClear1()
+        {
+            StartCoroutine(FadeToClear());
+        }
+
         private void HandleWaitDungeonFullGeneration()
         {
             DungeonGenerator.OnDungeonFullGenerated -= HandleWaitDungeonFullGeneration;
@@ -138,6 +145,7 @@ namespace Formless.Core.Managers
 
             Player.Player.Instance.transform.position = Vector3.zero;
             Camera.main.transform.position = new Vector3(0, 0.5f, -10);
+            FadeToClear1();
         }
 
 

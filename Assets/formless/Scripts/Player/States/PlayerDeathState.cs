@@ -38,7 +38,7 @@ namespace Formless.Player.States
                 return;
             }
 
-            GameplayManager.Instance.EndPanel.SetupPanel(GameResult.Defeat);
+            GameplayManager.Instance.endPanel.SetupPanel(GameResult.Defeat);
 
             player.StartFadeAndDestroy();
         }

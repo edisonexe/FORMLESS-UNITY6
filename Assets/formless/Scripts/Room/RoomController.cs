@@ -23,7 +23,7 @@ namespace Formless.Room
             _roomStateChecker = GetComponent<RoomStateChecker>();
             _enemySpawner = GetComponent<EnemySpawner>();
             _itemSpawner = GetComponent<ItemSpawner>();
-            _bossSpawner = new BossSpawner(PrefabManager.Instance.BossPrefab, PrefabManager.Instance.TeleportPrefab);
+            _bossSpawner = new BossSpawner(PrefabManager.Instance.BossPrefabs, PrefabManager.Instance.TeleportPrefab);
         }
 
         private void Start()
@@ -128,7 +128,7 @@ namespace Formless.Room
                 if (child.name.Contains("Environment") || child.CompareTag("Environment"))
                 {
                     Destroy(child.gameObject);
-                    Debug.Log("Env удалён");
+                    //Debug.Log("Env удалён");
                     break;
                 }
             }
