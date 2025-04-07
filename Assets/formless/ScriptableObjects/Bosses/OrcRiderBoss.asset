@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossName: OrcRider
   maxHealth: 130
-  damageBasicAttack: 10
-  damageStrongAttack: 15
-  damageSpecialAttack: 20
+  damageBasicAttack: 5
+  damageStrongAttack: 10
+  damageSpecialAttack: 10
   patrolDistanceMin: 6
   patrolDistanceMax: 6
   moveSpeed: 1.4

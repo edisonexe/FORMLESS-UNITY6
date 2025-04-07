@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Formless.Player.Rebirth;
+using System.Collections;
 
 namespace Formless.UI
 {
@@ -35,6 +36,8 @@ namespace Formless.UI
         [SerializeField] private Image _cooldownImage;
         private RebirthTimer _rebirthCooldown;
 
+        [SerializeField] private Text _floorNumberText;
+
         //[SerializeField] private Image _durationImage;
         //private RebirthTimer _rebirthDuration;
 
@@ -60,6 +63,7 @@ namespace Formless.UI
         {
             _maxCountHearts = _hearts.Length;
             _maxCountKeys = _keys.Length;
+            DungeonGenerator.OnDungeonFullGenerated += ShowFloorNumber;
             //_rebirthDuration = new RebirthTimer(_durationImage, 15f);
         }
         private void Update()
@@ -186,6 +190,36 @@ namespace Formless.UI
         public void EndPanelDisable()
         {
             endPanel.SetActive(false);
+        }
+
+        public void ShowFloorNumber()
+        {
+            _floorNumberText.color = new Color(1,1,1,1);
+            int floorNumber = DungeonGenerator.Instance.CountDungeons;
+            _floorNumberText.text = "FLOOR  " + floorNumber.ToString();
+            _floorNumberText.gameObject.SetActive(true);
+            StartCoroutine(FadeOutAndDeactivate());
+        }
+
+        private IEnumerator FadeOutAndDeactivate()
+        {
+            Color startColor = _floorNumberText.color;
+            float delay = 2f;
+            float duration = 2f;
+            float timeElapsed = 0f;
+            yield return new WaitForSeconds(delay);
+
+            while (timeElapsed < duration)
+            {
+                timeElapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(1f, 0f, timeElapsed / duration);
+                _floorNumberText.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+
+                yield return null;
+            }
+            _floorNumberText.color = new Color(0,0,0,0);
+            
+            _floorNumberText.gameObject.SetActive(false);
         }
     }
 }

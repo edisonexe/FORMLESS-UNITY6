@@ -17,6 +17,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private GameObject[] _rightRooms;
     [SerializeField] private GameObject _closedRoom;
     [SerializeField] private GameObject _mainRoomPrefab;
+    [SerializeField] private GameObject _fullNavMeshSurface;
 
     public static Action OnDungeonGenerationCompleted;
     public static Action OnDungeonFullGenerated;
@@ -45,6 +46,7 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject[] RightRooms => _rightRooms;
     public GameObject ClosedRoom => _closedRoom;
     public GameObject MainRoomPrefab => _mainRoomPrefab;
+    public GameObject FullNavMeshSurface => _fullNavMeshSurface;
 
     private void Awake()
     {
@@ -63,7 +65,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         //StartGenerating();
         _dungeonsToVictory = UnityEngine.Random.Range(3, 5);
-        Debug.Log($"Данжей всего будет - {_dungeonsToVictory}");
+        //Debug.Log($"Данжей всего будет - {_dungeonsToVictory}");
     }
     
     public void ResetDungeon()
@@ -73,7 +75,7 @@ public class DungeonGenerator : MonoBehaviour
         {
             if (obj.CompareTag("RoomObj"))
             {
-                Debug.Log($"Удалён объект {obj.name}");
+                //Debug.Log($"Удалён объект {obj.name}");
                 Destroy(obj);
             }
         }
@@ -95,7 +97,7 @@ public class DungeonGenerator : MonoBehaviour
     public void StartGenerating()
     {
         _countDungeons += 1;
-        Debug.Log($"Номер данжа - {_countDungeons}");
+        //Debug.Log($"Номер данжа - {_countDungeons}");
         GameplayManager.Instance.SetDungeonGenerator(this);
         SpawnMainRoom();
         StartCoroutine(CheckDungeonGenerationCompleteness());
@@ -103,7 +105,7 @@ public class DungeonGenerator : MonoBehaviour
 
     public void LoadNewDungeon()
     {
-        Debug.Log("Загрузка нового подземелья...");
+        //Debug.Log("Загрузка нового подземелья...");
         
         ResetDungeon();
         if (_roomsDestoyed)
@@ -206,7 +208,7 @@ public class DungeonGenerator : MonoBehaviour
                 SpawnKeyInAccessibleRooms();
                 SpawnHearstInRooms();
                 OnDungeonFullGenerated?.Invoke();
-                Debug.Log("Dungeon full generated, setting dungeonFullGenerated to true.");
+                //Debug.Log("Dungeon full generated, setting dungeonFullGenerated to true.");
                 dungeonFullGenerated = true;
                 yield break;
             }

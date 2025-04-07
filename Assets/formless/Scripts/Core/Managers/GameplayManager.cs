@@ -55,6 +55,7 @@ namespace Formless.Core.Managers
             InitializeEndPanel();
             //_bossSpawner = new BossSpawner(bossPrefabs, teleportPrefab);
             DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
+            _fadeScreen.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -95,6 +96,7 @@ namespace Formless.Core.Managers
 
         private IEnumerator DungeonTransition()
         {
+            _fadeScreen.gameObject.SetActive(true);
             yield return StartCoroutine(FadeToBlack());
 
             // ∆дЄм один кадр, чтобы сцена успела загрузитьс€
@@ -126,6 +128,7 @@ namespace Formless.Core.Managers
                 yield return null;
             }
             _fadeScreen.color = new Color(0, 0, 0, 0);
+            _fadeScreen.gameObject.SetActive(false);
         }
 
         public void FadeToClear1()
@@ -146,6 +149,7 @@ namespace Formless.Core.Managers
             Player.Player.Instance.transform.position = Vector3.zero;
             Camera.main.transform.position = new Vector3(0, 0.5f, -10);
             FadeToClear1();
+            Player.Player.Instance.inputHandler.Enable();
         }
 
 
