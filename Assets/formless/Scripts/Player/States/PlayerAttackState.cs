@@ -10,6 +10,10 @@ public class PlayerAttackState : PlayerState
     private Animator _animator;
     private bool _isBasicAttack;
     private bool _isStrongAttack;
+    public float _attackCooldown = 0.5f;
+    private float _attackCooldownTimer;
+
+
 
     public bool IsBasicAttack => _isBasicAttack;
     public bool IsStrongAttack => _isStrongAttack;

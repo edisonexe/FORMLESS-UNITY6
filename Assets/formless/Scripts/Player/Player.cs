@@ -32,6 +32,12 @@ namespace Formless.Player
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
+
+        private float _attackCooldown = 0.3f;
+        private float _attackCooldownTimer;
+
+        public bool CanAttack => _attackCooldownTimer <= 0f;
+
         private int _keysCount;
         private bool _hasBossKey;
         private int _bombsCount;
@@ -99,6 +105,21 @@ namespace Formless.Player
         {
             StateMachine.FixedUpdate();
         }
+
+        public void ResetAttackCooldown()
+        {
+            _attackCooldownTimer = _attackCooldown;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (_attackCooldownTimer > 0f)
+            {
+                _attackCooldownTimer -= Time.deltaTime;
+            }
+        }
+
 
         public void RCSetInputHandler()
         {

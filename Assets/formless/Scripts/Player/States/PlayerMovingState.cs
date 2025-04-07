@@ -44,9 +44,10 @@ namespace Formless.Player.States
                 stateMachine.ChangeState(new PlayerIdleState(player, stateMachine, _inputHandler, _animator));
             }
 
-            if (_inputHandler.IsBasicAttackPressed() || _inputHandler.IsStrongAttackPressed() )
+            if (player.CanAttack && (_inputHandler.IsBasicAttackPressed() || _inputHandler.IsStrongAttackPressed()))
             {
                 stateMachine.ChangeState(new PlayerAttackState(player, stateMachine, _inputHandler, _animator));
+                player.ResetAttackCooldown();
             }
         }
 
