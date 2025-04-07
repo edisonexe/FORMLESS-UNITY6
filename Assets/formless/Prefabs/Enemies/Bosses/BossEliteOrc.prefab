@@ -258,6 +258,7 @@ Transform:
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 8310945179106043120}
   - {fileID: 1805513064977624073}
   - {fileID: 9143951519231035750}
   - {fileID: 5425738607197564772}
@@ -484,6 +485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ca67a62a21ef8488dc8c25f0b159a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 0
   knockBackForce: 5
   knockBackDuration: 0.2
   _enemySO: {fileID: 0}
@@ -493,15 +495,20 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0}
   patrolDistanceMax: 0
   patrolDistanceMin: 0
-  movingSpeed: 0
   chasingSpeed: 0
   detectionRange: 0
-  attackRange: 1
   patrolTimerMax: 4.5
   damageBasicAttack: 0
   damageStrongAttack: 0
   basicAttackCollider: {fileID: 0}
   strongAttackCollider: {fileID: 0}
+  attackCooldown: 1.5
+  attackRange: 1
+  rangeAttackRange: 6
+  rangeAttacking: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
+  projectileSpeed: 5
   _bossSO: {fileID: 11400000, guid: 82e99e7334c44f14d87666f85489f29c, type: 2}
   damageSpecialAttack: 0
   specialAttackFirstCollider: {fileID: 0}
@@ -602,6 +609,94 @@ PolygonCollider2D:
       - {x: 1.4804832, y: 0.3696323}
       - {x: 1.764774, y: 0.6165989}
   m_UseDelaunayMesh: 0
+--- !u!1 &7515968560725089249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8310945179106043120}
+  - component: {fileID: 8405465488804491765}
+  m_Layer: 0
+  m_Name: Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8310945179106043120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7515968560725089249}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.084, y: 0.548, z: 0}
+  m_LocalScale: {x: 0.58823526, y: 0.58823526, z: 0.58823526}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4848953298556827442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8405465488804491765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7515968560725089249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.5254902, g: 0.20000002, b: 0.14509805, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 3
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.2
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.3273294, y: 0.21701396, z: 0}
+  - {x: -0.31081223, y: 0.16669464, z: 0}
+  - {x: 0.07987952, y: 0.109877706, z: 0}
+  - {x: 0.4239341, y: 0.2711836, z: 0}
+  - {x: 0.26621628, y: 0.52810776, z: 0}
+  - {x: 0.36499262, y: 0.98238033, z: 0}
+  - {x: -0.21269679, y: 0.99697036, z: 0}
+  - {x: -0.16915894, y: 0.5039402, z: 0}
 --- !u!1 &8455010829495079926
 GameObject:
   m_ObjectHideFlags: 0
