@@ -43,6 +43,8 @@ namespace Formless.Enemy
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
+
+        public float attackCooldown = 1.5f;
         public float attackRange = 1.8f;
         public float rangeAttackRange = 6f;
         public bool rangeAttacking = false;

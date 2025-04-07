@@ -9,7 +9,7 @@ namespace Formless.Enemy.States
         protected T entity;
         protected Animator animator;
         protected float attackRange = 1.8f;
-        protected float attackCooldown = 1.5f;
+        //protected float attackCooldown = 1.5f;
         protected float timeSinceLastAttack;
 
         public AttackState(T entity, StateMachine stateMachine, Animator animator)
@@ -43,7 +43,7 @@ namespace Formless.Enemy.States
                 {
                     entity.LookAtPlayer();
 
-                    if (timeSinceLastAttack >= attackCooldown)
+                    if (timeSinceLastAttack >= entity.attackCooldown)
                     {
                         PerformAttack();
                         timeSinceLastAttack = 0f;

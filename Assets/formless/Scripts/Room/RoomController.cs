@@ -65,13 +65,33 @@ namespace Formless.Room
                 {
                     _bossSpawner.TrySpawnBoss(gameObject);
                 }
-                // Обычная комната, спавн врагов и предметов
                 else
                 {
                     _enemySpawner.Spawn();
                 }
             }
         }
+
+        private void ReplaceNavMeshSurface(GameObject roomObj, GameObject newNavMeshSurface)
+        {
+            foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
+            {
+                if (child.gameObject.name == "NavMeshSurface")
+                {
+                    Vector3 position = child.position;
+                    Quaternion rotation = child.rotation;
+
+                    Destroy(child.gameObject);
+
+                    GameObject newSurface = Instantiate(newNavMeshSurface, position, rotation);
+
+                    newSurface.transform.SetParent(roomObj.transform);
+
+                    return;
+                }
+            }
+        }
+
 
         private void HandleRoomAfterDungeonGen()
         {
@@ -80,6 +100,7 @@ namespace Formless.Room
                 RemoveObjectsWithTagInRoom(gameObject, "EnemySpawner");
                 RemoveObjectsWithTagInRoom(gameObject, "ItemSpawner");
                 RemoveEnvironmentObjectsFromParent();
+                ReplaceNavMeshSurface(DungeonGenerator.Instance.LastRoom, DungeonGenerator.Instance.FullNavMeshSurface);
             }
             else
             {
