@@ -23,7 +23,7 @@ namespace Formless.Enemy.States
         {
             //Debug.Log($"{typeof(T).Name} enter [ATTACK]");
             animator.SetBool(AnimationConstants.IS_MOVING, false);
-            PerformAttack();
+            //PerformAttack();
             timeSinceLastAttack = 0f;
         }
 
@@ -35,7 +35,7 @@ namespace Formless.Enemy.States
             {
                 float distanceToPlayer = Vector2.Distance(entity.transform.position, Player.Player.Instance.transform.position);
 
-                if (distanceToPlayer > (entity.rangeAttacking ? entity.rangeAttackRange : attackRange))
+                if (distanceToPlayer > (entity.rangeAttacking ? entity.distanceRangeAttack : attackRange))
                 {
                     ChangerState.ChangeToChasingState(entity, stateMachine, animator);
                 }

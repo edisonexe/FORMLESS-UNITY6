@@ -122,6 +122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BLeftDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 5116054314923764263, guid: 42db70e44e18dd344b9dc987322f9a4f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4197655372814843068, guid: 42db70e44e18dd344b9dc987322f9a4f, type: 3}

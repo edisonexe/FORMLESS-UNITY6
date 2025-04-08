@@ -34,7 +34,7 @@ public class PlayerAttackState : PlayerState
             _animator.SetTrigger(AnimationConstants.BASIC_ATTACK);
             _isBasicAttack = true;
         }
-        else if (_inputHandler.IsStrongAttackPressed())
+        else if (_inputHandler.IsStrongAttackPressed() && player.rangeAttacking != true)
         {
             _animator.SetTrigger(AnimationConstants.STRONG_ATTACK);
             _isStrongAttack = true;

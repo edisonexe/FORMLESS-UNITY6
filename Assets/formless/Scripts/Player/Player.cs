@@ -7,6 +7,8 @@ using Formless.Player.Rebirth;
 using System.Collections.Generic;
 using Formless.Items;
 using Formless.UI;
+using Formless.Enemy.Projectile;
+using Formless.Player.Projectile;
 
 namespace Formless.Player
 {
@@ -29,6 +31,7 @@ namespace Formless.Player
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _damageBasicAttack = 10f;
         [SerializeField] private float _damageStrongAttack = 15f;
+        [SerializeField] private float _damageRangeAttack = 5f;
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
 
@@ -36,8 +39,15 @@ namespace Formless.Player
         private float _attackCooldown = 0.3f;
         private float _attackCooldownTimer;
 
+        // Дальняя атака
+        public GameObject projectilePrefab;
+        public Transform projectileSpawnPoint;
+        public bool rangeAttacking = false;
+        public float projectileSpeed = 5f;
+
         public bool CanAttack => _attackCooldownTimer <= 0f;
 
+        // Кол-во предметов
         private int _keysCount;
         private bool _hasBossKey;
         private int _bombsCount;
@@ -299,6 +309,43 @@ namespace Formless.Player
 
                         _damagedEnemies.Add(enemy);
                     }
+                }
+            }
+        }
+
+        public void SpawnProjectile()
+        {
+            if (projectilePrefab != null && projectileSpawnPoint != null)
+            {
+                // Получаем позицию курсора мыши в мировых координатах
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition.z = 0; // Убедимся, что z-координата равна 0 (для 2D)
+
+                // Определяем направление от точки спавна снаряда к курсору
+                Vector2 direction = (mousePosition - projectileSpawnPoint.position).normalized;
+
+                // Создаем снаряд в точке спавна
+                GameObject projectile = Instantiate(
+                    projectilePrefab,
+                    projectileSpawnPoint.position, // Позиция спавна снаряда
+                    Quaternion.identity
+                );
+
+                // Разворачиваем снаряд в направлении цели
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Вычисляем угол
+                projectile.transform.rotation = Quaternion.Euler(0, 0, angle); // Применяем поворот
+
+                // Настройка снаряда
+                PlayerProjectile projectileScript = projectile.GetComponent<PlayerProjectile>();
+                if (projectileScript != null)
+                {
+                    projectileScript.Initialize(_damageRangeAttack); // Передаем урон
+                    projectileScript.SetDirection(direction, projectileSpeed); // Задаем направление и скорость
+                }
+
+                if (StateMachine.CurrentState is PlayerAttackState)
+                {
+                    StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, inputHandler, _animator));
                 }
             }
         }

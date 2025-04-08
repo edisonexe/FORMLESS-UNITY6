@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BBottomDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 5289400280399184852, guid: 48804b9fba44699428d8f53e3e289e63, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7188793922087874657, guid: 48804b9fba44699428d8f53e3e289e63, type: 3}

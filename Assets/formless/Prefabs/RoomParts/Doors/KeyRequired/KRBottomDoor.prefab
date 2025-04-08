@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7624682066663512066}
   - component: {fileID: -4644367182401736467}
   - component: {fileID: 3907258379235923547}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: KRBottomDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 5071977475311358566}
   - component: {fileID: 4069954049537809500}
   - component: {fileID: 2497049503791914779}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mover
   m_TagString: Untagged
   m_Icon: {fileID: 0}

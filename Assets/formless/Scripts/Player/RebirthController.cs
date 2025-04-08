@@ -19,6 +19,7 @@ namespace Formless.Player.Rebirth
         private PlayerInputHandler _inputHandler;
 
         // Оригинальные параметры игрока
+        private bool _rangeAttacking = false;
         private float _originalBasicAttackDamage;
         private float _originalStrongAttackDamage;
         private float _originalMovingSpeed;
@@ -41,6 +42,7 @@ namespace Formless.Player.Rebirth
             _playerStrongAttackCollider = transform.Find("StrongAttack")?.GetComponent<PolygonCollider2D>();
             _playerCapsuleCollider = GetComponent<CapsuleCollider2D>();
             _playerBoxCollider = GetComponent<BoxCollider2D>();
+            _rangeAttacking = Player.Instance.rangeAttacking;
 
             // Сохраняем оригинальные параметры
             _originalAnimator = _playerAnimator.runtimeAnimatorController;
@@ -198,6 +200,9 @@ namespace Formless.Player.Rebirth
             // Анимация
             _playerAnimator.runtimeAnimatorController = enemyAnimator.runtimeAnimatorController;
             RestoreAnimatorParameters();
+
+            bool enemyIsRangeAttacking = enemy.rangeAttacking;
+            Player.Instance.rangeAttacking = enemyIsRangeAttacking;
 
             // Копируем коллайдеры
             CopyPolygonCollider(enemyBasicAttackCollider, _playerBasicAttackCollider);

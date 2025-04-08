@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9009346101418085542}
   - component: {fileID: 225049738162537116}
   - component: {fileID: 1856509323160650203}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3972474580426704051}
   - component: {fileID: 5959572781558466242}
   - component: {fileID: 355516674164813357}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: OBottomDoor
   m_TagString: Door
   m_Icon: {fileID: 0}

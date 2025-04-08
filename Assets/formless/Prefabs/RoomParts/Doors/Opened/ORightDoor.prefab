@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 1288781278538884741}
   - component: {fileID: 2868276646635894022}
   - component: {fileID: 2880859646328118891}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: ORightDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -719,7 +719,7 @@ GameObject:
   - component: {fileID: 5833429757308059476}
   - component: {fileID: 7159314257809379738}
   - component: {fileID: 5748935741541999569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mover
   m_TagString: Untagged
   m_Icon: {fileID: 0}

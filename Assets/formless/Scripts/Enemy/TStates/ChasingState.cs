@@ -76,7 +76,7 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
 
             float distanceToPlayer = Vector3.Distance(entity.transform.position, Player.Instance.transform.position);
 
-            if (distanceToPlayer <= (entity.rangeAttacking ? entity.rangeAttackRange : entity.attackRange))
+            if (distanceToPlayer <= (entity.rangeAttacking ? entity.distanceRangeAttack : entity.attackRange))
             {
                 ChangerState.ChangeToAttackState(entity, stateMachine, animator);
             }

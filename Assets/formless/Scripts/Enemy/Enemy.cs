@@ -46,7 +46,7 @@ namespace Formless.Enemy
 
         public float attackCooldown = 1.5f;
         public float attackRange = 1.8f;
-        public float rangeAttackRange = 6f;
+        public float distanceRangeAttack = 6f;
         public bool rangeAttacking = false;
         public GameObject projectilePrefab;
         public Transform projectileSpawnPoint;
