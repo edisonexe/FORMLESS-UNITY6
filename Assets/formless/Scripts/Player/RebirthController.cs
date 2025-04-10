@@ -187,7 +187,8 @@ namespace Formless.Player.Rebirth
             Enemy.Enemy enemy = _lastKilledEnemy.GetComponent<Enemy.Enemy>();
             if (enemy != null)
             {
-                Player.Instance.SetMovingSpeed(enemy.MovingSpeed + 1.0f);
+                float newMovingSpeed = enemy.ChasingSpeed + 1f;;
+                Player.Instance.SetMovingSpeed(newMovingSpeed);
                 Player.Instance.SetBasicAttackDamage(enemy.BasicAttackDamage);
                 Player.Instance.SetStrongAttackDamage(enemy.StrongAttackDamage);
             }

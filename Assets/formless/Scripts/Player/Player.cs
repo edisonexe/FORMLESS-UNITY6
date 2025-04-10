@@ -158,8 +158,9 @@ namespace Formless.Player
         
         public void SetMovingSpeed(float speed)
         {
+            Debug.Log($"Старая скорость {_movingSpeed}");
             _movingSpeed = speed;
-            Debug.Log($"Нынешняя скорость игрока: {_movingSpeed} ");
+            Debug.Log($"Новая скорость: {_movingSpeed} ");
         }
 
         public void SetBasicAttackDamage(float damage)
