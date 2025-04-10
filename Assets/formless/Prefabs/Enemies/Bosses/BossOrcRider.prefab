@@ -684,7 +684,7 @@ MonoBehaviour:
   strongAttackCollider: {fileID: 0}
   attackCooldown: 2
   attackRange: 3
-  rangeAttackRange: 6
+  distanceRangeAttack: 6
   rangeAttacking: 0
   projectilePrefab: {fileID: 0}
   projectileSpawnPoint: {fileID: 0}

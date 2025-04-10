@@ -23,7 +23,6 @@ namespace Formless.Enemy.States
         {
             //Debug.Log($"{typeof(T).Name} enter [ATTACK]");
             animator.SetBool(AnimationConstants.IS_MOVING, false);
-            //PerformAttack();
             timeSinceLastAttack = 0f;
         }
 
@@ -43,10 +42,10 @@ namespace Formless.Enemy.States
                 {
                     entity.LookAtPlayer();
 
-                    if (timeSinceLastAttack >= entity.attackCooldown)
+                    if (entity.CanAttack)
                     {
                         PerformAttack();
-                        timeSinceLastAttack = 0f;
+                        entity.ResetAttackCooldown();
                     }
                 }
             }

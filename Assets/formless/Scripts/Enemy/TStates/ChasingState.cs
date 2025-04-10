@@ -22,43 +22,8 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
     {
         //Debug.Log($"{typeof(T).Name} enter [CHASING]");
         animator.SetBool(AnimationConstants.IS_MOVING, true);
-        entity.navMeshAgent.speed = entity.chasingSpeed;
+        entity.navMeshAgent.speed = entity.ChasingSpeed;
     }
-
-    //public override void Update()
-    //{
-    //    if (entity.CanSeePlayer())
-    //    {
-    //        entity.LookAtPlayer();
-    //        Vector3 targetPos = GetChaseTargetPosition();
-    //        entity.navMeshAgent.SetDestination(targetPos);
-
-    //        float distanceToPlayer = Vector2.Distance(entity.transform.position, Player.Instance.transform.position);
-
-    //        if (entity.rangeAttacking)
-    //        {
-    //            // Для врагов дальнего боя
-    //            if (distanceToPlayer <= entity.attackRange)
-    //            {
-    //                ChangerState.ChangeToRangedAttackState(entity, stateMachine, animator);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // Для врагов ближнего боя
-    //            if (distanceToPlayer <= entity.attackRange)
-    //            {
-    //                ChangerState.ChangeToAttackState(entity, stateMachine, animator);
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        // Если игрок вне зоны видимости, переходим в состояние покоя
-    //        ChangerState.ChangeToIdleState(entity, stateMachine, animator);
-    //    }
-    //}
-
 
     public override void Update()
     {
@@ -80,11 +45,6 @@ public abstract class ChasingState<T> : EnemyState where T : Enemy
             {
                 ChangerState.ChangeToAttackState(entity, stateMachine, animator);
             }
-
-            //if (Vector2.Distance(entity.transform.position, Player.Instance.transform.position) <= entity.attackRange)
-            //{
-            //    ChangerState.ChangeToAttackState(entity, stateMachine, animator);
-            //}
         }
         else
         {

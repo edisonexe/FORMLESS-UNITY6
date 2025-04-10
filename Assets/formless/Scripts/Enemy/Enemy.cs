@@ -28,11 +28,12 @@ namespace Formless.Enemy
         public event Action<Enemy> OnDie;
 
         public Vector2 startPosition;
-
+        public string enemyName;
         public float patrolDistanceMax;
         public float patrolDistanceMin;
         protected float movingSpeed;
-        public float chasingSpeed;
+        protected float chasingSpeed;
+        private float chasingSpeedMultiplier;
         public float detectionRange;
         public float patrolTimerMax = 4.5f;
 
@@ -45,6 +46,8 @@ namespace Formless.Enemy
 
 
         public float attackCooldown = 1.5f;
+        private float _attackCooldownTimer;
+
         public float attackRange = 1.8f;
         public float distanceRangeAttack = 6f;
         public bool rangeAttacking = false;
@@ -53,6 +56,8 @@ namespace Formless.Enemy
         public float projectileSpeed = 5f;
 
         public float MovingSpeed => movingSpeed;
+        public bool CanAttack => _attackCooldownTimer <= 0f;
+        public float ChasingSpeed => chasingSpeed;
 
         protected override void Awake()
         {
@@ -74,11 +79,13 @@ namespace Formless.Enemy
 
         private void Start()
         {
+            enemyName = _enemySO.enemyName;
             Health = _enemySO.maxHealth;
             MaxHealth = _enemySO.maxHealth;
             movingSpeed = _enemySO.moveSpeed;
             navMeshAgent.speed = movingSpeed;
-            chasingSpeed = movingSpeed * _enemySO.chasingSpeedMultiplier;
+            chasingSpeedMultiplier = _enemySO.chasingSpeedMultiplier;
+            chasingSpeed = movingSpeed * chasingSpeedMultiplier;
             patrolDistanceMax = _enemySO.patrolDistanceMax;
             patrolDistanceMin = _enemySO.patrolDistanceMin;
             detectionRange = _enemySO.detectionRange;
@@ -94,6 +101,20 @@ namespace Formless.Enemy
 
             StateMachine.ChangeState(new EnemyIdleState(this, StateMachine, animator));
             lightSource = transform.Find("Light 2D")?.GetComponent<Light2D>();
+        }
+
+        public void ResetAttackCooldown()
+        {
+            _attackCooldownTimer = attackCooldown;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (_attackCooldownTimer > 0f)
+            {
+                _attackCooldownTimer -= Time.deltaTime;
+            }
         }
 
         private void FixedUpdate()
@@ -159,7 +180,7 @@ namespace Formless.Enemy
 
         public void OnAttackAnimationFinished() { }
 
-        public virtual void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out Player.Player player))
             {

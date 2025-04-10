@@ -12,14 +12,6 @@ namespace Formless.Boss.States
 
         protected override void PerformAttack()
         {
-            //if (entity.Health <= entity.MaxHealth * 0.3f)
-            //{
-            //    Debug.Log($"Здоровье у босса менее 30%");
-            //    ChangerState.ChangeToSpecialAttackState(entity, stateMachine, animator);
-            //    return;
-            //}
-
-
             float attackChance = Random.Range(0f, 100f);
             if (attackChance <= 50f)
             {

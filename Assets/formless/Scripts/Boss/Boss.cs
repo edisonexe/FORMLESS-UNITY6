@@ -15,13 +15,12 @@ namespace Formless.Boss
         public float damageSpecialAttack;
         public PolygonCollider2D specialAttackFirstCollider;
         public PolygonCollider2D specialAttackSecondCollider;
-
+        private bool _isSpecialAttack = false;
         protected override void Awake()
         {
             base.Awake();
-            var specialAttackObject = transform.Find("SpecialAttack");
-            var specialAttackFirstObject = specialAttackObject.Find("SpecialAttackFirst");
-            var specialAttackSecondObject = specialAttackObject.Find("SpecialAttackSecond");
+            var specialAttackFirstObject = transform.Find("SpecialAttackFirst");
+            var specialAttackSecondObject = transform.Find("SpecialAttackSecond");
             specialAttackFirstCollider = specialAttackFirstObject.GetComponent<PolygonCollider2D>();
             specialAttackSecondCollider = specialAttackSecondObject.GetComponent<PolygonCollider2D>();
         }
@@ -78,6 +77,7 @@ namespace Formless.Boss
 
         public void SpecialAttackFirstColliderEnable()
         {
+            _isSpecialAttack = true;
             specialAttackFirstCollider.enabled = true;
         }
 
@@ -88,6 +88,7 @@ namespace Formless.Boss
 
         public void SpecialAttackSecondColliderEnable()
         {
+            _isSpecialAttack = true;
             specialAttackSecondCollider.enabled = true;
         }
 
@@ -143,7 +144,26 @@ namespace Formless.Boss
             }
         }
 
-
-
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent(out Player.Player player))
+            {
+                if (_isBasicAttack)
+                {
+                    player.TakeDamage(transform, damageBasicAttack);
+                    _isBasicAttack = false;
+                }
+                else if (_isStrongAttack)
+                {
+                    player.TakeDamage(transform, damageStrongAttack);
+                    _isStrongAttack = false;
+                }
+                else if(_isSpecialAttack)
+                {
+                    player.TakeDamage(transform, damageSpecialAttack);
+                    _isSpecialAttack = false;
+                }
+            }
+        }
     }
 }
