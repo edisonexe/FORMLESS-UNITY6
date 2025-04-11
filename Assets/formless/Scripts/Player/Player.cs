@@ -28,7 +28,7 @@ namespace Formless.Player
         private SphereSystem _sphereSystem;
 
         [SerializeField] private float _movingSpeed = 2.5f;
-        [SerializeField] private float _maxHealth;
+        //[SerializeField] private float _maxHealth;
         [SerializeField] private float _damageBasicAttack = 10f;
         [SerializeField] private float _damageStrongAttack = 15f;
         [SerializeField] private float _damageRangeAttack = 5f;
@@ -88,11 +88,12 @@ namespace Formless.Player
         private void Start()
         {
             StateMachine.ChangeState(new PlayerIdleState(this, StateMachine, inputHandler, _animator));
-            Health = _maxHealth;
+            Health = MaxHealth;
             basicAttackCollider.enabled = false;
             strongAttackCollider.enabled = false;
             _material = _spriteRenderer.material;
 
+            UIManager.Instance.UpdateMaxHearts(MaxHealth);
             UIManager.Instance.SetHealthCount(Health);
             UIManager.Instance.SetKeysCount(_keysCount);
             

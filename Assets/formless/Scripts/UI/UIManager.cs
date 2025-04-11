@@ -66,6 +66,7 @@ namespace Formless.UI
             DungeonGenerator.OnDungeonFullGenerated += ShowFloorNumber;
             //_rebirthDuration = new RebirthTimer(_durationImage, 15f);
         }
+
         private void Update()
         {
             _rebirthCooldown.UpdateTimer(Time.deltaTime);
@@ -108,6 +109,24 @@ namespace Formless.UI
             }
         }
 
+        public void UpdateMaxHearts(float maxHealth)
+        {
+            int requiredHearts = Mathf.CeilToInt(maxHealth / 10f);
+
+            for (int i = 0; i < _hearts.Length; i++)
+            {
+                if (i < requiredHearts)
+                {
+                    _hearts[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    _hearts[i].gameObject.SetActive(false);
+                }
+            }
+
+            UpdateHeartsUI();
+        }
 
         public void UpdateKeysUI()
         {

@@ -169,6 +169,31 @@ namespace Formless.Player.Rebirth
             return false;
         }
 
+        private void SetNewMaxHealth(string enemyName)
+        {
+            float maxHealth = 0f;
+            switch (enemyName)
+            {
+                case "Wizard":
+                    maxHealth = 40f; 
+                    break;
+                case "Skeleton":
+                    maxHealth = 50f;
+                    break;
+                case "Orc":
+                    maxHealth = 60f;
+                    break;
+                case "Armored Orc":
+                    maxHealth = 80f; 
+                    break;
+                default:
+                    break;
+            }
+            Debug.Log($"Имя врага -{enemyName}, Новое макс.зд - {maxHealth}");
+            Player.Instance.MaxHealth = maxHealth;
+            UIManager.Instance.UpdateMaxHearts(maxHealth);
+        }
+
 
         private void Rebirth()
         {
@@ -191,6 +216,7 @@ namespace Formless.Player.Rebirth
                 Player.Instance.SetMovingSpeed(newMovingSpeed);
                 Player.Instance.SetBasicAttackDamage(enemy.BasicAttackDamage);
                 Player.Instance.SetStrongAttackDamage(enemy.StrongAttackDamage);
+                SetNewMaxHealth(enemy.enemyName);
             }
 
             PolygonCollider2D enemyBasicAttackCollider = _lastKilledEnemy.transform.Find("BasicAttack")?.GetComponent<PolygonCollider2D>();
