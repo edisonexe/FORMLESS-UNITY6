@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79148b3b0377ffe4397a08f85ba52f76, type: 3}
   m_Name: Wizard
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: Wizard
   maxHealth: 20
   damageBasicAttack: 5
   damageStrongAttack: 0
