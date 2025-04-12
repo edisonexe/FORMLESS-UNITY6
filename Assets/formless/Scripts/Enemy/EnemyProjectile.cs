@@ -7,6 +7,7 @@ namespace Formless.Enemy.Projectile
     {
         private float damage;
         private float destroyDelay = 5f;
+        private bool _attacked = false;
 
         public void Initialize(float damage)
         {
@@ -19,9 +20,14 @@ namespace Formless.Enemy.Projectile
         {
             if (collision.CompareTag("Player"))
             {
-                Player.Player.Instance.TakeDamage(damage);
+                if (!_attacked)
+                {
+                    Player.Player.Instance.TakeDamage(damage);
 
-                Destroy(gameObject);
+                    Destroy(gameObject);
+                    _attacked = true;
+                }
+                
             }
             if (collision.gameObject.layer == LayerMask.NameToLayer("Walls") ||
                 collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
