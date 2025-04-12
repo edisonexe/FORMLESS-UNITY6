@@ -96,7 +96,8 @@ namespace Formless.Player
             UIManager.Instance.UpdateMaxHearts(MaxHealth);
             UIManager.Instance.SetHealthCount(Health);
             UIManager.Instance.SetKeysCount(_keysCount);
-            
+            UIManager.Instance.SetDamageText(DamageBasicAttack, DamageStrongAttack);
+            UIManager.Instance.SetSpeedText(MovingSpeed);
 
             if (_rebirthController != null)
             {
@@ -162,6 +163,7 @@ namespace Formless.Player
             Debug.Log($"Старая скорость {_movingSpeed}");
             _movingSpeed = speed;
             Debug.Log($"Новая скорость: {_movingSpeed} ");
+            UIManager.Instance.SetSpeedText( _movingSpeed );
         }
 
         public void SetBasicAttackDamage(float damage)
@@ -283,11 +285,14 @@ namespace Formless.Player
         public void UseBomb()
         {
             _bombsCount--;
+            UIManager.Instance.UseBomb();
         }
 
         public void PickupBomb()
         {
             _bombsCount++;
+            UIManager.Instance.PickupBomb();
+
             Debug.Log($"Количество бомб = {_bombsCount}");
         }
 

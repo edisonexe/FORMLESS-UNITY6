@@ -21,8 +21,6 @@ namespace Formless.UI
 
         [Header("Keys")]
         private int _currentCountKeys;
-        private int _maxCountKeys;
-        [SerializeField] private Image[] _keys;
 
         [Header("BossHealth")]
         [SerializeField] private Image _bossHealthBar;
@@ -30,7 +28,6 @@ namespace Formless.UI
         public float bossHealth;
         public float bossMaxHealth;
 
-        [SerializeField] private Image _bossKey;
         private bool _hasBossKey;
 
         [SerializeField] private Image _cooldownImage;
@@ -38,6 +35,14 @@ namespace Formless.UI
 
         [SerializeField] private Text _floorNumberText;
 
+
+        [SerializeField] private Text _damageText;
+        [SerializeField] private Text _speedText;
+
+        [SerializeField] private Text _keysCountText;
+        [SerializeField] private Text _bossKeysCountText;
+        private int _bombsCount;
+        [SerializeField] private Text _bombsCountText;
         //[SerializeField] private Image _durationImage;
         //private RebirthTimer _rebirthDuration;
 
@@ -62,7 +67,6 @@ namespace Formless.UI
         private void Start()
         {
             _maxCountHearts = _hearts.Length;
-            _maxCountKeys = _keys.Length;
             DungeonGenerator.OnDungeonFullGenerated += ShowFloorNumber;
             //_rebirthDuration = new RebirthTimer(_durationImage, 15f);
         }
@@ -128,21 +132,6 @@ namespace Formless.UI
             UpdateHeartsUI();
         }
 
-        public void UpdateKeysUI()
-        {
-            for (int i = 0; i < _maxCountKeys; i++)
-            {
-                if (i < _currentCountKeys)
-                {
-                    _keys[i].gameObject.SetActive(true);
-                }
-                else
-                {
-                    _keys[i].gameObject.SetActive(false);
-                }
-            }
-        }
-
         public void EnableBossHealthBar()
         {
             _bossHealthBar.gameObject.SetActive(true);
@@ -175,11 +164,11 @@ namespace Formless.UI
         {
             if (_hasBossKey)
             {
-                _bossKey.gameObject.SetActive(true);
+                _bossKeysCountText.text = 1.ToString();
             }
             else
             {
-                _bossKey.gameObject.SetActive(false);
+                _bossKeysCountText.text = 0.ToString();
             }
         }
 
@@ -198,7 +187,24 @@ namespace Formless.UI
         public void SetKeysCount(int count)
         {
             _currentCountKeys = count;
-            UpdateKeysUI();
+            _keysCountText.text = count.ToString();
+        }
+
+        public void PickupBomb()
+        {
+            _bombsCount += 1;
+            UpdateBombsUI();
+        }
+
+        public void UseBomb()
+        {
+            _bombsCount -= 1;
+            UpdateBombsUI();
+        }
+
+        private void UpdateBombsUI()
+        {
+            _bombsCountText.text = _bombsCount.ToString();
         }
 
         public void EndPanelEnable()
@@ -239,6 +245,16 @@ namespace Formless.UI
             _floorNumberText.color = new Color(0,0,0,0);
             
             _floorNumberText.gameObject.SetActive(false);
+        }
+
+        public void SetDamageText(float basicDamage, float strongDamage)
+        {
+            _damageText.text = basicDamage.ToString() + "\n" + strongDamage.ToString();
+        }
+
+        public void SetSpeedText(float speed)
+        {
+            _speedText.text = speed.ToString();
         }
     }
 }

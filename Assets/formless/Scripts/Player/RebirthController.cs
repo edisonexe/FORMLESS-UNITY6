@@ -214,8 +214,10 @@ namespace Formless.Player.Rebirth
             {
                 float newMovingSpeed = enemy.ChasingSpeed + 1f;;
                 Player.Instance.SetMovingSpeed(newMovingSpeed);
+
                 Player.Instance.SetBasicAttackDamage(enemy.BasicAttackDamage);
                 Player.Instance.SetStrongAttackDamage(enemy.StrongAttackDamage);
+                UIManager.Instance.SetDamageText(Player.Instance.DamageBasicAttack, Player.Instance.DamageStrongAttack);
                 SetNewMaxHealth(enemy.enemyName);
             }
 
