@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Formless.UI;
+using Formless.Audio;
 
 namespace Formless.Player.Rebirth
 {
@@ -226,6 +227,7 @@ namespace Formless.Player.Rebirth
             CapsuleCollider2D enemyCapsuleCollider = _lastKilledEnemy.GetComponent<CapsuleCollider2D>();
             BoxCollider2D enemyBoxCollider = _lastKilledEnemy.GetComponent<BoxCollider2D>();
 
+            AudioManager.Instance.PlaySound(AudioManager.Instance.plRebirth);
             // Анимация
             _playerAnimator.runtimeAnimatorController = enemyAnimator.runtimeAnimatorController;
             RestoreAnimatorParameters();

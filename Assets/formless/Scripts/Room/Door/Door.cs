@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Formless.Audio;
 using Formless.Core.Managers;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -218,12 +219,14 @@ namespace Formless.Room
                 Player.Player.Instance.UseBossKey();
                 DestroyLockAndActivateMover(LockConstants.BOSS_LOCK, _doorType);
                 //Debug.Log("Дверь босса открыта");
+                AudioManager.Instance.PlaySound(AudioManager.Instance.openingKeyRequiredDoor);
             }
             else if (GameplayManager.Instance.HasKey() && _doorType == DoorType.KeyRequired)
             {
                 OpenDoor("Lock");
                 Player.Player.Instance.UseKey();
                 DestroyLockAndActivateMover(LockConstants.LOCK, _doorType);
+                AudioManager.Instance.PlaySound(AudioManager.Instance.openingKeyRequiredDoor);
                 //Debug.Log("Обычная дверь открыта");
             }
             else

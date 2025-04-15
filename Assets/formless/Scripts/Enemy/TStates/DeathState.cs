@@ -2,6 +2,7 @@ using UnityEngine;
 using Formless.SM;
 using Formless.Core.Animations;
 using System;
+using Formless.Audio;
 
 namespace Formless.Enemy.States
 {
@@ -27,7 +28,7 @@ namespace Formless.Enemy.States
             entity.strongAttackCollider.enabled = false;
             entity.capsuleCollider2D.enabled = false;
             entity.navMeshAgent.ResetPath();
-
+            AudioManager.Instance.PlaySound(AudioManager.Instance.enDie);
             entity.StartFadeAndDestroy();
         }
 

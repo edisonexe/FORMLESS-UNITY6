@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7010511259511740526}
   - component: {fileID: 6875943472162831021}
   - component: {fileID: 7488122261671566995}
+  - component: {fileID: -3124960415147400219}
   m_Layer: 0
   m_Name: ArmoredOrc
   m_TagString: Enemy
@@ -262,6 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95d5abcab8e8f14fa4f3953d92a4d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 0
+  MaxHealth: 0
   knockBackForce: 5
   knockBackDuration: 0.2
   _enemySO: {fileID: 11400000, guid: 70543df754f0771448a8fcc6e98ebf73, type: 2}
@@ -269,17 +272,34 @@ MonoBehaviour:
   capsuleCollider2D: {fileID: 0}
   _material: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  enemyName: 
   patrolDistanceMax: 0
   patrolDistanceMin: 0
-  movingSpeed: 0
-  chasingSpeed: 0
   detectionRange: 0
-  attackRange: 1
   patrolTimerMax: 4.5
   damageBasicAttack: 0
   damageStrongAttack: 0
   basicAttackCollider: {fileID: 0}
   strongAttackCollider: {fileID: 0}
+  attackCooldown: 1.5
+  attackRange: 1
+  distanceRangeAttack: 6
+  rangeAttacking: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
+  projectileSpeed: 5
+--- !u!114 &-3124960415147400219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807596849781600780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9c5a76debf607419034c9a37e7e643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3856100035678404428
 GameObject:
   m_ObjectHideFlags: 0

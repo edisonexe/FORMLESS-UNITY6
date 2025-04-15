@@ -1,6 +1,7 @@
 using UnityEngine;
 using Formless.Core.Managers;
 using Formless.Player;
+using Formless.Audio;
 namespace Formless.UI
 {
     public class TeleportTrigger : MonoBehaviour
@@ -51,6 +52,7 @@ namespace Formless.UI
         {
             if (_playerInRange && Player.Player.Instance.IsInteractionPressed())
             {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.plUseTeleport);
                 ActivatePortal();
             }
         }

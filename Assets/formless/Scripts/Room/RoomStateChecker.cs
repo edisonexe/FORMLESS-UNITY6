@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Formless.Core.Managers;
 using Formless.Player.Rebirth;
+using Formless.Audio;
 
 namespace Formless.Room
 {
@@ -49,6 +50,7 @@ namespace Formless.Room
         {
             yield return new WaitForSeconds(0.5f);
             _doorsController.OpenRegularDoors();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.openingKeyRequiredDoor);
         }
     }
 }

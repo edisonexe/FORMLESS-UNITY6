@@ -1,6 +1,7 @@
 using UnityEngine;
 using Formless.SM;
 using Formless.Core.Animations;
+using Formless.Audio;
 
 namespace Formless.Player.States
 {
@@ -25,6 +26,7 @@ namespace Formless.Player.States
             _animator.SetTrigger(AnimationConstants.HURT);
             _animator.SetBool(AnimationConstants.IS_MOVING, false);
             _hurtTimer = _hurtDuration;
+            AudioManager.Instance.PlaySound(AudioManager.Instance.plHurt);
         }
         public override void Update()
         {

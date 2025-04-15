@@ -68,10 +68,10 @@ namespace Formless.UI.Menu
             }
         }
 
-        public void BackToMenu()
-        {
-            _settingsPanel.SetActive(false);
-        }
+        //public void BackToMenu()
+        //{
+        //    _settingsPanel.SetActive(false);
+        //}
 
         public void FullScreenToggle()
         {

@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 1107356382069240472}
   - component: {fileID: 3076281745992156915}
   - component: {fileID: 411577347713543734}
+  - component: {fileID: -5687838544098521104}
   m_Layer: 0
   m_Name: BossEliteOrc
   m_TagString: Enemy
@@ -514,6 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 0
+  MaxHealth: 0
   knockBackForce: 5
   knockBackDuration: 0.2
   _enemySO: {fileID: 0}
@@ -521,9 +523,9 @@ MonoBehaviour:
   capsuleCollider2D: {fileID: 0}
   _material: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  enemyName: 
   patrolDistanceMax: 0
   patrolDistanceMin: 0
-  chasingSpeed: 0
   detectionRange: 0
   patrolTimerMax: 4.5
   damageBasicAttack: 0
@@ -541,6 +543,18 @@ MonoBehaviour:
   damageSpecialAttack: 0
   specialAttackFirstCollider: {fileID: 0}
   specialAttackSecondCollider: {fileID: 0}
+--- !u!114 &-5687838544098521104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3465621915036097783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9c5a76debf607419034c9a37e7e643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7088654693635249935
 GameObject:
   m_ObjectHideFlags: 0

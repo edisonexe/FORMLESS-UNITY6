@@ -9,6 +9,7 @@ using Formless.Items;
 using Formless.UI;
 using Formless.Enemy.Projectile;
 using Formless.Player.Projectile;
+using Formless.Audio;
 
 namespace Formless.Player
 {
@@ -34,7 +35,7 @@ namespace Formless.Player
         [SerializeField] private float _damageRangeAttack = 5f;
         public PolygonCollider2D basicAttackCollider;
         public PolygonCollider2D strongAttackCollider;
-
+        public bool IsMoving { get; set;} = false;
 
         private float _attackCooldown = 0.3f;
         private float _attackCooldownTimer;
@@ -141,8 +142,10 @@ namespace Formless.Player
             }
         }
 
+
         public void Move(Vector2 moveInput)
         {
+            IsMoving = true;
             _rb.MovePosition(_rb.position + moveInput * (_movingSpeed * Time.fixedDeltaTime));
         }
 
@@ -230,6 +233,7 @@ namespace Formless.Player
 
         public void AddHealth()
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.findItem);
             Health += 10;
 
             GameplayManager.Instance.HeartCollected();
@@ -239,6 +243,7 @@ namespace Formless.Player
     
         public void AddKey()
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.findItem);
             _keysCount += 1;
 
             GameplayManager.Instance.KeyCollected();
@@ -257,6 +262,7 @@ namespace Formless.Player
 
         public void PickupBossKey()
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.findItem);
             _hasBossKey = true;
             GameplayManager.Instance.PickupBossKey();
             UIManager.Instance.HasBossKey();
@@ -290,6 +296,7 @@ namespace Formless.Player
 
         public void PickupBomb()
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.findItem);
             _bombsCount++;
             UIManager.Instance.PickupBomb();
 

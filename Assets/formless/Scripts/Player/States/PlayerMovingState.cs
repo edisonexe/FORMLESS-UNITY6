@@ -1,6 +1,7 @@
 using UnityEngine;
 using Formless.SM;
 using Formless.Core.Animations;
+using Formless.Audio;
 
 namespace Formless.Player.States
 {
@@ -21,6 +22,7 @@ namespace Formless.Player.States
         {
             //Debug.Log("Enter [MOVING]");
             _animator.SetBool(AnimationConstants.IS_MOVING, true);
+            
         }
 
         public override void Update()
@@ -38,6 +40,7 @@ namespace Formless.Player.States
             }
 
             player.Move(_moveInput);
+            
 
             if (_moveInput == Vector2.zero)
             {
@@ -59,6 +62,7 @@ namespace Formless.Player.States
         public override void Exit()
         {
             //Debug.Log("Exit [MOVING]");
+            Player.Instance.IsMoving = false;
         }
     }
 }

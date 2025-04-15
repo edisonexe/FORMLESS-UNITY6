@@ -3,6 +3,7 @@ using Formless.SM;
 using Formless.Core.Animations;
 using Formless.UI;
 using Formless.Core.Managers;
+using Formless.Audio;
 
 namespace Formless.Player.States
 {
@@ -25,18 +26,19 @@ namespace Formless.Player.States
             player.strongAttackCollider.enabled = false;
             player.capsuleCollider2D.enabled = false;
 
+            AudioManager.Instance.PlaySound(AudioManager.Instance.plDie);
 
-            if (UIManager.Instance == null)
-            {
-                Debug.LogError("[PLAYER_DEATH] UIManager.Instance is NULL!");
-                return;
-            }
+            //if (UIManager.Instance == null)
+            //{
+            //    Debug.LogError("[PLAYER_DEATH] UIManager.Instance is NULL!");
+            //    return;
+            //}
     
-            if (UIManager.Instance.endPanel == null)
-            {
-                Debug.LogError("[PLAYER_DEATH] UIManager.Instance.EndPanel is NULL!");
-                return;
-            }
+            //if (UIManager.Instance.endPanel == null)
+            //{
+            //    Debug.LogError("[PLAYER_DEATH] UIManager.Instance.EndPanel is NULL!");
+            //    return;
+            //}
 
             GameplayManager.Instance.endPanel.SetupPanel(GameResult.Defeat);
 

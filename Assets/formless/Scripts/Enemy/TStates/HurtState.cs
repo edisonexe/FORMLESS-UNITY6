@@ -1,6 +1,7 @@
 using UnityEngine;
 using Formless.SM;
 using Formless.Core.Animations;
+using Formless.Audio;
 
 namespace Formless.Enemy.States
 {
@@ -25,6 +26,7 @@ namespace Formless.Enemy.States
             animator.SetBool(AnimationConstants.IS_MOVING, false);
             entity.navMeshAgent.isStopped = true;
             _hurtTimer = _hurtDuration;
+            AudioManager.Instance.PlaySound(AudioManager.Instance.enHurt);
         }
 
         public override void Update()

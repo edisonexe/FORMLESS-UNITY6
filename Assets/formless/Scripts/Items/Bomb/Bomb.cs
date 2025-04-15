@@ -1,3 +1,4 @@
+using Formless.Audio;
 using UnityEngine;
 
 namespace Formless.Items
@@ -59,6 +60,21 @@ namespace Formless.Items
             }
 
             Destroy(gameObject);
+        }
+
+        public void PlayExplosionSound()
+        {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.explosion);
+        }
+
+        public void PlayFuseSound()
+        {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.fuse);
+        }
+
+        public void StopFuseSound()
+        {
+            AudioManager.Instance.StopSound();
         }
 
         public void EndPrepareAnimation()

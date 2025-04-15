@@ -418,6 +418,7 @@ GameObject:
   - component: {fileID: 2381430802166354127}
   - component: {fileID: 8354606410707456798}
   - component: {fileID: 5870180685148666418}
+  - component: {fileID: -6463239548349964983}
   m_Layer: 0
   m_Name: BossOrcRider
   m_TagString: Enemy
@@ -666,6 +667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 0
+  MaxHealth: 0
   knockBackForce: 5
   knockBackDuration: 0.2
   _enemySO: {fileID: 0}
@@ -673,9 +675,9 @@ MonoBehaviour:
   capsuleCollider2D: {fileID: 0}
   _material: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  enemyName: 
   patrolDistanceMax: 0
   patrolDistanceMin: 0
-  chasingSpeed: 0
   detectionRange: 0
   patrolTimerMax: 4.5
   damageBasicAttack: 0
@@ -693,6 +695,18 @@ MonoBehaviour:
   damageSpecialAttack: 0
   specialAttackFirstCollider: {fileID: 0}
   specialAttackSecondCollider: {fileID: 0}
+--- !u!114 &-6463239548349964983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4783939066112897251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9c5a76debf607419034c9a37e7e643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8452325395443548016
 GameObject:
   m_ObjectHideFlags: 0
