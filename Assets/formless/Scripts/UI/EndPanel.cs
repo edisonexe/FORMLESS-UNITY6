@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Formless.Player;
+using Formless.Audio;
 namespace Formless.UI
 {
     public class EndPanel : MonoBehaviour
@@ -34,17 +35,21 @@ namespace Formless.UI
 
         private void EnablePanel()
         {
+            InputOverride.DisableInput();
             if (_panel == null)
             {
                 Debug.LogError("_panel is not assigned!");
                 return;
             }
             _panel.SetActive(true);
+            MenuManager.Instance.CursorEnable();
         }
 
         private void DisablePanel()
         {
             _panel.SetActive(false);
+            InputOverride.EnableInput();
+            Player.Player.Instance.inputHandler.Disable();
         }
 
         public void SetupPanel(GameResult result)
@@ -100,6 +105,7 @@ namespace Formless.UI
 
         public void BackToMenu()
         {
+            AudioManager.Instance.PlayBackSound();
             SceneManager.LoadScene("Menu");
             DisablePanel();
         }

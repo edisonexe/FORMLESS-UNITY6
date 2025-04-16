@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Formless.Room;
 using Formless.UI;
+using Formless.Audio;
 
 namespace Formless.Core.Managers
 {
@@ -23,10 +24,6 @@ namespace Formless.Core.Managers
 
         [SerializeField] private Image _fadeScreen;
         private List<GameObject> _rooms;
-
-        //[Header("Boss Data")]
-        //[SerializeField] private GameObject[] bossPrefabs;
-        //[SerializeField] private GameObject teleportPrefab;
 
         private BossSpawner _bossSpawner;
 
@@ -53,7 +50,6 @@ namespace Formless.Core.Managers
         private void Start()
         {
             InitializeEndPanel();
-            //_bossSpawner = new BossSpawner(bossPrefabs, teleportPrefab);
             DungeonGenerator.OnDungeonFullGenerated += HandleWaitDungeonFullGeneration;
             _fadeScreen.gameObject.SetActive(false);
         }
@@ -149,7 +145,9 @@ namespace Formless.Core.Managers
             Player.Player.Instance.transform.position = Vector3.zero;
             Camera.main.transform.position = new Vector3(0, 0.5f, -10);
             FadeToClear1();
+            AudioManager.Instance.PlayGameMusic();
             Player.Player.Instance.inputHandler.Enable();
+            InputOverride.EnableInput();
         }
 
 
@@ -192,7 +190,7 @@ namespace Formless.Core.Managers
             {
                 CurrentRoom = room;
 
-                Debug.Log($"Игрок вошёл в комнату: {room.gameObject.name}");
+                //Debug.Log($"Игрок вошёл в комнату: {room.gameObject.name}");
             }
         }
 

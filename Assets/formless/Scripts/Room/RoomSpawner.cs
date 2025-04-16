@@ -29,6 +29,7 @@ namespace Formless.Room
         {
             if (!_isSpawned)
             {
+                Debug.Log("Попытка спавна комнаты");
                 switch (_direction)
                 {
                     case Direction.Top:
@@ -50,6 +51,10 @@ namespace Formless.Room
                 }
 
                 _isSpawned = true;
+            }
+            else
+            {
+                Debug.Log("Комната заспавнена");
             }
         }
 

@@ -27,6 +27,15 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        if (_dungeonGenerator != null)
+        {
+            DungeonGenerator.OnDungeonFullGenerated -= HandleGenerationComplete;
+        }
+    }
+
     private void HandleGenerationComplete()
     {
         isGenerationComplete = true;
@@ -66,15 +75,4 @@ public class SceneLoader : MonoBehaviour
         isGenerationComplete = false;
         progress = 0f;
     }
-
-
-
-    private void OnDestroy()
-    {
-        if (_dungeonGenerator != null)
-        {
-            DungeonGenerator.OnDungeonFullGenerated -= HandleGenerationComplete;
-        }
-    }
-
 }

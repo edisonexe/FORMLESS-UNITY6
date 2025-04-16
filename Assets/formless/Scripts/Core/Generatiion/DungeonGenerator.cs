@@ -63,6 +63,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         //StartGenerating();
         _dungeonsToVictory = UnityEngine.Random.Range(3, 5);
         //Debug.Log($"Данжей всего будет - {_dungeonsToVictory}");
@@ -82,6 +83,7 @@ public class DungeonGenerator : MonoBehaviour
 
         _generatedRooms.Clear();
 
+        _timeSinceLastRoom = 0;
         KeysSpawned = 0;
         MaxCountKeys = 0;
         HeartsSpawned = 0;
@@ -105,8 +107,6 @@ public class DungeonGenerator : MonoBehaviour
 
     public void LoadNewDungeon()
     {
-        //Debug.Log("Загрузка нового подземелья...");
-        
         ResetDungeon();
         if (_roomsDestoyed)
         {
@@ -186,15 +186,17 @@ public class DungeonGenerator : MonoBehaviour
 
     private IEnumerator CheckDungeonGenerationCompleteness()
     {
+        Debug.Log(_timeSinceLastRoom);
         while (true)
         {
             yield return new WaitForSeconds(_checkDelay);
 
+            Debug.Log(_timeSinceLastRoom);
             _timeSinceLastRoom += _checkDelay;
 
             if (_timeSinceLastRoom > 1.5f)
             {
-                Debug.Log("* [DUNGEON_GENERATOR] Генерация подземелья завершена!");
+                //Debug.Log("* [DUNGEON_GENERATOR] Генерация подземелья завершена!");
                 GameplayManager.Instance.SetRoomsList(_generatedRooms);
                 SetMaxCountHearts();
                 SetMaxCountKeys();
@@ -209,7 +211,7 @@ public class DungeonGenerator : MonoBehaviour
                 SpawnHearstInRooms();
                 OnDungeonFullGenerated?.Invoke();
                 //Debug.Log("Dungeon full generated, setting dungeonFullGenerated to true.");
-                dungeonFullGenerated = true;
+                //dungeonFullGenerated = true;
                 yield break;
             }
         }

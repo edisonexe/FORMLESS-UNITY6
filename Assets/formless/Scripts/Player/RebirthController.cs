@@ -9,7 +9,7 @@ namespace Formless.Player.Rebirth
     {
         //private RebirthTimer _rebirthDuration;
 
-        private bool _isOriginalState = true;
+        //private bool _isOriginalState = true;
 
         private GameObject _lastKilledEnemy;
         private Animator _playerAnimator;
@@ -242,40 +242,40 @@ namespace Formless.Player.Rebirth
             CopyBoxCollider(enemyBoxCollider, _playerBoxCollider);
 
             UIManager.Instance.StartRebirthCooldown();
-            _isOriginalState = false;
+            //_isOriginalState = false;
         }
 
-        public void RestoreOriginalState()
-        {
-            //Debug.Log("¬Œ«¬–¿“   Œ–»√»Õ¿À‹ÕŒÃ” —Œ—“ŒﬂÕ»ﬁ!");
-            SaveAnimatorParameters();
-            _playerAnimator.runtimeAnimatorController = _originalAnimator;
-            RestoreAnimatorParameters();
-            if (_playerBasicAttackCollider != null && _originalBasicAttackPoints != null)
-                _playerBasicAttackCollider.points = _originalBasicAttackPoints;
+        //public void RestoreOriginalState()
+        //{
+        //    //Debug.Log("¬Œ«¬–¿“   Œ–»√»Õ¿À‹ÕŒÃ” —Œ—“ŒﬂÕ»ﬁ!");
+        //    SaveAnimatorParameters();
+        //    _playerAnimator.runtimeAnimatorController = _originalAnimator;
+        //    RestoreAnimatorParameters();
+        //    if (_playerBasicAttackCollider != null && _originalBasicAttackPoints != null)
+        //        _playerBasicAttackCollider.points = _originalBasicAttackPoints;
 
-            if (_playerStrongAttackCollider != null && _originalStrongAttackPoints != null)
-                _playerStrongAttackCollider.points = _originalStrongAttackPoints;
+        //    if (_playerStrongAttackCollider != null && _originalStrongAttackPoints != null)
+        //        _playerStrongAttackCollider.points = _originalStrongAttackPoints;
 
-            if (_playerCapsuleCollider != null)
-            {
-                _playerCapsuleCollider.size = _originalCapsuleSize;
-                _playerCapsuleCollider.offset = _originalCapsuleOffset;
-                _playerCapsuleCollider.direction = _originalCapsuleDirection;
-            }
+        //    if (_playerCapsuleCollider != null)
+        //    {
+        //        _playerCapsuleCollider.size = _originalCapsuleSize;
+        //        _playerCapsuleCollider.offset = _originalCapsuleOffset;
+        //        _playerCapsuleCollider.direction = _originalCapsuleDirection;
+        //    }
 
-            if (_playerBoxCollider != null)
-            {
-                _playerBoxCollider.size = _originalBoxSize;
-                _playerBoxCollider.offset = _originalBoxOffset;
-            }
+        //    if (_playerBoxCollider != null)
+        //    {
+        //        _playerBoxCollider.size = _originalBoxSize;
+        //        _playerBoxCollider.offset = _originalBoxOffset;
+        //    }
 
-            Player.Instance.SetMovingSpeed(_originalMovingSpeed);
-            Player.Instance.SetBasicAttackDamage(_originalBasicAttackDamage);
-            Player.Instance.SetStrongAttackDamage(_originalStrongAttackDamage);
+        //    Player.Instance.SetMovingSpeed(_originalMovingSpeed);
+        //    Player.Instance.SetBasicAttackDamage(_originalBasicAttackDamage);
+        //    Player.Instance.SetStrongAttackDamage(_originalStrongAttackDamage);
 
-            _isOriginalState = true;
-        }
+        //    _isOriginalState = true;
+        //}
 
         private void CopyPolygonCollider(PolygonCollider2D source, PolygonCollider2D target)
         {

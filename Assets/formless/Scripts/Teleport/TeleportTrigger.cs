@@ -61,6 +61,7 @@ namespace Formless.UI
         {
             Debug.Log("Перемещение через портал...");
             Player.Player.Instance.inputHandler.Disable();
+            InputOverride.DisableInput();
             GameplayManager.Instance.LoadNextDungeon();
         }
     }

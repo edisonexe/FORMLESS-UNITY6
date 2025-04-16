@@ -77,6 +77,11 @@ namespace Formless.UI
             //_rebirthDuration.UpdateTimerReverseFill(Time.deltaTime);
         }
 
+        private void OnDestroy()
+        {
+            DungeonGenerator.OnDungeonFullGenerated -= ShowFloorNumber;
+        }
+
         public void StartRebirthCooldown()
         {
             _rebirthCooldown.StartCooldown();
