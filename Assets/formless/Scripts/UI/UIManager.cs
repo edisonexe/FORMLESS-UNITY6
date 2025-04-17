@@ -60,7 +60,6 @@ namespace Formless.UI
             }
 
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
             _rebirthCooldown = new RebirthTimer(_cooldownImage, 30f);
         }
 

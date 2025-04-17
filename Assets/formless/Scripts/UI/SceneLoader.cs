@@ -71,7 +71,6 @@ public class SceneLoader : MonoBehaviour
         loadingCanvas.SetActive(false);
 
         Player.Instance.inputHandler.Enable();
-        //Player.Instance.RCSetInputHandler();
         isGenerationComplete = false;
         progress = 0f;
     }

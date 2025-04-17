@@ -29,7 +29,6 @@ namespace Formless.Player
         private SphereSystem _sphereSystem;
 
         [SerializeField] private float _movingSpeed = 2.5f;
-        //[SerializeField] private float _maxHealth;
         [SerializeField] private float _damageBasicAttack = 10f;
         [SerializeField] private float _damageStrongAttack = 15f;
         [SerializeField] private float _damageRangeAttack = 5f;
@@ -53,7 +52,7 @@ namespace Formless.Player
         private bool _hasBossKey;
         private int _bombsCount;
 
-        private HashSet<Enemy.Enemy> _damagedEnemies = new HashSet<Enemy.Enemy>();
+        private HashSet<Enemy.Enemy> _damagedEnemies = new HashSet<Enemy.Enemy>(8);
 
         public RebirthController RebirthController => _rebirthController;
         public int BombCount => _bombsCount;
@@ -66,10 +65,8 @@ namespace Formless.Player
             base.Awake();
 
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
 
             inputHandler = new PlayerInputHandler();
-            //inputHandler.Enable();
 
             _rebirthController = GetComponent<RebirthController>();
             _sphereSystem = GetComponent<SphereSystem>();
@@ -172,11 +169,12 @@ namespace Formless.Player
         public void SetBasicAttackDamage(float damage)
         {
             _damageBasicAttack = damage;
-            Debug.Log($"Нынешний урон обыч. атаки игрока: {_damageBasicAttack} ");
+            //Debug.Log($"Нынешний урон обыч. атаки игрока: {_damageBasicAttack} ");
         }
 
         public void SetStrongAttackDamage(float damage)
         {
+            _damageStrongAttack = damage;
             Debug.Log($"Нынешний урон сильн. атаки игрока: {_damageStrongAttack} ");
         }
 
@@ -300,7 +298,7 @@ namespace Formless.Player
             _bombsCount++;
             UIManager.Instance.PickupBomb();
 
-            Debug.Log($"Количество бомб = {_bombsCount}");
+            //Debug.Log($"Количество бомб = {_bombsCount}");
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

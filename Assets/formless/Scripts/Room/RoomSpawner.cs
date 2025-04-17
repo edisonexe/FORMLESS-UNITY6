@@ -29,7 +29,6 @@ namespace Formless.Room
         {
             if (!_isSpawned)
             {
-                Debug.Log("Попытка спавна комнаты");
                 switch (_direction)
                 {
                     case Direction.Top:
@@ -52,10 +51,6 @@ namespace Formless.Room
 
                 _isSpawned = true;
             }
-            else
-            {
-                Debug.Log("Комната заспавнена");
-            }
         }
 
         private void OnTriggerStay2D(Collider2D collision)
@@ -65,7 +60,7 @@ namespace Formless.Room
                 if (collision.GetComponent<RoomSpawner>()._isSpawned == false && _isSpawned == false)
                 {
                     GameObject closedRoom = Instantiate(DungeonGenerator.Instance.ClosedRoom, transform.position, Quaternion.identity);
-                    Debug.Log("Пустая комната");
+                    //Debug.Log("Пустая комната");
 
                     // Удаляем объект через 5 секунд
                     Destroy(closedRoom, 5f);

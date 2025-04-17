@@ -45,7 +45,7 @@ namespace Formless.Enemy
         public PolygonCollider2D strongAttackCollider;
 
 
-        public float attackCooldown = 1.5f;
+        public float attackCooldown = 0.5f;
         private float _attackCooldownTimer;
 
         public float attackRange = 1.8f;
@@ -212,14 +212,6 @@ namespace Formless.Enemy
             StateMachine.ChangeState(GetHurtState());
         }
 
-        //public override void TakeDamage(float damage)
-        //{
-        //    base.TakeDamage(damage);
-
-        //    ShowDamageText(damage);
-        //    StateMachine.ChangeState(GetHurtState());
-        //}
-
         private void ShowDamageText(float damage)
         {
             GameObject damageText = Instantiate(PrefabManager.Instance.DamageTextPrefab, transform.position + Vector3.up / 2f, Quaternion.identity);
@@ -261,31 +253,5 @@ namespace Formless.Enemy
                 }
             }
         }
-
-        //public void SpawnProjectile()
-        //{
-        //    if (projectilePrefab != null && projectileSpawnPoint != null)
-        //    {
-        //        Vector2 direction = (Player.Player.Instance.transform.position - projectileSpawnPoint.position).normalized;
-
-        //        GameObject projectile = Instantiate(
-        //            projectilePrefab,
-        //            projectileSpawnPoint.position,
-        //            Quaternion.identity
-        //        );
-
-        //        // Настройка снаряда
-        //        EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
-        //        if (projectileScript != null)
-        //        {
-        //            projectileScript.Initialize(damageBasicAttack); // Передаем урон
-        //            projectileScript.SetDirection(direction, projectileSpeed); // Задаем направление и скорость
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("Projectile prefab or spawn point is not assigned in the Enemy component.");
-        //    }
-        //}
     }
 }

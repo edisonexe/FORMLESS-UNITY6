@@ -23,7 +23,6 @@ public class MenuManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -68,7 +67,6 @@ public class MenuManager : MonoBehaviour
                 Debug.Log("ESC pressed");
                 if (_escMenuOpened)
                 {
-                    TogglePause();
                     if (_settingsOpened)
                     {
                         CloseSettings();
@@ -80,7 +78,6 @@ public class MenuManager : MonoBehaviour
                 }
                 else
                 {
-                    TogglePause();
                     OpenESCMenu();
                 }
             }
@@ -98,7 +95,6 @@ public class MenuManager : MonoBehaviour
     {
         AudioManager.Instance.PlaySelectSound();
         SceneManager.LoadScene("Game");
-        //Debug.Log("StartTheRun");
     }
 
     public void OpenSettings()
@@ -106,7 +102,6 @@ public class MenuManager : MonoBehaviour
         _settingsOpened = true;
         AudioManager.Instance.PlaySelectSound();
         _settingsPanel.SetActive(true);
-        //Debug.Log("Settings opened");
     }
 
     public void CloseSettings()
@@ -121,7 +116,6 @@ public class MenuManager : MonoBehaviour
         _howToPlayeOpened = true;
         AudioManager.Instance.PlaySelectSound();
         _howToPlayPanel.SetActive(true);
-        //Debug.Log("Authors opened");
     }
 
     public void CloseHowToPlay()
@@ -136,7 +130,6 @@ public class MenuManager : MonoBehaviour
         CursorEnable();
         AudioManager.Instance.PlayQuitSound();
         Application.Quit();
-        //Debug.Log("QuitGame");
     }
 
     public void BackToMenu()
@@ -146,18 +139,19 @@ public class MenuManager : MonoBehaviour
         DungeonGenerator.Instance.ResetDungeon();
         AudioManager.Instance.PlayBackSound();
         SceneManager.LoadScene("Menu");
-        //Debug.Log("BackToMenu");
     }
 
     private void OpenESCMenu()
     {
+        TogglePause();
         _escMenuOpened = true;
         AudioManager.Instance.PlaySelectSound();
         _escMenu.SetActive(true);
     }
 
-    private void CloseESCMenu()
+    public void CloseESCMenu()
     {
+        TogglePause();
         _escMenuOpened = false;
         AudioManager.Instance.PlayBackSound();
         _escMenu.SetActive(false);
@@ -189,7 +183,6 @@ public class MenuManager : MonoBehaviour
 
     public void CursorDisable()
     {
-        //Debug.Log("CursorDisable");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

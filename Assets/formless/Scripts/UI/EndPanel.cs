@@ -26,10 +26,6 @@ namespace Formless.UI
             {
                 Debug.LogError("GameStats cannot be null!");
             }
-            else
-            {
-                Debug.Log("GameStats successfully initialized.");
-            }
         }
 
 
@@ -38,7 +34,7 @@ namespace Formless.UI
             InputOverride.DisableInput();
             if (_panel == null)
             {
-                Debug.LogError("_panel is not assigned!");
+                //Debug.LogError("_panel is not assigned!");
                 return;
             }
             _panel.SetActive(true);
@@ -54,7 +50,7 @@ namespace Formless.UI
 
         public void SetupPanel(GameResult result)
         {
-            Debug.Log("[END_PANEL] SetupPanel called");
+            //Debug.Log("[END_PANEL] SetupPanel called");
 
             if (_gameStats == null)
             {
@@ -63,7 +59,7 @@ namespace Formless.UI
             }
 
             EnablePanel();
-            Debug.Log("[END_PANEL] Panel enabled");
+            //Debug.Log("[END_PANEL] Panel enabled");
 
             if (titleDefeat == null || titleVictory == null)
             {
@@ -73,7 +69,7 @@ namespace Formless.UI
 
             titleDefeat.gameObject.SetActive(result == GameResult.Defeat);
             titleVictory.gameObject.SetActive(result == GameResult.Victory);
-            Debug.Log($"[END_PANEL] Result: {result}");
+            //Debug.Log($"[END_PANEL] Result: {result}");
 
             UpdateUI();
             UpdatePlayTime(_gameStats.PlayTime);

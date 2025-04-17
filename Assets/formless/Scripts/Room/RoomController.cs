@@ -124,7 +124,6 @@ namespace Formless.Room
             }
         }
 
-        // дндекюрэ сдюкемхе яоюсмепнб хг BOSS_ROOM
         public void RemoveObjectsWithTagInRoom(GameObject room, string tagToRemove)
         {
             GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(tagToRemove);
@@ -149,7 +148,6 @@ namespace Formless.Room
                 if (child.name.Contains("Environment") || child.CompareTag("Environment"))
                 {
                     Destroy(child.gameObject);
-                    //Debug.Log("Env СДЮК╦М");
                     break;
                 }
             }

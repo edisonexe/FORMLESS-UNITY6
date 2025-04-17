@@ -21,7 +21,7 @@ namespace Formless.Player.States
 
         public override void Enter()
         {
-            Debug.Log("Enter [HURT]");
+            //Debug.Log("Enter [HURT]");
 
             _animator.SetTrigger(AnimationConstants.HURT);
             _animator.SetBool(AnimationConstants.IS_MOVING, false);
@@ -33,7 +33,6 @@ namespace Formless.Player.States
 
             if (player.Health <= 0)
             {
-                Debug.Log("Переход в из hurt состояние смерти");
                 stateMachine.ChangeState(new PlayerDeathState(player, stateMachine, _animator));
                 return;
             }

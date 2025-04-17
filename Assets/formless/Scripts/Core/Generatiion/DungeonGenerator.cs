@@ -53,7 +53,6 @@ public class DungeonGenerator : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -64,7 +63,6 @@ public class DungeonGenerator : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1f;
-        //StartGenerating();
         _dungeonsToVictory = UnityEngine.Random.Range(3, 5);
         //Debug.Log($"Данжей всего будет - {_dungeonsToVictory}");
     }
@@ -76,7 +74,6 @@ public class DungeonGenerator : MonoBehaviour
         {
             if (obj.CompareTag("RoomObj"))
             {
-                //Debug.Log($"Удалён объект {obj.name}");
                 Destroy(obj);
             }
         }
@@ -186,12 +183,10 @@ public class DungeonGenerator : MonoBehaviour
 
     private IEnumerator CheckDungeonGenerationCompleteness()
     {
-        Debug.Log(_timeSinceLastRoom);
         while (true)
         {
             yield return new WaitForSeconds(_checkDelay);
 
-            Debug.Log(_timeSinceLastRoom);
             _timeSinceLastRoom += _checkDelay;
 
             if (_timeSinceLastRoom > 1.5f)

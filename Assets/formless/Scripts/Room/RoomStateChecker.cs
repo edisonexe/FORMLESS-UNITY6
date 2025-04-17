@@ -25,7 +25,7 @@ namespace Formless.Room
             {
                 _enemies.Add(enemy);
                 enemy.OnDie += RemoveEnemy;
-                Debug.Log($"Добавлен враг {enemy.gameObject.name}, подписан на OnDie.");
+                //Debug.Log($"Добавлен враг {enemy.gameObject.name}, подписан на OnDie.");
             }
         }
 
@@ -33,7 +33,7 @@ namespace Formless.Room
         {
             if (enemy == null) return;
 
-            Debug.Log("Убит враг " + enemy.gameObject.name);
+            //Debug.Log("Убит враг " + enemy.gameObject.name);
             _rebirthController.OnEnemyKilled(enemy.gameObject);
 
             enemy.OnDie -= RemoveEnemy;

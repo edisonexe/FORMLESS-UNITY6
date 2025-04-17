@@ -29,11 +29,6 @@ namespace Formless.Player.States
         {
             _moveInput = _inputHandler.GetMoveInput();
 
-            //if (stateMachine.CurrentState is PlayerAttackState)
-            //{
-            //    return;
-            //}
-
             if (_moveInput.x != 0) 
             {
                 player.ChangePlayerFacingDirection(_moveInput);
