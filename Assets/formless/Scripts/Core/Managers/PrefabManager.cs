@@ -40,7 +40,7 @@ namespace Formless.Core.Managers
         public GameObject SpherePrefab => _spherePrefab;
 
         [Header("Door Styles")]
-        [SerializeField] private List<DoorStyle> _doorStyles; // ScriptableObject
+        [SerializeField] private List<DoorStyle> _doorStyles;
         private Dictionary<string, DoorStyle> _doorStyleMap;
 
 
@@ -60,18 +60,9 @@ namespace Formless.Core.Managers
         {
             InitializeDoorStyles();
 
-            //Debug.Log("Список доступных врагов для спавна:");
-            //foreach (var enemyData in _enemyPrefabs)
-            //{
-            //    if (enemyData.enemyPrefab == null)
-            //    {
-            //        Debug.LogWarning("Enemy prefab is null in EnemySpawnDataList!");
-            //        continue;
-            //    }
-
-            //    Debug.Log($"- Префаб: {enemyData.enemyPrefab.name}, Вероятность: {enemyData.spawnProbability}");
-            //}
-
+            GameObject preloadText = Instantiate(DamageTextPrefab, Vector3.zero, Quaternion.identity);
+            preloadText.SetActive(false);
+            Destroy(preloadText);
         }
 
         private void InitializeDoorStyles()
