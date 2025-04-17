@@ -93,7 +93,10 @@ namespace Formless.Core.Managers
         private IEnumerator DungeonTransition()
         {
             _fadeScreen.gameObject.SetActive(true);
+            AudioManager.Instance.StopMusic();
             yield return StartCoroutine(FadeToBlack());
+
+            Player.Player.Instance.gameObject.SetActive(false);
 
             // ∆дЄм один кадр, чтобы сцена успела загрузитьс€
             //yield return null;
@@ -143,6 +146,7 @@ namespace Formless.Core.Managers
             }
 
             Player.Player.Instance.transform.position = Vector3.zero;
+            Player.Player.Instance.gameObject.SetActive(true);
             Camera.main.transform.position = new Vector3(0, 0.5f, -10);
             FadeToClear1();
             AudioManager.Instance.PlayGameMusic();

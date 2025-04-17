@@ -48,12 +48,6 @@ namespace Formless.Audio
             Instance = this;
         }
 
-        //private void Start()
-        //{
-        //    _musicSource.clip = gameMusic;
-        //    _musicSource.Play();
-        //}
-
         public void PlayMenuMusic()
         {
             _musicSource.clip = menuMusic;
@@ -69,6 +63,14 @@ namespace Formless.Audio
         public void PlaySound(AudioClip clip)
         {
             _SFXSource.PlayOneShot(clip);
+        }
+
+        public void StopMusic()
+        {
+            if (_musicSource.isPlaying)
+            {
+                _musicSource.Stop();
+            }
         }
 
         public void StopSound()
