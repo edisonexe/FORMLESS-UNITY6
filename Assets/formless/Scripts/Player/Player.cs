@@ -160,9 +160,9 @@ namespace Formless.Player
         
         public void SetMovingSpeed(float speed)
         {
-            Debug.Log($"Старая скорость {_movingSpeed}");
+            //Debug.Log($"Старая скорость {_movingSpeed}");
             _movingSpeed = speed;
-            Debug.Log($"Новая скорость: {_movingSpeed} ");
+            //Debug.Log($"Новая скорость: {_movingSpeed} ");
             UIManager.Instance.SetSpeedText( _movingSpeed );
         }
 

@@ -40,6 +40,7 @@ namespace Formless.Audio
         [Header("---------Enemy Sounds-----------")]
         public AudioClip projectileAttack;
         public AudioClip enAttack;
+        public AudioClip enSpecAttack;
         public AudioClip enDie;
         public AudioClip enHurt;
 

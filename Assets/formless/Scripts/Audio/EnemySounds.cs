@@ -12,4 +12,10 @@ public class EnemySounds : MonoBehaviour
     {
         AudioManager.Instance.PlaySound(AudioManager.Instance.projectileAttack);
     }
+
+    public void PlaySpecAttackSound()
+    {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.enSpecAttack);
+    }
+
 }
