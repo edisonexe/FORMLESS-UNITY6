@@ -20,13 +20,14 @@ namespace Formless.Enemy.States
 
         public override void Enter()
         {
-            Debug.Log($"{typeof(T).Name} enter [DEATH]");
+            //Debug.Log($"{typeof(T).Name} enter [DEATH]");
             animator.SetBool(AnimationConstants.IS_DIE, true);
 
             entity.boxCollider2D.enabled = false;
             entity.basicAttackCollider.enabled = false;
             entity.strongAttackCollider.enabled = false;
             entity.capsuleCollider2D.enabled = false;
+            entity.navMeshAgent.enabled = false;
             entity.navMeshAgent.ResetPath();
             AudioManager.Instance.PlaySound(AudioManager.Instance.enDie);
             entity.StartFadeAndDestroy();

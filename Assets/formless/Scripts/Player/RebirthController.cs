@@ -103,7 +103,7 @@ namespace Formless.Player.Rebirth
 
             if (_inputHandler.IsRebirthPressed() && _lastKilledEnemy != null && UIManager.Instance.CanRebirth())
             {
-                Debug.Log("Нажата R");
+                //Debug.Log("Нажата R");
                 Rebirth();
                 //UIManager.Instance.StartRebirthCooldown();
             }
@@ -190,9 +190,21 @@ namespace Formless.Player.Rebirth
                 default:
                     break;
             }
-            Debug.Log($"Имя врага -{enemyName}, Новое макс.зд - {maxHealth}");
+            //Debug.Log($"Имя врага -{enemyName}, Новое макс.зд - {maxHealth}");
             Player.Instance.MaxHealth = maxHealth;
             UIManager.Instance.UpdateMaxHearts(maxHealth);
+        }
+
+        private void CursorOnOff(string enemyName)
+        {
+            if (enemyName == "Wizard")
+            {
+                MenuManager.Instance.CursorEnable();
+            }
+            else
+            {
+                MenuManager.Instance.CursorDisable();
+            }
         }
 
 
@@ -204,7 +216,7 @@ namespace Formless.Player.Rebirth
 
             if (_playerAnimator.runtimeAnimatorController == enemyAnimator.runtimeAnimatorController)
             {
-                Debug.Log("Аниматор уже установлен. Перерождение отменено.");
+                //Debug.Log("Аниматор уже установлен. Перерождение отменено.");
                 return;
             }
 
@@ -213,6 +225,8 @@ namespace Formless.Player.Rebirth
             Enemy.Enemy enemy = _lastKilledEnemy.GetComponent<Enemy.Enemy>();
             if (enemy != null)
             {
+                CursorOnOff(enemy.enemyName);
+
                 float newMovingSpeed = enemy.ChasingSpeed + 1f;;
                 Player.Instance.SetMovingSpeed(newMovingSpeed);
 
