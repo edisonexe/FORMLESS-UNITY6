@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: RayRID
   productName: FORMLESS
-  defaultCursor: {fileID: 2800000, guid: 3f16c0cbe46b73341be3ea75a98a0626, type: 3}
-  cursorHotspot: {x: 0, y: 0}
+  defaultCursor: {fileID: 2800000, guid: e4e91c6905a38dd40ad44a720ff9cdae, type: 3}
+  cursorHotspot: {x: 8, y: 8}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
