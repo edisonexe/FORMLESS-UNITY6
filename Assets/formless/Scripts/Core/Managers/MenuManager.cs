@@ -64,7 +64,7 @@ public class MenuManager : MonoBehaviour
             }
             else if (_sceneChecker.IsCurrentScene("Game"))
             {
-                Debug.Log("ESC pressed");
+                //Debug.Log("ESC pressed");
                 if (_escMenuOpened)
                 {
                     if (_settingsOpened)
@@ -163,8 +163,8 @@ public class MenuManager : MonoBehaviour
 
         if (_isPaused)
         {
-            Time.timeScale = 0f;
             CursorEnable();
+            Time.timeScale = 0f;
             Player.Instance.inputHandler.Disable();
         }
         else

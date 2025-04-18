@@ -9,7 +9,12 @@ namespace Formless.UI.Menu
     {
         [SerializeField] private GameObject _settingsPanel;
         public bool isFullScreen;
-        public AudioMixer audioMixer;
+
+        [SerializeField] private Slider _musicSlider;
+        [SerializeField] private Slider _sfxSlider;
+
+        [SerializeField] private AudioSource _musicSource;
+        [SerializeField] private AudioSource _sfxSource;
 
         Resolution[] rsl;
         List<string> resolutions;
@@ -53,6 +58,8 @@ namespace Formless.UI.Menu
             _isLoadingSettings = false;
 
             dropdown.onValueChanged.AddListener(SetResolution);
+
+            SetupSliders();
         }
 
 
@@ -68,10 +75,63 @@ namespace Formless.UI.Menu
             }
         }
 
-        //public void BackToMenu()
-        //{
-        //    _settingsPanel.SetActive(false);
-        //}
+        private void SetupSliders()
+        {
+            // Загрузка сохраненных значений громкости
+            float savedMusicVolume;
+            float savedSfxVolume;
+
+            if (PlayerPrefs.HasKey("MusicVolume"))
+            {
+                savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume");
+            }
+            else
+            {
+                savedMusicVolume = 1.0f; // Значение по умолчанию
+            }
+
+            if (PlayerPrefs.HasKey("SfxVolume"))
+            {
+                savedSfxVolume = PlayerPrefs.GetFloat("SfxVolume");
+            }
+            else
+            {
+                savedSfxVolume = 1.0f; // Значение по умолчанию
+            }
+
+            // Установка начальных значений слайдеров
+            _musicSlider.value = savedMusicVolume;
+            _sfxSlider.value = savedSfxVolume;
+
+            // Привязка слайдеров к изменениям громкости
+            _musicSlider.onValueChanged.AddListener(SetMusicVolume);
+            _sfxSlider.onValueChanged.AddListener(SetSfxVolume);
+
+            // Применение загруженных значений к AudioMixer
+            SetMusicVolume(savedMusicVolume);
+            SetSfxVolume(savedSfxVolume);
+        }
+
+        public void SetMusicVolume(float volume)
+        {
+            if (_musicSource != null)
+            {
+                _musicSource.volume = volume;
+            }
+            PlayerPrefs.SetFloat("MusicVolume", volume);
+            PlayerPrefs.Save();
+        }
+
+        public void SetSfxVolume(float volume)
+        {
+            if (_sfxSource != null)
+            {
+                _sfxSource.volume = volume;
+            }
+            PlayerPrefs.SetFloat("SfxVolume", volume);
+            PlayerPrefs.Save();
+        }
+
 
         public void FullScreenToggle()
         {
@@ -92,12 +152,21 @@ namespace Formless.UI.Menu
                 Screen.SetResolution(Screen.resolutions[savedResolutionIndex].width, Screen.resolutions[savedResolutionIndex].height, isFullScreen);
             }
 
-            //float savedVolume = PlayerPrefs.GetFloat("Volume", 1.0f);
-            //audioMixer.SetFloat("MasterVolume", Mathf.Log10(savedVolume) * 20);
-            //if (volumeSlider != null)
-            //{
-            //    volumeSlider.value = savedVolume;
-            //}
+            // Загрузка громкости музыки
+            float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.15f);
+            if (_musicSlider != null)
+            {
+                _musicSlider.value = savedMusicVolume; // Устанавливаем значение слайдера
+            }
+            SetMusicVolume(savedMusicVolume);
+
+            // Загрузка громкости звуковых эффектов
+            float savedSfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.4f);
+            if (_sfxSlider != null)
+            {
+                _sfxSlider.value = savedSfxVolume; // Устанавливаем значение слайдера
+            }
+            SetSfxVolume(savedSfxVolume);
         }
     }
 
