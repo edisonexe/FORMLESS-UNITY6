@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.Localization.Settings;
 
 namespace Formless.UI.Menu
 {
     public class Settings : MonoBehaviour
     {
-        [SerializeField] private GameObject _settingsPanel;
         public bool isFullScreen;
 
         [SerializeField] private Slider _musicSlider;
@@ -18,7 +18,7 @@ namespace Formless.UI.Menu
 
         Resolution[] rsl;
         List<string> resolutions;
-        public Dropdown dropdown;
+        public Dropdown resDropdown;
         private bool _isLoadingSettings = true;
 
         private void Awake()
@@ -49,15 +49,15 @@ namespace Formless.UI.Menu
                 }
             }
 
-            dropdown.ClearOptions();
-            dropdown.AddOptions(resolutions);
+            resDropdown.ClearOptions();
+            resDropdown.AddOptions(resolutions);
 
             _isLoadingSettings = true;
-            dropdown.value = currentResolutionIndex;
-            dropdown.RefreshShownValue();
+            resDropdown.value = currentResolutionIndex;
+            resDropdown.RefreshShownValue();
             _isLoadingSettings = false;
 
-            dropdown.onValueChanged.AddListener(SetResolution);
+            resDropdown.onValueChanged.AddListener(SetResolution);
 
             SetupSliders();
         }
@@ -167,6 +167,27 @@ namespace Formless.UI.Menu
                 _sfxSlider.value = savedSfxVolume; // Устанавливаем значение слайдера
             }
             SetSfxVolume(savedSfxVolume);
+
+            // Загрузка выбранного языка
+            string savedLanguage = PlayerPrefs.GetString("SelectedLanguage", "en");
+            SetLanguage(savedLanguage);
+        }
+
+        public void SaveLanguage(string localeCode)
+        {
+            // Сохраняем выбранный язык
+            PlayerPrefs.SetString("SelectedLanguage", localeCode);
+            PlayerPrefs.Save();
+        }
+
+        public void SetLanguage(string localeCode)
+        {
+            // Находим локаль по коду и устанавливаем её
+            var selectedLocale = LocalizationSettings.AvailableLocales.Locales.Find(l => l.Identifier.Code == localeCode);
+            if (selectedLocale != null)
+            {
+                LocalizationSettings.SelectedLocale = selectedLocale;
+            }
         }
     }
 

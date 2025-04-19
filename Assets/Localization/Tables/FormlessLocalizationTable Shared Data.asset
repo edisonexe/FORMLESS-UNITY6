@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: FormlessLocalizationTable Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: FormlessLocalizationTable
+  m_TableCollectionNameGuidString: e67c9d7802cddfe4199e85b5ec3b448d
+  m_Entries:
+  - m_Id: 239900549120
+    m_Key: Start_Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 576858349568
+    m_Key: Settings_Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 630029541376
+    m_Key: HTP_Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703727656960
+    m_Key: Quit_Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758803062784
+    m_Key: Back_To_Menu_Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 846417879040
+    m_Key: Display_Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 929762893824
+    m_Key: Localization_Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1006707400704
+    m_Key: Audio_Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1081235988480
+    m_Key: Full_Screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175339393024
+    m_Key: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1264749371392
+    m_Key: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1297745960960
+    m_Key: Sounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2368300113920
+    m_Key: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11328369451008
+    m_Key: HTP_Info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14394737025024
+    m_Key: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14577352826880
+    m_Key: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14906878320640
+    m_Key: Settings_CAPS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17414648487936
+    m_Key: Defeat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17594512826368
+    m_Key: Victory
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5649898116059758714
+  references:
+    version: 2
+    RefIds:
+    - rid: 5649898116059758714
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1745066431196
