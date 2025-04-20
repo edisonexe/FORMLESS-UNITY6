@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Formless.Player.Rebirth;
 using System.Collections;
-
+using System.ComponentModel;
+using Formless.UI.Menu;
 namespace Formless.UI
 {
     public class UIManager : MonoBehaviour
@@ -45,6 +46,7 @@ namespace Formless.UI
         [SerializeField] private Text _bombsCountText;
         //[SerializeField] private Image _durationImage;
         //private RebirthTimer _rebirthDuration;
+        private Settings _settings;
 
         public GameObject endPanel;
 
@@ -61,6 +63,7 @@ namespace Formless.UI
 
             Instance = this;
             _rebirthCooldown = new RebirthTimer(_cooldownImage, 30f);
+            _settings = GetComponent<Settings>();
         }
 
         private void Start()
@@ -225,7 +228,15 @@ namespace Formless.UI
         {
             _floorNumberText.color = new Color(1,1,1,1);
             int floorNumber = DungeonGenerator.Instance.CountDungeons;
-            _floorNumberText.text = "FLOOR  " + floorNumber.ToString();
+            switch (_settings.CurrentLanguage)
+            {
+                case("ru"):
+                    _floorNumberText.text = "›“¿∆ " + floorNumber.ToString();
+                    break;
+                case("en"):
+                    _floorNumberText.text = "FLOOR  " + floorNumber.ToString();
+                    break;
+            }
             _floorNumberText.gameObject.SetActive(true);
             StartCoroutine(FadeOutAndDeactivate());
         }

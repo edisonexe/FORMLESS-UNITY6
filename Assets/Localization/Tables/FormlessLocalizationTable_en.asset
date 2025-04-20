@@ -103,11 +103,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17414648487936
-    m_Localized: You died X_X
+    m_Localized: YOU DIED
     m_Metadata:
       m_Items: []
   - m_Id: 17594512826368
-    m_Localized: Victory! You are cool!
+    m_Localized: VICTORY! YOU ARE COOL!
     m_Metadata:
       m_Items: []
   references:

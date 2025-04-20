@@ -21,6 +21,8 @@ namespace Formless.UI.Menu
         public Dropdown resDropdown;
         private bool _isLoadingSettings = true;
 
+        public string CurrentLanguage { get; private set; } = "en";
+
         private void Awake()
         {
             LoadSettings();
@@ -178,6 +180,8 @@ namespace Formless.UI.Menu
             // Сохраняем выбранный язык
             PlayerPrefs.SetString("SelectedLanguage", localeCode);
             PlayerPrefs.Save();
+
+            CurrentLanguage = localeCode;
         }
 
         public void SetLanguage(string localeCode)
@@ -187,6 +191,8 @@ namespace Formless.UI.Menu
             if (selectedLocale != null)
             {
                 LocalizationSettings.SelectedLocale = selectedLocale;
+
+                CurrentLanguage = localeCode;
             }
         }
     }

@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Formless.Player;
 using Formless.Audio;
+using Formless.UI.Menu;
+using System.Collections;
 namespace Formless.UI
 {
     public class EndPanel : MonoBehaviour
@@ -17,6 +19,7 @@ namespace Formless.UI
         [SerializeField] private Text titleVictory;
 
         private GameStats _gameStats;
+        [SerializeField] private Settings _settings;
 
         public void Initialize(GameStats gameStats)
         {
@@ -69,7 +72,6 @@ namespace Formless.UI
 
             titleDefeat.gameObject.SetActive(result == GameResult.Defeat);
             titleVictory.gameObject.SetActive(result == GameResult.Victory);
-            //Debug.Log($"[END_PANEL] Result: {result}");
 
             UpdateUI();
             UpdatePlayTime(_gameStats.PlayTime);
@@ -79,17 +81,41 @@ namespace Formless.UI
 
         private void UpdateUI()
         {
-            if (_gameStats == null) return;
 
-            enemiesKilledText.text = $"Enemies Killed: {_gameStats.EnemiesKilled}";
-            clearedRoomsText.text = $"Cleared Rooms: {_gameStats.ClearedRooms}";
-            heartsCollectedText.text = $"Hearts Collected: {_gameStats.HeartsCollected}";
-            keysCollectedText.text = $"Keys Collected: {_gameStats.KeysCollected}";
+            if (_gameStats == null || _settings == null)
+            {
+                Debug.LogError("_gameStats or _settings is not initialized!");
+                return;
+            }
+
+            switch (_settings.CurrentLanguage)
+            {
+                case("ru"):
+                    enemiesKilledText.text = $"Врагов убито: {_gameStats.EnemiesKilled}";
+                    clearedRoomsText.text = $"Комнат зачищено: {_gameStats.ClearedRooms}";
+                    heartsCollectedText.text = $"Собрано сердец: {_gameStats.HeartsCollected}";
+                    keysCollectedText.text = $"Собрано ключей: {_gameStats.KeysCollected}";
+                    break;
+                case("en"):
+                    enemiesKilledText.text = $"Enemies killed: {_gameStats.EnemiesKilled}";
+                    clearedRoomsText.text = $"Cleared rooms: {_gameStats.ClearedRooms}";
+                    heartsCollectedText.text = $"Hearts collected: {_gameStats.HeartsCollected}";
+                    keysCollectedText.text = $"Keys collected: {_gameStats.KeysCollected}";
+                    break;
+            }
         }
 
         private void UpdatePlayTime(float time)
         {
-            playTimeText.text = $"Play Time: {FormatTime(time)}";
+            switch (_settings.CurrentLanguage)
+            {
+                case("ru"):
+                    playTimeText.text = $"Время игры: {FormatTime(time)}";
+                    break;
+                case("en"):
+                    playTimeText.text = $"Play time: {FormatTime(time)}";
+                    break;
+            }
         }
 
         private string FormatTime(float time)

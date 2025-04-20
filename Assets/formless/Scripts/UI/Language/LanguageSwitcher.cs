@@ -10,17 +10,15 @@ public class LanguageSwitcher : MonoBehaviour
 
     private void Start()
     {
-        // Инициализация Dropdown
         if (languageDropdown != null)
         {
-            // Заполняем Dropdown значениями (если это не сделано вручную)
             languageDropdown.ClearOptions();
             languageDropdown.AddOptions(new System.Collections.Generic.List<string> { "English", "Русский" });
 
             // Устанавливаем обработчик события выбора
             languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
 
-            // Устанавливаем язык по умолчанию (например, первый в списке)
+            // Устанавливаем язык по умолчанию
             string savedLanguage = PlayerPrefs.GetString("SelectedLanguage", "en");
             SetLanguage(savedLanguage);
 
