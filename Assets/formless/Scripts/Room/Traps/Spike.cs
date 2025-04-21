@@ -1,6 +1,5 @@
 using Formless.Enemy;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Formless.Room.Traps
 {
@@ -8,6 +7,7 @@ namespace Formless.Room.Traps
     {
         private PolygonCollider2D _polygonCollider;
         private float _trapDamage = 1f;
+        [SerializeField] private float _heightThreshold = 0.5f;
 
         private void Awake()
         {
@@ -31,15 +31,13 @@ namespace Formless.Room.Traps
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            //if (collision.transform.TryGetComponent(out Enemy.Enemy enemy))
-            //{
-            //    enemy.TakeDamage(transform, _trapDamage);
-            //}
             if (collision.transform.TryGetComponent(out Player.Player player))
             {
-                player.TakeDamage(_trapDamage);
+                if (Mathf.Abs(player.transform.position.y - transform.position.y) <= _heightThreshold)
+                {
+                    player.TakeDamage(_trapDamage);
+                }
             }
         }
     }
-
 }
