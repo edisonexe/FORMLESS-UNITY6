@@ -10,7 +10,7 @@ namespace Formless.Items
         {
             if (collision.CompareTag("Player"))
             {
-                Debug.Log("Игрок наступил на ключ");
+                //Debug.Log("Игрок наступил на ключ");
                 var collectible = gameObject.GetComponent<Collectible>();
                 if (collectible != null && collectible.isCollected) return;
             

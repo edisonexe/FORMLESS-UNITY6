@@ -797,8 +797,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
+      - m_Target: {fileID: 1496111162}
+        m_TargetAssemblyTypeName: Formless.UI.Menu.Settings, Assembly-CSharp
         m_MethodName: FullScreenToggle
         m_Mode: 1
         m_Arguments:
@@ -5576,6 +5576,7 @@ MonoBehaviour:
   _musicSource: {fileID: 1104902531}
   _sfxSource: {fileID: 1210996323}
   resDropdown: {fileID: 751436234}
+  resolutionDropdown: {fileID: 751436234}
 --- !u!114 &1496111163
 MonoBehaviour:
   m_ObjectHideFlags: 0

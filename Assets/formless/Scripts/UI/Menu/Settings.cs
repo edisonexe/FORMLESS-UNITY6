@@ -16,65 +16,78 @@ namespace Formless.UI.Menu
         [SerializeField] private AudioSource _musicSource;
         [SerializeField] private AudioSource _sfxSource;
 
-        Resolution[] rsl;
-        List<string> resolutions;
-        public Dropdown resDropdown;
-        private bool _isLoadingSettings = true;
+        public Dropdown resolutionDropdown;
+
+        private List<Resolution> resolutions = new List<Resolution>();
+        private int currentResolutionIndex = 0;
 
         public string CurrentLanguage { get; private set; } = "en";
 
         private void Awake()
         {
             LoadSettings();
+            InitializeResolutions();
+            SetupSliders();
+        }
 
-            resolutions = new List<string>();
-            rsl = Screen.resolutions;
+        private void InitializeResolutions()
+        {
+            // Получаем все доступные разрешения
+            resolutions.AddRange(Screen.resolutions);
 
-            int currentResolutionIndex = 0;
-
-            for (int i = 0; i < rsl.Length; i++)
+            // Создаем список строк для отображения в Dropdown
+            List<string> options = new List<string>();
+            for (int i = 0; i < resolutions.Count; i++)
             {
-                int refreshRate = (int)rsl[i].refreshRateRatio.numerator; // Новый способ получения герцовки
+                // Используем refreshRateRatio вместо refreshRate
+                string option = resolutions[i].width + " x " + resolutions[i].height + " @ " +
+                                resolutions[i].refreshRateRatio.value + "Hz";
+                options.Add(option);
 
-                if (refreshRate > 1000) 
-                {
-                    refreshRate /= 1000;
-                }
-
-                string resolutionString = rsl[i].width + "x" + rsl[i].height + "  " + refreshRate + "Hz";
-                resolutions.Add(resolutionString);
-
-                // Определяем индекс текущего разрешения с учетом частоты обновления
-                if (Screen.width == rsl[i].width && Screen.height == rsl[i].height && Screen.currentResolution.refreshRateRatio.numerator == refreshRate)
+                // Проверяем, какое разрешение является текущим
+                if (resolutions[i].width == Screen.currentResolution.width &&
+                    resolutions[i].height == Screen.currentResolution.height &&
+                    Mathf.Approximately((float)resolutions[i].refreshRateRatio.value, (float)Screen.currentResolution.refreshRateRatio.value))
                 {
                     currentResolutionIndex = i;
                 }
             }
 
-            resDropdown.ClearOptions();
-            resDropdown.AddOptions(resolutions);
+            // Устанавливаем опции в Dropdown
+            resolutionDropdown.ClearOptions();
+            resolutionDropdown.AddOptions(options);
 
-            _isLoadingSettings = true;
-            resDropdown.value = currentResolutionIndex;
-            resDropdown.RefreshShownValue();
-            _isLoadingSettings = false;
+            // Загружаем сохраненное разрешение из PlayerPrefs или используем текущее
+            int savedResolutionIndex = PlayerPrefs.GetInt("SelectedResolutionIndex", currentResolutionIndex);
+            SetResolution(savedResolutionIndex);
 
-            resDropdown.onValueChanged.AddListener(SetResolution);
-
-            SetupSliders();
+            // Добавляем слушатель для изменения значения в Dropdown
+            resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
         }
 
-
-        public void SetResolution(int r)
+        private void OnResolutionChanged(int index)
         {
-            if (_isLoadingSettings) return;
+            SetResolution(index);
+        }
 
-            if (r >= 0 && r < rsl.Length)
-            {
-                Screen.SetResolution(rsl[r].width, rsl[r].height, isFullScreen);
-                PlayerPrefs.SetInt("ResolutionIndex", r);
-                PlayerPrefs.Save();
-            }
+        private void SetResolution(int index)
+        {
+            // Устанавливаем разрешение
+            Resolution resolution = resolutions[index];
+            Screen.SetResolution(
+                resolution.width,
+                resolution.height,
+                FullScreenMode.FullScreenWindow, // Используем FullScreenMode
+                resolution.refreshRateRatio // Передаем refreshRateRatio напрямую
+            );
+
+            // Сохраняем индекс выбранного разрешения в PlayerPrefs
+            PlayerPrefs.SetInt("SelectedResolutionIndex", index);
+            PlayerPrefs.Save();
+
+            // Обновляем значение Dropdown
+            resolutionDropdown.value = index;
+            resolutionDropdown.RefreshShownValue();
         }
 
         private void SetupSliders()
@@ -148,11 +161,9 @@ namespace Formless.UI.Menu
             isFullScreen = PlayerPrefs.GetInt("FullScreen", 1) == 1;
             Screen.fullScreen = isFullScreen;
 
-            int savedResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
-            if (savedResolutionIndex >= 0 && savedResolutionIndex < Screen.resolutions.Length)
-            {
-                Screen.SetResolution(Screen.resolutions[savedResolutionIndex].width, Screen.resolutions[savedResolutionIndex].height, isFullScreen);
-            }
+
+            int savedResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", -1);
+            Debug.Log($"Loaded resolution index: {savedResolutionIndex}");
 
             // Загрузка громкости музыки
             float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.15f);
