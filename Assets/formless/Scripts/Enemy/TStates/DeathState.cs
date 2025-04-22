@@ -27,8 +27,8 @@ namespace Formless.Enemy.States
             entity.basicAttackCollider.enabled = false;
             entity.strongAttackCollider.enabled = false;
             entity.capsuleCollider2D.enabled = false;
-            entity.navMeshAgent.enabled = false;
             entity.navMeshAgent.ResetPath();
+            entity.navMeshAgent.enabled = false;
             AudioManager.Instance.PlaySound(AudioManager.Instance.enDie);
             entity.StartFadeAndDestroy();
         }

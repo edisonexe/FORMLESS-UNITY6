@@ -166,7 +166,7 @@ namespace Formless.UI.Menu
             Debug.Log($"Loaded resolution index: {savedResolutionIndex}");
 
             // Загрузка громкости музыки
-            float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.15f);
+            float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.12f);
             if (_musicSlider != null)
             {
                 _musicSlider.value = savedMusicVolume; // Устанавливаем значение слайдера
