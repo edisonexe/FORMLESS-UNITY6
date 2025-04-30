@@ -21,5 +21,11 @@ namespace Formless.UI
 
             transform.localPosition = new Vector3(startPosition.x, newY, startPosition.z);
         }
+
+        public void SetStartPosition(Vector3 newPosition)
+        {
+            startPosition = newPosition;
+            transform.localPosition = startPosition; // Обновляем текущую позицию
+        }
     }
 }

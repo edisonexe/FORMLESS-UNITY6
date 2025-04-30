@@ -7,6 +7,8 @@ namespace Formless.Player.Rebirth
 {
     public class RebirthController : MonoBehaviour
     {
+        public GameObject marker;
+        private Vector3 _originalMarkerPosition;
         //private RebirthTimer _rebirthDuration;
 
         //private bool _isOriginalState = true;
@@ -44,6 +46,8 @@ namespace Formless.Player.Rebirth
             _playerCapsuleCollider = GetComponent<CapsuleCollider2D>();
             _playerBoxCollider = GetComponent<BoxCollider2D>();
             _rangeAttacking = Player.Instance.rangeAttacking;
+
+            _originalMarkerPosition = marker.transform.position;
 
             // —Óı‡ÌˇÂÏ ÓË„ËÌ‡Î¸Ì˚Â Ô‡‡ÏÂÚ˚
             _originalAnimator = _playerAnimator.runtimeAnimatorController;
@@ -207,6 +211,26 @@ namespace Formless.Player.Rebirth
             }
         }
 
+        private void SetMarkerPosition(string enemyName)
+        {
+            switch (enemyName)
+            {
+                case "Wizard":
+                    marker.GetComponent<MarkerAnimation>().SetStartPosition(new Vector3(0.05f, 1.6f, marker.transform.localPosition.z));
+                    break;
+                case "Skeleton":
+                    marker.GetComponent<MarkerAnimation>().SetStartPosition(new Vector3(0.16f, 1.45f, marker.transform.localPosition.z));
+                    break;
+                case "Orc":
+                    marker.GetComponent<MarkerAnimation>().SetStartPosition(new Vector3(0.05f, 1.5f, marker.transform.localPosition.z));
+                    break;
+                case "Armored Orc":
+                    marker.GetComponent<MarkerAnimation>().SetStartPosition(new Vector3(0.05f, 1.6f, marker.transform.localPosition.z));
+                    break;
+                default:
+                    break;
+            }
+        }
 
         private void Rebirth()
         {
@@ -226,6 +250,8 @@ namespace Formless.Player.Rebirth
             if (enemy != null)
             {
                 CursorOnOff(enemy.enemyName);
+
+                SetMarkerPosition(enemy.enemyName);
 
                 float newMovingSpeed = enemy.ChasingSpeed + 1f;;
                 Player.Instance.SetMovingSpeed(newMovingSpeed);
@@ -261,6 +287,7 @@ namespace Formless.Player.Rebirth
 
         //public void RestoreOriginalState()
         //{
+        //    marker.transoform.position = _originalMarkerPosition;
         //    //Debug.Log("¬Œ«¬–¿“   Œ–»√»Õ¿À‹ÕŒÃ” —Œ—“ŒﬂÕ»ﬁ!");
         //    SaveAnimatorParameters();
         //    _playerAnimator.runtimeAnimatorController = _originalAnimator;

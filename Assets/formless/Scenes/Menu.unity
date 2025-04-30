@@ -1130,7 +1130,7 @@ MonoBehaviour:
   _musicSource: {fileID: 1104902531}
   _SFXSource: {fileID: 1210996323}
   gameMusic: {fileID: 8300000, guid: 9e7ea1096b9a6004186731ca423dd5af, type: 3}
-  menuMusic: {fileID: 8300000, guid: 84fccf519a46bf64da318d2118079918, type: 3}
+  menuMusic: {fileID: 8300000, guid: 67503b5d4c88e18479234353c9685bd2, type: 3}
   select: {fileID: 8300000, guid: bf7364048c2a1844981464fbe96eff4a, type: 3}
   back: {fileID: 8300000, guid: f7e8a7b83682d034db54b4e44fa66343, type: 3}
   quit: {fileID: 8300000, guid: f8248242248d24140a092311360d00a4, type: 3}
@@ -5575,7 +5575,6 @@ MonoBehaviour:
   _sfxSlider: {fileID: 400950901}
   _musicSource: {fileID: 1104902531}
   _sfxSource: {fileID: 1210996323}
-  resDropdown: {fileID: 751436234}
   resolutionDropdown: {fileID: 751436234}
 --- !u!114 &1496111163
 MonoBehaviour:
